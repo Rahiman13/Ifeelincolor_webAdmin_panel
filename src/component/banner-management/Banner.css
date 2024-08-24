@@ -1,0 +1,159 @@
+.container {
+    padding-top: 20px;
+  }
+  
+  .btn-banner-primary {
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    border: none;
+    font-weight: bold;
+    padding: 12px 25px;
+    border-radius: 50px;
+    color: #fff;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .btn-banner-primary:hover {
+    background: linear-gradient(45deg, #2575fc, #6a11cb);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .btn-banner-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .banner-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    overflow: hidden;
+  }
+  
+  .banner-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .banner-card-img-top {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .banner-card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  
+  .banner-card-text {
+    color: #777;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  
+  .banner-dropdown-toggle {
+    background: transparent;
+    border: none;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.2s ease-in-out;
+  }
+  
+  .banner-dropdown-toggle:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+  
+  .banner-dropdown-toggle::after {
+    display: none;
+  }
+  
+  .banner-dropdown-menu {
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    background-color: #fff;
+    animation: fadeIn 0.2s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .banner-dropdown-item {
+    padding: 10px 15px;
+    color: #555;
+    border-radius: 8px;
+    transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
+  }
+  
+  .banner-dropdown-item:hover {
+    background-color: #f1f1f1;
+    color: #333;
+  }
+  
+  .modal-header {
+    border-bottom: none;
+  }
+  
+  .modal-title {
+    font-weight: bold;
+    color: #333;
+    font-size: 1.5rem;
+  }
+  
+  .form-label {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  
+  .form-control {
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    transition: border 0.3s ease;
+  }
+  
+  .form-control:focus {
+    border-color: #6a11cb;
+    box-shadow: 0 0 0 0.2rem rgba(106, 17, 203, 0.25);
+  }
+  
+  .modal-footer {
+    border-top: none;
+    justify-content: flex-end;
+    padding-top: 0;
+  }
+  
+  @media (max-width: 768px) {
+    .banner-card {
+      margin-bottom: 20px;
+    }
+  
+    .btn-banner-primary {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+  
+    .banner-dropdown-menu {
+      width: 100%;
+    }
+  }
+  

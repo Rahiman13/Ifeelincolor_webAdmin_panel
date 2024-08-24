@@ -1,0 +1,123 @@
+.custom-sidebar {
+  min-height: calc(100vh - var(--navbar-height)); /* Use CSS variables for compatibility */
+  background: var(--sidebar-light-bg);
+  padding: 0;
+  width: var(--sidebar-width-lg);
+  z-index: 11;
+  transition: width var(--action-transition-duration) var(--action-transition-timing-function), background var(--action-transition-duration) var(--action-transition-timing-function);
+
+  .nav {
+    overflow: hidden;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    padding-bottom: 60px;
+
+    .nav-item {
+      padding: 0 var(--sidebar-menu-padding-x);
+      transition: background 0.25s;
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        padding: var(--sidebar-menu-padding-y) 0;
+        color: var(--sidebar-light-menu-color);
+        transition: color 0.45s;
+        cursor: pointer;
+
+        i {
+          color: inherit;
+          font-size: var(--sidebar-icon-font-size);
+          color: var(--sidebar-light-menu-icon-color);
+        }
+
+        .menu-title {
+          color: inherit;
+          display: inline-block;
+          font-size: var(--sidebar-menu-font-size);
+          line-height: 1;
+        }
+
+        &.menu-expanded .menu-arrow {
+          transform: rotate(-90deg);
+        }
+      }
+
+      &.active .nav-link {
+        .menu-title {
+          color: var(--sidebar-light-menu-active-color);
+          font-weight: var(--font-weight-medium);         
+        }
+        i {
+          color: var(--primary-color);
+        }
+      }
+
+      &:hover {
+        background: var(--sidebar-light-menu-hover-bg);
+      }
+
+      &.nav-profile .nav-link {
+        height: auto;
+        padding: 1.25rem 0;
+        .nav-profile-image {
+          width: 44px;
+          height: 44px;
+          img {
+            width: 44px;
+            height: 44px;
+            border-radius: 100%;
+          }
+        }
+      }
+    }
+
+    &.sub-menu {
+      margin-bottom: 20px;
+      list-style: none;
+
+      .nav-item .nav-link {
+        color: var(--sidebar-light-submenu-color);
+        padding: var(--sidebar-submenu-item-padding);
+        font-size: var(--sidebar-submenu-font-size);
+        line-height: 1;
+
+        &:before {
+          content: "\F054";
+          font-family: "Material Design Icons";
+          position: absolute;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          color: lighten(var(--sidebar-light-submenu-color), 10%);
+          font-size: .75rem;
+        }
+
+        &.active {
+          color: var(--sidebar-light-menu-active-color);
+          background: transparent;
+        }
+
+        &:hover {
+          color: var(--sidebar-light-submenu-hover-color);
+        }
+      }
+    }
+  }
+}
+
+/* style for off-canvas menu*/
+@media screen and (max-width: 991px) {
+  .sidebar-offcanvas {
+    position: fixed;
+    max-height: calc(100vh - var(--navbar-height));
+    top: var(--navbar-height);
+    bottom: 0;
+    overflow: auto;
+    right: -var(--sidebar-width-lg);
+    transition: all 0.25s ease-out;
+    &.active {
+      right: 0;
+    }
+  }
+}
