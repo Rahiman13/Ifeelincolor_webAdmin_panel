@@ -16,7 +16,7 @@
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/mixins";
-@import "bootstrap/scss/bootstrap";
+// @import "bootstrap/scss/bootstrap";
 
 // Your custom styles here
 
@@ -31,6 +31,12 @@
 
 /* === Icon fonts === */
 // @import "@mdi/font/scss/materialdesignicons";
+// @import "~@mdi/font/scss/materialdesignicons";
+// @import "@mdi/font/scss/materialdesignicons";
+@import "/node_modules/@mdi/font/scss/materialdesignicons";
+
+
+
 
 
 
