@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Modal, Button, Dropdown, Card } from 'react-bootstrap';
 import { FaEdit, FaTrash, FaEllipsisV, FaPlus } from 'react-icons/fa';
-// import './Banner.css'
 import { Link } from 'react-router-dom'
+import './Banner.scss'
 
 // Dummy Data
 const dummyBanners = [
@@ -165,11 +165,10 @@ const BannerManagementPage = () => {
     <>
       <div className="page-header">
         <h3 className="page-title">
-          <Link to='/dashboard'>
-            <span className="page-title-icon bg-gradient-primary text-white mr-2">
-              <i className="mdi mdi-bullhorn"></i>
-            </span>
-          </Link> Banner Management </h3>
+          <span className="page-title-icon bg-gradient-primary text-white mr-2">
+            <i className="mdi mdi-bullhorn"></i>
+          </span> Banner Management
+        </h3>
         <nav aria-label="breadcrumb">
           <ul className="breadcrumb">
             <li className="breadcrumb-item active" aria-current="page">
@@ -182,7 +181,7 @@ const BannerManagementPage = () => {
       </div>
       <div className="container">
         <div className="d-flex justify-content-end mb-4">
-          <Button variant="banner-primary" onClick={() => setShowAddModal(true)}>
+          <Button variant="banner-primary banner-add-btn" onClick={() => setShowAddModal(true)}>
             <FaPlus /> Add Banner
           </Button>
         </div>
@@ -192,7 +191,7 @@ const BannerManagementPage = () => {
               <Card className="position-relative banner-card">
                 <Card.Img variant="top" className='banner-card-img-top' src={banner.imageUrl} />
                 <Dropdown className="banner-dropdown position-absolute" style={{ top: '10px', right: '10px', color: '#000' }}>
-                  <Dropdown.Toggle variant="secondary" className='banner-dropdown-toggle' id="dropdown-basic">
+                  <Dropdown.Toggle variant="" className='banner-dropdown-toggle' id="dropdown-basic">
                     <FaEllipsisV />
                   </Dropdown.Toggle>
 
