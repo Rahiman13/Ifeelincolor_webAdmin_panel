@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Button, Dropdown, Card } from 'react-bootstrap';
 import { FaEdit, FaTrash, FaEllipsisV, FaPlus } from 'react-icons/fa';
-import './Banner.css'
+// import './Banner.css'
 import { Link } from 'react-router-dom'
 
 // Dummy Data
