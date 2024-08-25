@@ -3,8 +3,6 @@ import { Modal, Button, Dropdown, Card } from 'react-bootstrap';
 import { FaEdit, FaTrash, FaEllipsisV, FaPlus } from 'react-icons/fa';
 import './Banner.css'
 import { Link } from 'react-router-dom'
-import '@mdi/font/css/materialdesignicons.min.css';
-
 
 // Dummy Data
 const dummyBanners = [
