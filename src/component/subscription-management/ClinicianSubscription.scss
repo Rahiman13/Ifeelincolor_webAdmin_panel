@@ -1,0 +1,66 @@
+$primary: #3498db;
+$secondary: #2c3e50;
+$success: #27ae60;
+$warning: #f39c12;
+$danger: #c0392b;
+
+.clinician-subscription {
+  background-color: #ecf0f1;
+  min-height: 100vh;
+
+  h1 {
+    color: $secondary;
+  }
+
+  .card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  .table {
+    th {
+      background-color: white;
+      color: black;
+    }
+  }
+
+  .btn-primary {
+    background-color: $primary;
+    border-color: $primary;
+
+    &:hover {
+      background-color: darken($primary, 10%);
+      border-color: darken($primary, 10%);
+    }
+  }
+
+  .pagination {
+    .page-link {
+      color: $primary;
+    }
+
+    .active .page-link {
+      background-color: $primary;
+      border-color: $primary;
+    }
+  }
+
+  .bg-gradient-primary {
+    background: linear-gradient(45deg, $primary, lighten($primary, 15%));
+  }
+
+  .bg-gradient-warning {
+    background: linear-gradient(45deg, $warning, lighten($warning, 15%));
+  }
+
+  .bg-gradient-danger {
+    background: linear-gradient(45deg, $danger, lighten($danger, 15%));
+  }
+}

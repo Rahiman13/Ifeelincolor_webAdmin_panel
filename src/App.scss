@@ -17,8 +17,12 @@
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/mixins";
 // @import "bootstrap/scss/bootstrap";
+// Remove this line if it is already imported elsewhere
+// @import "bootstrap/scss/bootstrap";
 
 // Your custom styles here
+$text-selection-bg: #b3d4fc;
+$input-box-shadow-focus: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 
 
 // @import "./assets/styles/variables";
@@ -32,8 +36,10 @@
 /* === Icon fonts === */
 // @import "@mdi/font/scss/materialdesignicons";
 // @import "~@mdi/font/scss/materialdesignicons";
+
+// @import "~@mdi/font/scss/materialdesignicons";
 // @import "@mdi/font/scss/materialdesignicons";
-@import "/node_modules/@mdi/font/scss/materialdesignicons";
+// @import "/node_modules/@mdi/font/scss/materialdesignicons";
 
 
 

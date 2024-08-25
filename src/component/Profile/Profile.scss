@@ -1,0 +1,354 @@
+// // styles.scss
+
+// .trendy-card {
+//     border-radius: 15px;
+//     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+//     background: #f8f9fa;
+// }
+
+// .trendy-avatar {
+//     border: 4px solid #007bff;
+// }
+
+// .trendy-title {
+//     font-family: 'Roboto', sans-serif;
+//     font-weight: 700;
+//     color: #343a40;
+// }
+
+// .trendy-text {
+//     font-family: 'Roboto', sans-serif;
+//     color: #6c757d;
+// }
+
+// .trendy-btn {
+//     background-color: #007bff;
+//     border: none;
+//     color: white;
+
+//     &:hover {
+//         background-color: #0056b3;
+//     }
+// }
+
+// .trendy-btn-outline {
+//     border-color: #007bff;
+//     color: #007bff;
+
+//     &:hover {
+//         background-color: #007bff;
+//         color: white;
+//     }
+// }
+
+// .trendy-list li {
+//     margin-bottom: 10px;
+// }
+
+// .trendy-link {
+//     color: #007bff;
+
+//     &:hover {
+//         text-decoration: underline;
+//     }
+// }
+
+// .trendy-modal {
+//     .trendy-modal-header {
+//         background-color: #007bff;
+//         color: white;
+//     }
+
+//     .trendy-modal-footer {
+//         border-top: 1px solid #007bff;
+//     }
+// }
+
+// .trendy-input {
+//     border-radius: 0.5rem;
+// }
+
+// .trendy-select {
+//     border-radius: 0.5rem;
+// }
+
+// .trendy-content {
+//     padding: 10px;
+// }
+
+// .trendy-item {
+//     background: #e9ecef;
+//     border-radius: 0.5rem;
+//     padding: 10px;
+// }
+
+// // styles.scss
+
+// .trendy-project-item {
+//     display: flex;
+//     align-items: center;
+// }
+
+// .trendy-progress-bar {
+//     background-color: #e9ecef;
+// }
+
+// .trendy-progress-bar .bg-primary {
+//     transition: width 0.3s ease;
+// }
+
+// .trendy-modal-footer .btn-secondary {
+//     border-color: #007bff;
+//     color: #007bff;
+
+//     &:hover {
+//         background-color: #007bff;
+//         color: white;
+//     }
+// }
+
+
+// .myChart {
+//     .node {
+//       background-color: #fff;
+//       border: 1px solid #ccc;
+//       border-radius: 4px;
+//       padding: 10px;
+//       text-align: center;
+//     }
+  
+//     .orgchart {
+//       max-width: 100%;
+//       overflow: auto;
+//     }
+  
+//     /* Additional custom styles */
+//   }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Add this to your Profile.scss file */
+
+.trendy-card {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .trendy-card-body {
+    padding: 20px;
+  }
+  
+  .trendy-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .trendy-text {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .trendy-btn {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .trendy-btn:hover {
+    background-color: #3e8e41;
+  }
+  
+  .trendy-btn-outline {
+    background-color: transparent;
+    color: #4CAF50;
+    border: 1px solid #4CAF50;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .trendy-btn-outline:hover {
+    background-color: #4CAF50;
+    color: #fff;
+  }
+  
+  .trendy-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+  
+  .trendy-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .trendy-list li {
+    margin-bottom: 10px;
+  }
+  
+  .trendy-list li strong {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .trendy-link {
+    text-decoration: none;
+    color: #4CAF50;
+  }
+  
+  .trendy-link:hover {
+    color: #3e8e41;
+  }
+  
+  .trendy-modal {
+    background-color: #fff;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .trendy-modal-header {
+    background-color: #4CAF50;
+    color: #fff;
+    border-bottom: none;
+    border-radius: 20px 20px 0 0;
+    padding: 10px;
+  }
+  
+  .trendy-modal-footer {
+    background-color: #f9f9f9;
+    border-top: none;
+    border-radius: 0 0 20px 20px;
+    padding: 10px;
+  }
+  
+  .trendy-input {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  .trendy-select {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  .trendy-progress {
+    height: 10px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+  }
+  
+  .trendy-progress-bar {
+    background-color: #4CAF50;
+    height: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 14px;
+    color: #fff;
+  }
+  
+  .node {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+  }
+  
+  .node h5 {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .node p {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 5px;
+  }

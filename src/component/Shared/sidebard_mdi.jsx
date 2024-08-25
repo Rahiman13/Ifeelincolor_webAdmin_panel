@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Collapse } from 'react-bootstrap';
-// import { Trans } from 'react-i18next';
 import Face1 from '../../assets/face1.jpg';
-// import './Sidebar.css';
-// Import the Material Design Icons CSS from CDN
-import '@mdi/font/css/materialdesignicons.min.css';
-
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import AccountMultipleIcon from '@mui/icons-material/Group';
+import CardMembershipIcon from '@mui/icons-material/CardMembership';
+import AssessmentIcon from '@mui/icons-material/Assessment';
+// import BooksIcon from '@mui/icons-material/Notifications';
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
+import SettingsIcon from '@mui/icons-material/Settings';
+// import CurrencyExchangeIcon from '@mui/icons-material/LineChart';
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
+import PeopleIcon from '@mui/icons-material/People';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import CampaignIcon from '@mui/icons-material/Campaign';
+// import './Sidebar2.css';
 
 const Sidebar = () => {
   const [menuState, setMenuState] = useState({});
@@ -33,7 +42,6 @@ const Sidebar = () => {
       { path: '/patient-management/assign-questions', state: 'patientManagementMenuOpen' },
       { path: '/subscription-management/portal', state: 'subscriptionManagementMenuOpen' },
       { path: '/subscription-management/clinician', state: 'subscriptionManagementMenuOpen' },
-      { path: '/subscription-management/organization', state: 'subscriptionManagementMenuOpen' },
       { path: '/test-management/create', state: 'testManagementMenuOpen' },
       { path: '/test-management/manage', state: 'testManagementMenuOpen' },
       { path: '/test-management/ai-questions', state: 'testManagementMenuOpen' },
@@ -90,22 +98,24 @@ const Sidebar = () => {
     <nav className="sidebar sidebar-offcanvas" id="sidebar">
       <ul className="nav">
         <li className="nav-item nav-profile">
-          <Link to="/profile" className="nav-link" >
+          <Link to="/profile" className="nav-link">
             <div className="nav-profile-image">
               <img src={Face1} alt="profile" />
               <span className="login-status online"></span>
             </div>
             <div className="nav-profile-text">
               <span className="font-weight-bold mb-2">Ram</span>
-              <span className=" text-medium">Super Admin</span>
+              <span className="text-medium">Super Admin</span>
             </div>
-            <i className="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+            <i className="mui-icon">
+              <BookmarkAddedIcon />
+            </i>
           </Link>
         </li>
         <li className={isPathActive('/dashboard') ? 'nav-item active' : 'nav-item'}>
           <Link className="nav-link" to="/dashboard">
             <span className="menu-title">Dashboard</span>
-            <i className="mdi mdi-view-dashboard menu-icon"></i>
+            <DashboardIcon className="menu-icon" />
           </Link>
         </li>
 
@@ -113,7 +123,7 @@ const Sidebar = () => {
         <li className={isPathActive('/subscription-budget-analysis/overview') ? 'nav-item active' : 'nav-item'}>
           <Link className="nav-link" to="/subscription-budget-analysis/overview">
             <span className="menu-title">Budget Analysis</span>
-            <i className="mdi mdi-chart-line menu-icon"></i>
+            <CurrencyExchangeIcon className="menu-icon" />
           </Link>
         </li>
 
@@ -121,73 +131,42 @@ const Sidebar = () => {
         <li className={isPathActive('/patient-management/view') ? 'nav-item active' : 'nav-item'}>
           <Link className="nav-link" to="/patient-management/view">
             <span className="menu-title">Patient Management</span>
-            <i className="mdi mdi-account-multiple menu-icon"></i>
-
+            <PeopleIcon className="menu-icon" />
           </Link>
         </li>
-        {/* <li className={isPathActive('/patient-management/view') || isPathActive('/patient-management/statuses') || isPathActive('/patient-management/assign-questions') ? 'nav-item active' : 'nav-item'}>
-          <div
-            className={menuState.patientManagementMenuOpen ? 'nav-link menu-expanded' : 'nav-link'}
-            onClick={() => toggleMenuState('patientManagementMenuOpen')}
-            data-toggle="collapse"
-          >
-            <span className="menu-title">Patient Management</span>
-            <i className="mdi mdi-account-multiple menu-icon"></i>
-            <i className={`mdi ${menuState.patientManagementMenuOpen ? 'mdi-chevron-down' : 'mdi-chevron-right'} `}></i>
-          </div>
-          <Collapse in={menuState.patientManagementMenuOpen}>
-            <ul className="nav flex-column m-0 p-0 sub-menu">
-              <li className="nav-item m-0 p-0">
-                <Link className={isPathActive('/patient-management/view') ? 'nav-link active' : 'nav-link'} to="/patient-management/view">
-                  <i className='mdi mdi-arrow-right m-0 p-0 '></i>
-                  <span className="menu-title m-0 p-0">Patient Data</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className={isPathActive('/patient-management/statuses') ? 'nav-link active' : 'nav-link'} to="/patient-management/statuses">
-                  <i className='mdi mdi-arrow-right m-0 p-0'></i>
-                  <span className="menu-title m-0 p-0">Patient Statuses</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className={isPathActive('/patient-management/assign-questions') ? 'nav-link active' : 'nav-link'} to="/patient-management/assign-questions">
-                  <i className='mdi mdi-arrow-right m-0 p-0 '></i>
-                  <span className="menu-title m-0 p-0">Assign Questions</span>
-                </Link>
-              </li>
-            </ul>
-          </Collapse>
-        </li> */}
 
         {/* Subscription Management */}
-        <li className={isPathActive('/subscription-management/portal') || isPathActive('/subscription-management/clinician') || isPathActive('/subscription-management/organization') ? 'nav-item active' : 'nav-item'}>
+        <li className={isPathActive('/subscription-management/portal') || isPathActive('/subscription-management/clinician') ? 'nav-item active' : 'nav-item'}>
           <div
             className={menuState.subscriptionManagementMenuOpen ? 'nav-link menu-expanded' : 'nav-link'}
             onClick={() => toggleMenuState('subscriptionManagementMenuOpen')}
             data-toggle="collapse"
           >
             <span className="menu-title">Subscriptions</span>
-            <i className="mdi mdi-card-account-details menu-icon"></i>
-            <i className={`mdi ${menuState.subscriptionManagementMenuOpen ? 'mdi-chevron-down' : 'mdi-chevron-right'}`}></i>
+            <span>
+
+              <CardMembershipIcon className="menu-icon" />
+              <ArrowDropDownIcon className={`chevron-icon ${menuState.subscriptionManagementMenuOpen ? 'open' : ''}`} />
+            </span>
           </div>
           <Collapse in={menuState.subscriptionManagementMenuOpen}>
             <ul className="nav flex-column m-0 p-0 sub-menu">
               <li className="nav-item">
                 <Link className={isPathActive('/subscription-management/portal') ? 'nav-link active' : 'nav-link'} to="/subscription-management/portal">
-                  <i className='mdi mdi-arrow-right m-0 p-0 '></i>
-                  <span className="menu-title m-0 p-0">Portal</span>
+                  <ArrowForwardIcon className='menu-icon' />
+                  <span className="menu-title">Portal</span>
                 </Link>
               </li>
               <li className="nav-item">
                 <Link className={isPathActive('/subscription-management/clinician') ? 'nav-link active' : 'nav-link'} to="/subscription-management/clinician">
-                  <i className='mdi mdi-arrow-right m-0 p-0 '></i>
-                  <span className="menu-title m-0 p-0">Clinician</span>
+                  <ArrowForwardIcon className='' />
+                  <span className="menu-title">Clinician</span>
                 </Link>
               </li>
               <li className="nav-item">
                 <Link className={isPathActive('/subscription-management/organization') ? 'nav-link active' : 'nav-link'} to="/subscription-management/organization">
-                  <i className='mdi mdi-arrow-right m-0 p-0 '></i>
-                  <span className="menu-title m-0 p-0">Organization</span>
+                  <ArrowForwardIcon className='menu-icon' />
+                  <span className="menu-title">Organization</span>
                 </Link>
               </li>
             </ul>
@@ -202,27 +181,21 @@ const Sidebar = () => {
             data-toggle="collapse"
           >
             <span className="menu-title">Assessment</span>
-            <i className="mdi mdi-clipboard-text menu-icon"></i>
-            <i className={`mdi ${menuState.testManagementMenuOpen ? 'mdi-chevron-down' : 'mdi-chevron-right'}`}></i>
+            <AssessmentIcon className="menu-icon" />
+            <ArrowDropDownIcon className={`chevron-icon ${menuState.testManagementMenuOpen ? 'open' : ''}`} />
           </div>
           <Collapse in={menuState.testManagementMenuOpen}>
             <ul className="nav flex-column m-0 p-0 sub-menu">
-              {/* <li className="nav-item">
-                <Link className={isPathActive('/test-management/create') ? 'nav-link active' : 'nav-link'} to="/test-management/create">
-                  <i className='mdi mdi-arrow-right m-0 p-0 '></i>
-                  <span className="menu-title m-0 p-0">Create Test</span>
-                </Link>
-              </li> */}
               <li className="nav-item">
                 <Link className={isPathActive('/test-management/manage') ? 'nav-link active' : 'nav-link'} to="/test-management/manage">
-                  <i className='mdi mdi-arrow-right m-0 p-0 '></i>
-                  <span className="menu-title m-0 p-0">Manage Assessment</span>
+                  <ArrowForwardIcon className='menu-icon' />
+                  <span className="menu-title">Manage Assessment</span>
                 </Link>
               </li>
               <li className="nav-item">
                 <Link className={isPathActive('/test-management/ai-questions') ? 'nav-link active' : 'nav-link'} to="/test-management/ai-questions">
-                  <i className='mdi mdi-arrow-right m-0 p-0 '></i>
-                  <span className="menu-title m-0 p-0">ChatBot</span>
+                  <ArrowForwardIcon className='menu-icon' />
+                  <span className="menu-title">ChatBot</span>
                 </Link>
               </li>
             </ul>
@@ -230,48 +203,18 @@ const Sidebar = () => {
         </li>
 
         {/* Banner & Announcement Management */}
-        {/* <li className={isPathActive('/banner-management/upload') || isPathActive('/banner-management/view') ? 'nav-item active' : 'nav-item'}>
-          <div
-            className={menuState.bannerAnnouncementManagementMenuOpen ? 'nav-link menu-expanded' : 'nav-link'}
-            onClick={() => toggleMenuState('bannerAnnouncementManagementMenuOpen')}
-            data-toggle="collapse"
-          >
-            <span className="menu-title">Banner Management</span>
-            <i className="mdi mdi mdi-bullhorn menu-icon"></i>
-            <i className={`mdi ${menuState.bannerAnnouncementManagementMenuOpen ? 'mdi-chevron-down' : 'mdi-chevron-right'}`}></i>
-          </div>
-          <Collapse in={menuState.bannerAnnouncementManagementMenuOpen}>
-            <ul className="nav flex-column m-0 p-0 sub-menu">
-              <li className="nav-item">
-                <Link className={isPathActive('/banner-management/upload') ? 'nav-link active' : 'nav-link'} to="/banner-management/upload">
-                  <i className='mdi mdi-arrow-right m-0 p-0 '></i>
-                  <span className="menu-title m-0 p-0">Upload Banner</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className={isPathActive('/banner-management/view') ? 'nav-link active' : 'nav-link'} to="/banner-management/view">
-                  <i className='mdi mdi-arrow-right m-0 p-0 '></i>
-                  <span className="menu-title m-0 p-0">View Banners</span>
-                </Link>
-              </li>
-            </ul>
-          </Collapse>
-        </li> */}
         <li className={isPathActive('/banner-management/view') ? 'nav-item active' : 'nav-item'}>
           <Link className="nav-link" to="/banner-management/view">
-            <span className="menu-title">Banner  Management</span>
-            <i className="mdi mdi mdi-bullhorn menu-icon"></i>
+            <span className="menu-title">Banner Management</span>
+            <CampaignIcon className="menu-icon" />
           </Link>
         </li>
-
-
 
         {/* Settings */}
         <li className={isPathActive('/settings') ? 'nav-item active' : 'nav-item'}>
           <Link className="nav-link" to="/settings">
             <span className="menu-title">Settings</span>
-            <i className="mdi mdi-cogs menu-icon"></i>
-
+            <SettingsIcon className="menu-icon" />
           </Link>
         </li>
       </ul>

@@ -15,6 +15,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
 import './App.scss';
 
+
 const root = ReactDOM.createRoot(document.getElementById('root')); // Use createRoot instead of render
 
 root.render(

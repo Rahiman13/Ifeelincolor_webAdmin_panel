@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import AppRoutes from './AppRoutes';
+import AppRoutes from './AppRouter'; // Ensure AppRoutes is correctly imported
 import Sidebar from './component/Shared/Sidebar';
 import Footer from './component/Shared/Footer';
 import Navbar from './component/Shared/Navbar';
@@ -19,8 +19,9 @@ const App = () => {
       window.scrollTo(0, 0);
 
       const fullPageLayoutRoutes = [
-        '/login',
         '/',
+        '/login',
+        '/register',
         '/user-pages/lockscreen',
         '/error-pages/error-404',
         '/error-pages/error-500',
@@ -45,17 +46,14 @@ const App = () => {
 
   return (
     <div className="container-scroller">
-      {/* {!isFullPageLayout && <Navbar />} */}
-      <Navbar />
+      {!isFullPageLayout && <Navbar />}
       <div className="container-fluid page-body-wrapper d-flex">
-        {/* {!isFullPageLayout && <Sidebar />} */}
-        <Sidebar />
+        {!isFullPageLayout && <Sidebar />}
         <div className="main-panel">
           <div className="content-wrapper p-4">
             <AppRoutes />
           </div>
-          {/* {!isFullPageLayout && <Footer />} */}
-          <Footer />
+          {!isFullPageLayout && <Footer />}
         </div>
       </div>
     </div>
