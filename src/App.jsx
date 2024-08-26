@@ -45,7 +45,7 @@ const App = () => {
   }, [location.pathname]);
 
   return (
-    <div className="container-scroller">
+    <div className="container-scroller p-0">
       {!isFullPageLayout && <Navbar />}
       <div className="container-fluid page-body-wrapper d-flex">
         {!isFullPageLayout && <Sidebar />}

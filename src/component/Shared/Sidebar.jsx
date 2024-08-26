@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Collapse } from 'react-bootstrap';
 // import { Trans } from 'react-i18next';
 import Face1 from '../../assets/face1.jpg';
+import Logo from '../../assets/logo.svg'
 // import './Sidebar.css';
 // Import the Material Design Icons CSS from CDN
 import '@mdi/font/css/materialdesignicons.min.css';
