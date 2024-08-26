@@ -204,10 +204,9 @@ class Dashboard extends Component {
                 <div className="page-header">
                     <h3 className="page-title">
                         <span className="page-title-icon bg-gradient-primary text-white mr-2">
-                            {/* <i className="mdi mdi-home"></i> */}
-                            <Icon path={mdiHome} size={1} className="float-right icon-hover" />
-
-                        </span> Dashboard </h3>
+                            <i className="mdi mdi-home fs-5"></i>
+                            {/* <Icon path={mdiHome} size={1} className="float-right icon-hover" />  */}
+                            </span> Dashboard </h3>
                     <nav aria-label="breadcrumb">
                         <ul className="breadcrumb">
                             <li className="breadcrumb-item active" aria-current="page">
@@ -374,62 +373,42 @@ class Dashboard extends Component {
                         </div>
                     </div>
                 </div>
-                <div className='row'>
-                    <div className="col-lg-12 grid-margin stretch-card">
+
+                <div className="row">
+                    <div className="col-12 grid-margin stretch-card">
                         <div className="card">
                             <div className="card-body">
-                                <div className='card-head'>
-                                    <h4 className="card-title">Patient Details</h4>
-                                    {/* <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => this.downloadChart(this.patientStatusTableRef, 'patient-details')}
-                    className="float-right"
-                  >
-                    Download PDF
-                  </Button> */}
-                                    <button
-                                        className="btn btn-icon btn-rounded float-right"
-                                        onClick={() => this.downloadChart(this.patientStatusTableRef, 'PatientDetails')}
-                                    >
-                                        <Icon path={mdiDownload} size={1} className="float-right icon-hover" />
-
-                                        {/* <i className="mdi mdi-download"></i> Add this line for an icon */}
-                                    </button>
-
-                                </div>
-                                <TableContainer component={Paper} className="dash-table">
-                                    <Table ref={this.patientStatusTableRef}>
+                                <h4 className="card-title">Patient Details</h4>
+                                <TableContainer component={Paper}>
+                                    <Table aria-label="simple table">
                                         <TableHead>
                                             <TableRow>
-                                                <TableCell>ID</TableCell>
-                                                <TableCell>Name</TableCell>
-                                                <TableCell>Issue</TableCell>
-                                                <TableCell>SubscriptionType</TableCell>
-                                                <TableCell>startDate</TableCell>
-                                                <TableCell>EndDate</TableCell>
-                                                <TableCell>Assign Doctor</TableCell>
-                                                <TableCell>Status</TableCell>
-                                                {/* <TableCell>Last Visit</TableCell> */}
+                                                <TableCell>Patient Name</TableCell>
+                                                <TableCell align="right">Issue</TableCell>
+                                                <TableCell align="right">Subscription Type</TableCell>
+                                                <TableCell align="right">Start Date</TableCell>
+                                                <TableCell align="right">End Date</TableCell>
+                                                <TableCell align="right">Assigned Doctor</TableCell>
+                                                <TableCell align="right">Status</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {this.state.budgetAnalysisData.patientDetails.map((patient) => (
-                                                <TableRow key={patient.id}>
-                                                    <TableCell>{patient.id}</TableCell>
-                                                    <TableCell>{patient.name}</TableCell>
-                                                    <TableCell>{patient.issue}</TableCell>
-                                                    <TableCell>{patient.subscriptionType}</TableCell>
-                                                    <TableCell>{patient.startDate}</TableCell>
-                                                    <TableCell>{patient.endDate}</TableCell>
-                                                    <TableCell>{patient.assignedDoctor}</TableCell>
-                                                    <TableCell>{patient.status}</TableCell>
+                                            {this.state.budgetAnalysisData.patientDetails.map((row) => (
+                                                <TableRow key={row.id}>
+                                                    <TableCell component="th" scope="row">
+                                                        {row.name}
+                                                    </TableCell>
+                                                    <TableCell align="right">{row.issue}</TableCell>
+                                                    <TableCell align="right">{row.subscriptionType}</TableCell>
+                                                    <TableCell align="right">{row.startDate}</TableCell>
+                                                    <TableCell align="right">{row.endDate}</TableCell>
+                                                    <TableCell align="right">{row.assignedDoctor}</TableCell>
+                                                    <TableCell align="right">{row.status}</TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
-
                             </div>
                         </div>
                     </div>
@@ -440,5 +419,3 @@ class Dashboard extends Component {
 }
 
 export default Dashboard;
-
-

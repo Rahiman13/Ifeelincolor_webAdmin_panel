@@ -50,7 +50,7 @@ const App = () => {
       <div className="container-fluid page-body-wrapper d-flex">
         {!isFullPageLayout && <Sidebar />}
         <div className="main-panel">
-          <div className="content-wrapper p-4">
+          <div className="container-fluid p-4">
             <AppRoutes />
           </div>
           {!isFullPageLayout && <Footer />}

@@ -1,421 +1,275 @@
-import React, { useState, useEffect } from 'react';
-import { Dropdown, Form, Button, Table, Card, Modal } from 'react-bootstrap';
-import { FaEdit, FaTrash } from 'react-icons/fa';
-import './Setting.scss'
+import React, { useState } from 'react';
+import { Card, Form, Row, Col, Table, Button } from 'react-bootstrap';
+import { mdiAccountPlus } from '@mdi/js';
+import Icon from '@mdi/react';
+import { TableContainer, Paper, TableHead, TableBody, TableRow, TableCell } from '@mui/material';
+import './SettingsPage.css';
 
-const Settings = () => {
-  // Dummy data for managers
-  const dummyManagers = [
-    {
-      id: 1,
-      name: 'Manager 1',
-      email: 'manager1@example.com',
-      organization: 'Org 1',
-      subscriptionType: 'Premium',
-      startDate: '2023-01-01',
-      endDate: '2023-12-31',
-      plan: 'Yearly'
+const dummyUsers = [
+  {
+    id: 1,
+    name: 'Manager 1',
+    email: 'manager1@example.com',
+    organization: 'Org 1',
+    subscriptionType: 'Portal',
+    startDate: '2023-01-01',
+    endDate: '2023-12-31',
+    plan: 'Yearly',
+    role: 'Manager',
+    permissions: {
+      dashboard: { view: false, add: false, edit: false, delete: false },
+      budgetAnalysis: { view: false, add: false, edit: false, delete: false },
+      patientManagement: { view: false, add: false, edit: false, delete: false },
+      subscription: { view: false, add: false, edit: false, delete: false },
+      assessment: { view: false, add: false, edit: false, delete: false },
+      bannerManagement: { view: false, add: false, edit: false, delete: false },
+      settings: { view: false, add: false, edit: false, delete: false },
+      profile: { view: false, add: false, edit: false, delete: false },
     },
-    {
-      id: 2,
-      name: 'Manager 2',
-      email: 'manager2@example.com',
-      organization: 'Org 2',
-      subscriptionType: 'Basic',
-      startDate: '2023-01-01',
-      endDate: '2023-06-30',
-      plan: 'Quarterly'
-    },
-    {
-      id: 3,
-      name: 'Manager 3',
-      email: 'manager3@example.com',
-      organization: 'Org 3',
-      subscriptionType: 'Standard',
-      startDate: '2023-07-01',
-      endDate: '2024-06-30',
-      plan: 'Yearly'
-    },
-  ];
+  },
+  // Additional dummy users can be added here...
+];
 
-  // Initial permissions state for dummy data
-  const initialPermissions = {
-    'Dashboard': { view: false, add: false, edit: false, delete: false },
-    'Patient Management': { view: false, add: false, edit: false, delete: false },
-    'Subscription Management': { view: false, add: false, edit: false, delete: false },
-    'Test Management': { view: false, add: false, edit: false, delete: false },
-    'Banner Management': { view: false, add: false, edit: false, delete: false },
-    'Budget Analysis': { view: false, add: false, edit: false, delete: false },
-    'Settings': { view: false, add: false, edit: false, delete: false },
+const SettingsPage = () => {
+  const [users, setUsers] = useState(dummyUsers);
+  const [selectedUser, setSelectedUser] = useState(dummyUsers[0]);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const handleUserChange = (e) => {
+    const userId = parseInt(e.target.value);
+    const user = users.find((user) => user.id === userId);
+    setSelectedUser(user);
+    setIsEditing(false);
   };
 
-  const [selectedManager, setSelectedManager] = useState(null);
-  const [permissions, setPermissions] = useState(initialPermissions);
-  const [managers, setManagers] = useState([]);
-  const [savedPermissions, setSavedPermissions] = useState([]);
-  const [showEditModal, setShowEditModal] = useState(false);
+  const handlePermissionChange = (page, permissionType) => {
+    const updatedPermissions = {
+      ...selectedUser.permissions,
+      [page]: {
+        ...selectedUser.permissions[page],
+        [permissionType]: !selectedUser.permissions[page][permissionType],
+      },
+    };
 
-  const pages = Object.keys(initialPermissions);
-
-  useEffect(() => {
-    // Simulate fetching managers from backend
-    setManagers(dummyManagers);
-  }, []);
-
-  const handleManagerChange = (manager) => {
-    setSelectedManager(manager);
-    // Simulate fetching manager's current permissions from backend
-    setPermissions(initialPermissions);
-  };
-
-  const handleCheckboxChange = (page, action) => {
-    setPermissions((prevPermissions) => {
-      const newPermissions = {
-        ...prevPermissions,
-        [page]: {
-          ...prevPermissions[page],
-          [action]: !prevPermissions[page][action],
-          view: action !== 'view' ? true : prevPermissions[page].view || !prevPermissions[page][action],
-        },
-      };
-      return newPermissions;
-    });
-  };
-
-  const savePermissions = () => {
-    // Save the current manager's permissions
-    const updatedPermissions = [...savedPermissions];
-    const existingIndex = updatedPermissions.findIndex(
-      (perm) => perm.manager.id === selectedManager.id
-    );
-    if (existingIndex > -1) {
-      updatedPermissions[existingIndex] = { manager: selectedManager, permissions };
-    } else {
-      updatedPermissions.push({ manager: selectedManager, permissions });
+    if (permissionType !== 'view' && updatedPermissions[page][permissionType]) {
+      updatedPermissions[page].view = true;
     }
-    setSavedPermissions(updatedPermissions);
-
-    // Reset for another manager
-    setSelectedManager(null);
-    setPermissions(initialPermissions);
+    setSelectedUser({ ...selectedUser, permissions: updatedPermissions });
   };
 
-  const handleEditClick = () => {
-    setShowEditModal(true);
+  const handleSave = () => {
+    setUsers(users.map((user) => (user.id === selectedUser.id ? selectedUser : user)));
+    setIsEditing(false);
   };
 
-  const handleDeleteClick = (managerId) => {
-    // Handle delete logic
-    setSavedPermissions((prev) =>
-      prev.filter((perm) => perm.manager.id !== managerId)
-    );
+  const handleDelete = () => {
+    const updatedUsers = users.filter((user) => user.id !== selectedUser.id);
+    setUsers(updatedUsers);
+    setSelectedUser(updatedUsers[0] || {});
   };
 
-  const handleEditSave = () => {
-    // Handle save logic for edited details
-    setShowEditModal(false);
+  const handleAddManager = () => {
+    const newManager = {
+      id: users.length + 1,
+      name: `Manager ${users.length + 1}`,
+      email: `manager${users.length + 1}@example.com`,
+      organization: `Org ${users.length + 1}`,
+      subscriptionType: 'Portal',
+      startDate: '2024-01-01',
+      endDate: '2024-12-31',
+      plan: 'Monthly',
+      role: 'Manager',
+      permissions: {
+        dashboard: { view: false, add: false, edit: false, delete: false },
+        budgetAnalysis: { view: false, add: false, edit: false, delete: false },
+        patientManagement: { view: false, add: false, edit: false, delete: false },
+        subscription: { view: false, add: false, edit: false, delete: false },
+        assessment: { view: false, add: false, edit: false, delete: false },
+        bannerManagement: { view: false, add: false, edit: false, delete: false },
+        settings: { view: false, add: false, edit: false, delete: false },
+        profile: { view: false, add: false, edit: false, delete: false },
+      },
+    };
+    setUsers([...users, newManager]);
+    setSelectedUser(newManager);
+    setIsEditing(true);
   };
 
   return (
-    <div className="settings-container">
-      <h3 className="settings-title">Assign Permissions to Managers</h3>
-      <Dropdown onSelect={handleManagerChange} className="manager-dropdown">
-        <Dropdown.Toggle variant="success" id="dropdown-basic">
-          {selectedManager ? selectedManager.name : 'Select Manager'}
-        </Dropdown.Toggle>
-
-        <Dropdown.Menu>
-          {managers.map((manager) => (
-            <Dropdown.Item
-              key={manager.id}
-              eventKey={manager}
-              onClick={() => handleManagerChange(manager)}
-            >
-              {manager.name}
-            </Dropdown.Item>
-          ))}
-        </Dropdown.Menu>
-      </Dropdown>
-
-      {selectedManager && (
-        <>
-          <Table striped bordered hover className="permissions-table">
-            <thead>
-              <tr>
-                <th>Page</th>
-                <th>View</th>
-                <th>Add</th>
-                <th>Edit</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              {pages.map((page) => (
-                <tr key={page}>
-                  <td>{page}</td>
-                  <td>
-                    <Form.Check
-                      type="checkbox"
-                      checked={permissions[page]?.view || false}
-                      onChange={() => handleCheckboxChange(page, 'view')}
-                      className="view-checkbox"
-                    />
-                  </td>
-                  <td>
-                    <Form.Check
-                      type="checkbox"
-                      checked={permissions[page]?.add || false}
-                      onChange={() => handleCheckboxChange(page, 'add')}
-                      className="add-checkbox"
-                    />
-                  </td>
-                  <td>
-                    <Form.Check
-                      type="checkbox"
-                      checked={permissions[page]?.edit || false}
-                      onChange={() => handleCheckboxChange(page, 'edit')}
-                      className="edit-checkbox"
-                    />
-                  </td>
-                  <td>
-                    <Form.Check
-                      type="checkbox"
-                      checked={permissions[page]?.delete || false}
-                      onChange={() => handleCheckboxChange(page, 'delete')}
-                      className="delete-checkbox"
-                    />
-                  </td>
-                </tr>
+    <div className="settings-page">
+      <Card className="user-card">
+        <Card.Header className="d-flex justify-content-between align-items-center">
+          <h5>User Details</h5>
+          <div className="d-flex">
+            <Form.Select onChange={handleUserChange} value={selectedUser.id} className="user-select me-2">
+              {users.map((user) => (
+                <option key={user.id} value={user.id}>
+                  {user.name}
+                </option>
               ))}
-            </tbody>
-          </Table>
-
-          <Button variant="primary" onClick={savePermissions} className="save-button">
-            Save Permissions
-          </Button>
-        </>
-      )}
-
-      <div className="saved-permissions-container">
-        {savedPermissions.map((savedPerm) => (
-          <Card key={savedPerm.manager.id} className="manager-card mt-4">
-            <Card.Header className="card-header">
-              <h4 className="card-title">Manager Details</h4>
-              <div className="card-actions d-flex justify-content-end">
-                <Button variant="warning" onClick={handleEditClick} className="edit-button">
-                  <FaEdit /> Edit
-                </Button>
-                <Button
-                  variant="danger"
-                  onClick={() => handleDeleteClick(savedPerm.manager.id)}
-                  className="delete-button ml-2"
-                >
-                  <FaTrash /> Delete
-                </Button>
-              </div>
-            </Card.Header>
-            <Card.Body className="card-body">
-              <p className="card-text">
-                <strong>Name:</strong> {savedPerm.manager.name}
-              </p>
-              <p className="card-text">
-                <strong>Email:</strong> {savedPerm.manager.email}
-              </p>
-              <p className="card-text">
-                <strong>Organization:</strong> {savedPerm.manager.organization}
-              </p>
-              <p className="card-text">
-                <strong>Subscription Type:</strong> {savedPerm.manager.subscriptionType}
-              </p>
-              <p className="card-text">
-                <strong>Start Date:</strong> {savedPerm.manager.startDate}
-              </p>
-              <p className="card-text">
-                <strong>End Date:</strong> {savedPerm.manager.endDate}
-              </p>
-              <p className="card-text">
-                <strong>Plan:</strong> {savedPerm.manager.plan}
-              </p>
-              <Table striped bordered hover className="saved-permissions-table">
-                <thead>
-                  <tr>
-                    <th>Page</th>
-                    <th>View</th>
-                    <th>Add</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {pages.map((page) => (
-                    <tr key={page}>
-                      <td>{page}</td>
-                      <td>
-                        <Form.Check
-                          type="checkbox"
-                          checked={savedPerm.permissions[page].view}
-                          onChange={() => handleCheckboxChange(page, 'view')}
-                          className="view-checkbox"
-                        />
-                      </td>
-                      <td>
-                        <Form.Check
-                          type="checkbox"
-                          checked={savedPerm.permissions[page].add}
-                          onChange={() => handleCheckboxChange(page, 'add')}
-                          className="add-checkbox"
-                        />
-                      </td>
-                      <td>
-                        <Form.Check
-                          type="checkbox"
-                          checked={savedPerm.permissions[page].edit}
-                          onChange={() => handleCheckboxChange(page, 'edit')}
-                          className="edit-checkbox"
-                          />
-                        </td>
-                        <td>
-                          <Form.Check
-                            type="checkbox"
-                            checked={savedPerm.permissions[page].delete}
-                            onChange={() => handleCheckboxChange(page, 'delete')}
-                            className="delete-checkbox"
-                          />
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-              </Card.Body>
-            </Card>
-          ))}
-        </div>
-  
-        {/* Edit Modal */}
-        <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Edit Manager Details</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Form.Group controlId="editName">
-                <Form.Label>Name</Form.Label>
+            </Form.Select>
+            <Button variant="primary" onClick={handleAddManager}>
+              <Icon path={mdiAccountPlus} size={1} /> Add Manager
+            </Button>
+          </div>
+        </Card.Header>
+        <Card.Body>
+          <Row className="mb-4">
+            <Col>
+              <Form.Group controlId="name">
+                <Form.Label><strong>Name:</strong></Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter name"
-                  value={selectedManager?.name || ''}
-                  onChange={(e) =>
-                    setSelectedManager((prevManager) => ({
-                      ...prevManager,
-                      name: e.target.value,
-                    }))
-                  }
+                  value={selectedUser.name}
+                  onChange={(e) => setSelectedUser({ ...selectedUser, name: e.target.value })}
+                  disabled={!isEditing}
+                  className={isEditing ? 'editable-field' : ''}
                 />
               </Form.Group>
-  
-              <Form.Group controlId="editEmail" className="mt-3">
-                <Form.Label>Email</Form.Label>
+            </Col>
+            <Col>
+              <Form.Group controlId="email">
+                <Form.Label><strong>Email:</strong></Form.Label>
                 <Form.Control
                   type="email"
-                  placeholder="Enter email"
-                  value={selectedManager?.email || ''}
-                  onChange={(e) =>
-                    setSelectedManager((prevManager) => ({
-                      ...prevManager,
-                      email: e.target.value,
-                    }))
-                  }
+                  value={selectedUser.email}
+                  onChange={(e) => setSelectedUser({ ...selectedUser, email: e.target.value })}
+                  disabled={!isEditing}
+                  className={isEditing ? 'editable-field' : ''}
                 />
               </Form.Group>
-  
-              <Form.Group controlId="editOrganization" className="mt-3">
-                <Form.Label>Organization</Form.Label>
+            </Col>
+            <Col>
+              <Form.Group controlId="organization">
+                <Form.Label><strong>Organization:</strong></Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter organization"
-                  value={selectedManager?.organization || ''}
-                  onChange={(e) =>
-                    setSelectedManager((prevManager) => ({
-                      ...prevManager,
-                      organization: e.target.value,
-                    }))
-                  }
+                  value={selectedUser.organization}
+                  onChange={(e) => setSelectedUser({ ...selectedUser, organization: e.target.value })}
+                  disabled={!isEditing}
+                  className={isEditing ? 'editable-field' : ''}
                 />
               </Form.Group>
-  
-              <Form.Group controlId="editSubscriptionType" className="mt-3">
-                <Form.Label>Subscription Type</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter subscription type"
-                  value={selectedManager?.subscriptionType || ''}
-                  onChange={(e) =>
-                    setSelectedManager((prevManager) => ({
-                      ...prevManager,
-                      subscriptionType: e.target.value,
-                    }))
-                  }
-                />
+            </Col>
+            <Col>
+              <Form.Group controlId="role">
+                <Form.Label><strong>Role:</strong></Form.Label>
+                <Form.Select
+                  value={selectedUser.role}
+                  onChange={(e) => setSelectedUser({ ...selectedUser, role: e.target.value })}
+                  disabled={!isEditing}
+                  className={isEditing ? 'editable-field' : ''}
+                >
+                  <option value="Admin">Admin</option>
+                  <option value="Manager">Manager</option>
+                </Form.Select>
               </Form.Group>
-  
-              <Form.Group controlId="editStartDate" className="mt-3">
-                <Form.Label>Start Date</Form.Label>
+            </Col>
+          </Row>
+          <Row className="mb-4">
+            <Col>
+              <Form.Group controlId="subscriptionType">
+                <Form.Label><strong>Subscription Type:</strong></Form.Label>
+                <Form.Select
+                  value={selectedUser.subscriptionType}
+                  onChange={(e) => setSelectedUser({ ...selectedUser, subscriptionType: e.target.value })}
+                  disabled={!isEditing}
+                  className={isEditing ? 'editable-field' : ''}
+                >
+                  <option value="Portal">Portal</option>
+                  <option value="Clinician">Clinician</option>
+                  <option value="Organization">Organization</option>
+                </Form.Select>
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group controlId="startDate">
+                <Form.Label><strong>Start Date:</strong></Form.Label>
                 <Form.Control
                   type="date"
-                  placeholder="Enter start date"
-                  value={selectedManager?.startDate || ''}
-                  onChange={(e) =>
-                    setSelectedManager((prevManager) => ({
-                      ...prevManager,
-                      startDate: e.target.value,
-                    }))
-                  }
+                  value={selectedUser.startDate}
+                  onChange={(e) => setSelectedUser({ ...selectedUser, startDate: e.target.value })}
+                  disabled={!isEditing}
+                  className={isEditing ? 'editable-field' : ''}
                 />
               </Form.Group>
-  
-              <Form.Group controlId="editEndDate" className="mt-3">
-                <Form.Label>End Date</Form.Label>
+            </Col>
+            <Col>
+              <Form.Group controlId="endDate">
+                <Form.Label><strong>End Date:</strong></Form.Label>
                 <Form.Control
                   type="date"
-                  placeholder="Enter end date"
-                  value={selectedManager?.endDate || ''}
-                  onChange={(e) =>
-                    setSelectedManager((prevManager) => ({
-                      ...prevManager,
-                      endDate: e.target.value,
-                    }))
-                  }
+                  value={selectedUser.endDate}
+                  onChange={(e) => setSelectedUser({ ...selectedUser, endDate: e.target.value })}
+                  disabled={!isEditing}
+                  className={isEditing ? 'editable-field' : ''}
                 />
               </Form.Group>
-  
-              <Form.Group controlId="editPlan" className="mt-3">
-                <Form.Label>Plan</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter plan (Monthly/Quarterly/Yearly)"
-                  value={selectedManager?.plan || ''}
-                  onChange={(e) =>
-                    setSelectedManager((prevManager) => ({
-                      ...prevManager,
-                      plan: e.target.value,
-                    }))
-                  }
-                />
+            </Col>
+            <Col>
+              <Form.Group controlId="plan">
+                <Form.Label><strong>Plan:</strong></Form.Label>
+                <Form.Select
+                  value={selectedUser.plan}
+                  onChange={(e) => setSelectedUser({ ...selectedUser, plan: e.target.value })}
+                  disabled={!isEditing}
+                  className={isEditing ? 'editable-field' : ''}
+                >
+                  <option value="Monthly">Monthly</option>
+                  <option value="Quarterly">Quarterly</option>
+                  <option value="Yearly">Yearly</option>
+                </Form.Select>
               </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowEditModal(false)}>
-              Close
-            </Button>
-            <Button variant="primary" onClick={handleEditSave}>
-              Save Changes
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </div>
-    );
-  };
-  
-  export default Settings;
-  
+            </Col>
+          </Row>
+
+          <h4 className="mt-4 "><strong>Permissions</strong></h4>
+          <TableContainer component={Paper}>
+            <Table bordered hover className="permissions-table mt-3">
+              <TableHead className=''>
+                <TableRow>
+                  <TableCell>Page</TableCell>
+                  <TableCell>View</TableCell>
+                  <TableCell>Add</TableCell>
+                  <TableCell>Edit</TableCell>
+                  <TableCell>Delete</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {Object.keys(selectedUser.permissions).map((page) => (
+                  <TableRow key={page}>
+                    <TableCell>{page.charAt(0).toUpperCase() + page.slice(1)}</TableCell>
+                    {Object.keys(selectedUser.permissions[page]).map((permissionType) => (
+                      <TableCell key={permissionType}>
+                        <Form.Check
+                          type="checkbox"
+                          checked={selectedUser.permissions[page][permissionType]}
+                          onChange={() => handlePermissionChange(page, permissionType)}
+                          disabled={!isEditing}
+                          className="center-checkbox"
+                        />
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          {isEditing ? (
+            <div className="d-flex justify-content-end mt-3">
+              <Button variant="success" onClick={handleSave} className="me-2">Save</Button>
+              <Button variant="secondary" onClick={() => setIsEditing(false)}>Cancel</Button>
+            </div>
+          ) : (
+            <div className="d-flex justify-content-end mt-3">
+              <Button variant="primary" onClick={() => setIsEditing(true)} className="me-2">Edit</Button>
+              <Button variant="danger" onClick={handleDelete}>Delete</Button>
+            </div>
+          )}
+        </Card.Body>
+      </Card>
+    </div>
+  );
+};
+
+export default SettingsPage;

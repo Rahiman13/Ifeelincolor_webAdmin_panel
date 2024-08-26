@@ -301,7 +301,7 @@ export default function Component() {
       <div className="page-header">
         <h3 className="page-title">
           <span className="page-title-icon bg-gradient-primary text-white mr-2">
-            <i className="mdi mdi-account"></i>
+            <i className="mdi mdi-account fs-5"></i>
           </span> Patient Management
         </h3>
         {/* <CustomBreadcrumb /> Render the breadcrumb */}

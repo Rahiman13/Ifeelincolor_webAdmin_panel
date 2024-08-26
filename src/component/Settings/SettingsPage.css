@@ -1,0 +1,99 @@
+.settings-page {
+    padding: 20px;
+  }
+  
+  .user-card {
+    margin: 0 auto;
+    max-width: 1200px;
+  }
+  
+  .user-card .card-header {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+  }
+  
+  .user-select {
+    width: 200px;
+  }
+  
+  .editable-field {
+    border: 1px solid #ced4da;
+    box-shadow: none;
+    background-color: #f9f9f9; /* Light background for editing mode */
+    font-size: 16px; /* Increased font size */
+  }
+  
+  .editable-field:focus {
+    background-color: #e3f2fd; /* Background color when editing */
+  }
+  
+  .permissions-table {
+    background-color: white !important;
+    font-size: 20px !important; /* Increased font size for table text */
+    color: #333;
+    border-collapse: collapse;
+    width: 100%;
+    overflow: hidden; /* Hide scrollbar */
+  }
+  
+  .permissions-table th, .permissions-table td {
+    text-align: center;
+    padding: 12px; /* Increased padding */
+  }
+  
+  .permissions-table th {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: white;
+    font-weight: bold; /* Bold text for the header */
+    font-size: 18px; /* Increased font size for header */
+  }
+  
+  .permissions-table tbody tr {
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+  .permissions-table tbody tr:last-child {
+    border-bottom: none;
+  }
+  
+  .permissions-table td {
+    padding: 12px; /* Increased padding */
+    font-size: 18px; /* Increased font size for table text */
+  }
+  
+  .center-checkbox {
+    transform: scale(1.5); /* Increase checkbox size */
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px; /* Space between buttons */
+  }
+  
+  .button-group .btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px; /* Increased font size */
+    border: none;
+    cursor: pointer;
+  }
+  
+  .btn-success {
+    background: linear-gradient(135deg, #28a745, #218838);
+    color: white;
+  }
+  
+  .btn-danger {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: white;
+  }
+  
+  .btn-warning {
+    background: linear-gradient(135deg, #ffc107, #e0a800);
+    color: white;
+  }
+  

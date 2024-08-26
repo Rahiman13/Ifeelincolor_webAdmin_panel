@@ -90,8 +90,8 @@ const BudgetAnalysis = () => {
     <div className="budget-analysis">
       <div className="page-header">
         <h3 className="page-title">
-          <span className="page-title-icon bg-gradient-primary text-white mr-2">
-            <i className="mdi mdi-chart-line"></i>
+          <span className="page-title-icon bg-gradient-primary text-white mr-3">
+            <i className="mdi mdi-chart-line fs-5"></i>
           </span> Budget Analysis
         </h3>
         <span>

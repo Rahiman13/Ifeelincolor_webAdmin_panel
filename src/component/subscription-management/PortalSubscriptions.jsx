@@ -71,7 +71,8 @@ export default function PortalSubscription() {
       <div className="page-header">
         <h3 className="page-title">
           <span className="page-title-icon bg-gradient-primary text-white mr-2">
-            <i className="mdi mdi-folder-multiple"></i>
+            {/* <i className="mdi mdi-folder-multiple fs-5"></i> */}
+            <i className="mdi mdi-monitor fs-5"></i>
           </span>
           Portal Subscription
         </h3>

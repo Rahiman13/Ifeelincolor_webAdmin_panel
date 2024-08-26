@@ -3,19 +3,20 @@ import { Modal, Button, Dropdown, Card } from 'react-bootstrap';
 import { FaEdit, FaTrash, FaEllipsisV, FaPlus } from 'react-icons/fa';
 import { Link } from 'react-router-dom'
 import './Banner.scss'
+import Announcement  from '../../assets/Announcement.jpg';
 
 // Dummy Data
 const dummyBanners = [
   {
     id: 1,
-    imageUrl: 'https://via.placeholder.com/150',
+    imageUrl: `${Announcement}`,
     comment: 'Spring Sale - 20% Off!',
     postedBy: 'John Doe',
     postedDate: '2024-08-21T12:00:00Z',
   },
   {
     id: 2,
-    imageUrl: 'https://via.placeholder.com/150',
+    imageUrl: `${Announcement}`,
     comment: 'New Arrivals in Store',
     postedBy: 'Jane Smith',
     postedDate: '2024-08-20T12:00:00Z',
@@ -166,7 +167,7 @@ const BannerManagementPage = () => {
       <div className="page-header">
         <h3 className="page-title">
           <span className="page-title-icon bg-gradient-primary text-white mr-2">
-            <i className="mdi mdi-bullhorn"></i>
+            <i className="mdi mdi-bullhorn fs-5"></i>
           </span> Banner Management
         </h3>
         <nav aria-label="breadcrumb">
@@ -188,7 +189,7 @@ const BannerManagementPage = () => {
         <div className="row">
           {banners.map((banner) => (
             <div className="col-md-4 mb-4" key={banner.id}>
-              <Card className="position-relative banner-card">
+              <Card className="position-relative banner-card ">
                 <Card.Img variant="top" className='banner-card-img-top' src={banner.imageUrl} />
                 <Dropdown className="banner-dropdown position-absolute" style={{ top: '10px', right: '10px', color: '#000' }}>
                   <Dropdown.Toggle variant="" className='banner-dropdown-toggle' id="dropdown-basic">
@@ -208,8 +209,8 @@ const BannerManagementPage = () => {
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
-                <Card.Body>
-                  <Card.Title className='banner-card-title'>{banner.comment}</Card.Title>
+                <Card.Body className='px-4 py-3'>
+                  <Card.Title className='banner-card-title '>{banner.comment}</Card.Title>
                   <Card.Text className='banner-card-text'>
                     <strong>Posted By:</strong> {banner.postedBy}
                     <br />

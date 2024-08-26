@@ -169,7 +169,7 @@ export default function TestsPage() {
       <div className="page-header">
         <h3 className="page-title">
           <span className="page-title-icon bg-gradient-primary text-white mr-2">
-            <i className="mdi mdi-clipboard-text"></i>
+            <i className="mdi mdi-clipboard-text fs-5"></i>
           </span> Test Management </h3>
         <nav aria-label="breadcrumb">
           <ul className="breadcrumb">
