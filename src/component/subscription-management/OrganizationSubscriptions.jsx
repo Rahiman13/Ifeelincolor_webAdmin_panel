@@ -57,7 +57,7 @@ export default function OrganizationSubscription() {
   };
 
   return (
-    <div className="organization-subscription">
+    <div className="organization-subscription p-3">
       <div className="page-header">
         <h3 className="page-title">
           <span className="page-title-icon bg-gradient-primary text-white mr-2">

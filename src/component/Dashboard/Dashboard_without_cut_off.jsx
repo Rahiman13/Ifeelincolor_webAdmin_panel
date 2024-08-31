@@ -1,39 +1,11 @@
 import React, { Component } from 'react';
-// import { Link } from 'react-router-dom';
 import ApexCharts from 'react-apexcharts';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import Icon from '@mdi/react';
-// import { mdiDoctor } from '@mdi/js';
 import { mdiHome, mdiDoctor, mdiAlertCircleOutline, mdiAccount, mdiDiamond, mdiCashMultiple, mdiDownload } from '@mdi/js';
-import Card_circle from '../../assets/circle.svg'
-// import {
-//   Card,
-//   CardHeader,
-//   CardContent,
-//   Avatar,
-//   IconButton,
-//   Menu,
-//   MenuItem,
-//   Button,
-//   Modal,
-//   TextField,
-//   Box,
-//   Paper,
-//   Typography,
-//   Grid,
-//   TablePagination,
-// } from "@mui/material";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Paper,
-
-} from "@mui/material";
+import Card_circle from '../../assets/circle.svg';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 import './Dashboard.css';
 
 class Dashboard extends Component {
@@ -73,18 +45,13 @@ class Dashboard extends Component {
                 series: [{
                     name: 'Subscriptions',
                     data: [20, 40, 15, 35, 25, 50, 30, 20]
-                }
-                ]
+                }]
             },
             patientStatusData: {
                 options: {
                     chart: {
                         type: 'donut',
-                        height: 380,
-                        toolbar: {
-                            show: true,  // Enable the toolbar with download options
-                        },
-                        // width: 1850,
+                        height: 350,
                     },
                     labels: ['Healthy', 'At Risk', 'Critical'],
                     colors: ["#4EE6C9", "#DC526C", "#87EF9D"],
@@ -185,11 +152,6 @@ class Dashboard extends Component {
         this.budgetAnalysisChartRef = React.createRef();
         this.patientStatusTableRef = React.createRef();
     }
-    // statusMappings = {
-    //   'Healthy': { percentage: 100, color: '#4CAF50' }, // Green
-    //   'At Risk': { percentage: 50, color: '#FF9800' }, // Orange
-    //   'Critical': { percentage: 25, color: '#F44336' } // Red
-    // };
 
     downloadChart = (chartRef, fileName) => {
         const chartElement = chartRef.current.querySelector('.apexcharts-canvas');
@@ -203,19 +165,18 @@ class Dashboard extends Component {
 
     render() {
         return (
-            <div className='p-3'>
+            <div>
                 <div className="page-header">
                     <h3 className="page-title">
                         <span className="page-title-icon bg-gradient-primary text-white mr-2">
-                            <i className="mdi mdi-home fs-5"></i>
-                            {/* <Icon path={mdiHome} size={1} className="float-right icon-hover" />  */}
-                        </span> Dashboard </h3>
+                            <Icon path={mdiHome} size={1} className="float-right icon-hover" />
+                        </span>
+                        Dashboard
+                    </h3>
                     <nav aria-label="breadcrumb">
                         <ul className="breadcrumb">
                             <li className="breadcrumb-item active" aria-current="page">
-                                <span></span>Overview <Icon path={mdiAlertCircleOutline} size={0.6} className="float-right icon-hover" />
-                                {/* <i className="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i> */}
-
+                                Overview <Icon path={mdiAlertCircleOutline} size={0.6} className="float-right icon-hover" />
                             </li>
                         </ul>
                     </nav>
@@ -227,9 +188,7 @@ class Dashboard extends Component {
                             <div className="card-body">
                                 <img src={Card_circle} className="card-img-absolute" alt="circle" />
                                 <h4 className="font-weight-normal mb-3">Active Patients
-                                    {/* <i className="mdi mdi-account mdi-24px float-right"></i> */}
                                     <Icon path={mdiAccount} size={1} className="float-right icon-hover" />
-
                                 </h4>
                                 <h2 className="mb-5">41</h2>
                                 <h6 className="card-text">Increased by 5%</h6>
@@ -254,179 +213,124 @@ class Dashboard extends Component {
                             <div className="card-body">
                                 <img src={Card_circle} className="card-img-absolute" alt="circle" />
                                 <h4 className="font-weight-normal mb-3">Total Subscriptions
-                                    {/* <i className="mdi mdi-diamond  mdi-24px float-right"></i> */}
                                     <Icon path={mdiDiamond} size={1} className="float-right icon-hover" />
-
                                 </h4>
                                 <h2 className="mb-5">1,234</h2>
-                                <h6 className="card-text">Decreased by 10%</h6>
+                                <h6 className="card-text">Increased by 5%</h6>
                             </div>
                         </div>
                     </div>
+
                     <div className="col-lg-3 stretch-card grid-margin">
                         <div className="card bg-gradient-danger card-img-holder text-white">
                             <div className="card-body">
                                 <img src={Card_circle} className="card-img-absolute" alt="circle" />
-                                <h4 className="font-weight-normal mb-3">Earnings
-                                    {/* <i className="mdi mdi-cash-multiple mdi-24px float-right"></i> */}
+                                <h4 className="font-weight-normal mb-3">Total Budget
                                     <Icon path={mdiCashMultiple} size={1} className="float-right icon-hover" />
-
                                 </h4>
-                                <h2 className="mb-5">$ 15,000</h2>
-                                <h6 className="card-text">Increased by 60%</h6>
+                                <h2 className="mb-5">$ 32,000</h2>
+                                <h6 className="card-text">Increased by 5%</h6>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div className="row">
-                    <div className="col-lg-7 grid-margin stretch-card">
-                        <div className="card">
+                    <div className="col-md-6 stretch-card grid-margin">
+                        <div className="card" ref={this.subscriptionTrendsChartRef}>
                             <div className="card-body">
-                                <div className='card-head'>
-                                    <h4 className="card-title">Subscription Trends</h4>
-                                    {/* <button
-                                        className="btn btn-icon btn-rounded float-right"
-                                        onClick={() => this.downloadChart(this.subscriptionTrendsChartRef, 'visit-sales-chart')}
-                                    >
-
-                                    </button> */}
-                                </div>
-                                {/* <div ref={this.patientStatusChartRef}>
-                                    <ApexCharts
-                                        options={this.state.visitSaleData.options}
-                                        series={this.state.visitSaleData.series}
-                                        type="line"
-                                        height={350}
-                                    />
-                                </div> */}
-                                <div ref={this.subscriptionTrendsChartRef}>
-                                    <ApexCharts
-                                        options={this.state.visitSaleData.options}
-                                        series={this.state.visitSaleData.series}
-                                        type="line"
-                                        height={350}
-                                        width={620}
-                                    />
-                                </div>
-
+                                <h4 className="card-title">Subscription Trends</h4>
+                                <ApexCharts
+                                    options={this.state.visitSaleData.options}
+                                    series={this.state.visitSaleData.series}
+                                    type="line"
+                                    height={350}
+                                />
+                                <button className="btn btn-primary mt-3" onClick={() => this.downloadChart(this.subscriptionTrendsChartRef, 'Subscription_Trends')}>Download Chart</button>
                             </div>
                         </div>
                     </div>
-                    <div className="col-lg-5 grid-margin stretch-card">
-                        <div className="card">
+                    <div className="col-md-6 stretch-card grid-margin">
+                        <div className="card" ref={this.patientStatusChartRef}>
                             <div className="card-body">
-                                <div className='card-head pb-0'>
-                                    <h4 className="card-title">Patient Status Overview</h4>
-                                    <button
-                                        className="btn btn-icon btn-rounded float-right"
-                                        onClick={() => this.downloadChart(this.patientStatusChartRef, 'patient-status-chart')}
-                                    >
-
-                                    </button>
-                                </div>
-                                <div ref={this.patientStatusChartRef}>
-                                    <ApexCharts
-                                        options={this.state.patientStatusData.options}
-                                        series={this.state.patientStatusData.series}
-                                        type="donut"
-                                        height={380}
-                                        width={420}
-                                    />
-                                </div>
+                                <h4 className="card-title">Patient Status Overview</h4>
+                                <ApexCharts
+                                    options={this.state.patientStatusData.options}
+                                    series={this.state.patientStatusData.series}
+                                    type="donut"
+                                    height={350}
+                                />
+                                <button className="btn btn-primary mt-3" onClick={() => this.downloadChart(this.patientStatusChartRef, 'Patient_Status_Overview')}>Download Chart</button>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div className="row">
-                    <div className="col-lg-6 grid-margin stretch-card">
-                        <div className="card">
+                    <div className="col-md-6 stretch-card grid-margin">
+                        <div className="card" ref={this.subscriptionComparisonChartRef}>
                             <div className="card-body">
-                                <div className='card-head'>
-                                    <h4 className="card-title">Subscription Comparison</h4>
-                                    <button
-                                        className="btn btn-icon btn-rounded float-right"
-                                        onClick={() => this.downloadChart(this.subscriptionComparisonChartRef, 'subscription-comparison-chart')}
-                                    >
-
-                                    </button>
-                                </div>
-                                <div ref={this.subscriptionComparisonChartRef}>
-                                    <ApexCharts
-                                        options={this.state.subscriptionComparisonData.options}
-                                        series={this.state.subscriptionComparisonData.series}
-                                        type="line"
-                                        height={350}
-                                        width={530}
-
-                                    />
-                                </div>
+                                <h4 className="card-title">Subscription Comparison</h4>
+                                <ApexCharts
+                                    options={this.state.subscriptionComparisonData.options}
+                                    series={this.state.subscriptionComparisonData.series}
+                                    type="line"
+                                    height={350}
+                                />
+                                <button className="btn btn-primary mt-3" onClick={() => this.downloadChart(this.subscriptionComparisonChartRef, 'Subscription_Comparison')}>Download Chart</button>
                             </div>
                         </div>
                     </div>
-                    <div className="col-lg-6 grid-margin stretch-card">
-                        <div className="card">
+                    <div className="col-md-6 stretch-card grid-margin">
+                        <div className="card" ref={this.budgetAnalysisChartRef}>
                             <div className="card-body">
-                                <div className='card-head'>
-                                    <h4 className="card-title">Subscription & Budget Analysis</h4>
-                                    <button
-                                        className="btn btn-icon btn-rounded float-right"
-                                        onClick={() => this.downloadChart(this.budgetAnalysisChartRef, 'budget-analysis-chart')}
-                                    >
-
-                                    </button>
-                                </div>
-                                <div ref={this.budgetAnalysisChartRef}>
-                                    <ApexCharts
-                                        options={this.state.budgetAnalysisData.options}
-                                        series={this.state.budgetAnalysisData.series}
-                                        type="bar"
-                                        height={350}
-                                        width={550}
-
-                                    />
-                                </div>
+                                <h4 className="card-title">Budget Analysis</h4>
+                                <ApexCharts
+                                    options={this.state.budgetAnalysisData.options}
+                                    series={this.state.budgetAnalysisData.series}
+                                    type="bar"
+                                    height={350}
+                                />
+                                <button className="btn btn-primary mt-3" onClick={() => this.downloadChart(this.budgetAnalysisChartRef, 'Budget_Analysis')}>Download Chart</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div className="row">
-                    <div className="col-12 grid-margin stretch-card">
+                    <div className="col-12 grid-margin">
                         <div className="card">
                             <div className="card-body">
                                 <h4 className="card-title">Patient Details</h4>
                                 <TableContainer component={Paper}>
-                                    <Table aria-label="simple table">
+                                    <Table>
                                         <TableHead>
                                             <TableRow>
-                                                <TableCell>Patient Name</TableCell>
-                                                <TableCell align="center">Issue</TableCell>
-                                                <TableCell align="center">Subscription Type</TableCell>
-                                                <TableCell align="center">Start Date</TableCell>
-                                                <TableCell align="center">End Date</TableCell>
-                                                <TableCell align="center">Assigned Doctor</TableCell>
-                                                <TableCell align="center">Status</TableCell>
+                                                <TableCell>ID</TableCell>
+                                                <TableCell>Name</TableCell>
+                                                <TableCell>Issue</TableCell>
+                                                <TableCell>Subscription Type</TableCell>
+                                                <TableCell>Start Date</TableCell>
+                                                <TableCell>End Date</TableCell>
+                                                <TableCell>Assigned Doctor</TableCell>
+                                                <TableCell>Status</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
                                             {this.state.budgetAnalysisData.patientDetails.map((row) => (
                                                 <TableRow key={row.id}>
-                                                    <TableCell component="th" scope="row">
-                                                        {row.name}
-                                                    </TableCell>
-                                                    <TableCell align="center">{row.issue}</TableCell>
-                                                    <TableCell align="center">{row.subscriptionType}</TableCell>
-                                                    <TableCell align="center">{row.startDate}</TableCell>
-                                                    <TableCell align="center">{row.endDate}</TableCell>
-                                                    <TableCell align="center">{row.assignedDoctor}</TableCell>
-                                                    <TableCell align="center">{row.status}</TableCell>
+                                                    <TableCell>{row.id}</TableCell>
+                                                    <TableCell>{row.name}</TableCell>
+                                                    <TableCell>{row.issue}</TableCell>
+                                                    <TableCell>{row.subscriptionType}</TableCell>
+                                                    <TableCell>{row.startDate}</TableCell>
+                                                    <TableCell>{row.endDate}</TableCell>
+                                                    <TableCell>{row.assignedDoctor}</TableCell>
+                                                    <TableCell>{row.status}</TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
+                                <button className="btn btn-primary mt-3" onClick={() => this.downloadChart(this.patientStatusTableRef, 'Patient_Details')}>Download Table</button>
                             </div>
                         </div>
                     </div>

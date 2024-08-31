@@ -1,0 +1,59 @@
+/* Ensure the body and html have full height */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+/* Ensure the main container takes up all available space */
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main content area */
+.main-content {
+  flex: 1; /* Grow to fill available space */
+}
+
+/* Footer style */
+.footer {
+  background: none; 
+  color: #fff;
+  padding: 5px 0; /* Thin footer */
+  text-align: center;
+  width: 100%;
+  z-index: 10;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Center vertically */
+}
+
+.footer-text {
+  font-size: 14px; /* Slightly smaller font for a thinner footer */
+  color: #6e45e2;
+}
+
+.footer-link {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.footer-link:hover {
+  color: #f0f0f0;
+}
+
+.footer-credit {
+  font-size: 10px; /* Smaller font size for credit text */
+  text-align: center;
+}
+
+@media (min-width: 576px) {
+  .footer-credit {
+    text-align: right;
+  }
+}

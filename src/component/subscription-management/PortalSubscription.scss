@@ -18,6 +18,27 @@ $danger: #c0392b;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     
+    // Different gradient backgrounds for cards
+    &.card-primary {
+      background: linear-gradient(135deg, $primary, lighten($primary, 10%));
+    }
+
+    &.card-secondary {
+      background: linear-gradient(135deg, $secondary, lighten($secondary, 10%));
+    }
+
+    &.card-success {
+      background: linear-gradient(135deg, $success, lighten($success, 10%));
+    }
+
+    &.card-warning {
+      background: linear-gradient(135deg, $warning, lighten($warning, 10%));
+    }
+
+    &.card-danger {
+      background: linear-gradient(135deg, $danger, lighten($danger, 10%));
+    }
+
     &:hover {
       transform: translateY(-5px);
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);

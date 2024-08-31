@@ -104,7 +104,7 @@ export default function ClinicianSubscription() {
   };
 
   return (
-    <div className="clinician-subscription">
+    <div className="clinician-subscription p-3">
       <div className="page-header">
         <h3 className="page-title">
           <span className="page-title-icon bg-gradient-primary text-white mr-2">

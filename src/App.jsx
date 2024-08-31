@@ -19,13 +19,15 @@ const App = () => {
       window.scrollTo(0, 0);
 
       const fullPageLayoutRoutes = [
-        '/',
-        '/login',
-        '/register',
-        '/user-pages/lockscreen',
-        '/error-pages/error-404',
-        '/error-pages/error-500',
-        '/general-pages/landing-page',
+        '/dist/',
+        '/dist/admin',
+        // '/dist/',
+        // '/dist/register',
+        '/dist/forget',
+        '/dist/user-pages/lockscreen',
+        '/dist/error-pages/error-404',
+        '/dist/error-pages/error-500',
+        '/dist/general-pages/landing-page',
       ];
 
       const isFullPage = fullPageLayoutRoutes.includes(location.pathname);
@@ -50,7 +52,7 @@ const App = () => {
       <div className="container-fluid page-body-wrapper d-flex">
         {!isFullPageLayout && <Sidebar />}
         <div className="main-panel">
-          <div className="container-fluid p-4">
+          <div className="container-scroller">
             <AppRoutes />
           </div>
           {!isFullPageLayout && <Footer />}

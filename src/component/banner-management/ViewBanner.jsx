@@ -163,8 +163,8 @@ const BannerManagementPage = () => {
   };
 
   return (
-    <>
-      <div className="page-header">
+    <div className='p-3'>
+      <div className="page-header ">
         <h3 className="page-title">
           <span className="page-title-icon bg-gradient-primary text-white mr-2">
             <i className="mdi mdi-bullhorn fs-5"></i>
@@ -231,7 +231,7 @@ const BannerManagementPage = () => {
           />
         )}
       </div>
-    </>
+    </div>
   );
 };
 

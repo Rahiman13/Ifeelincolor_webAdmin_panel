@@ -165,7 +165,7 @@ export default function TestsPage() {
   };
 
   return (
-    <div className="tests-page">
+    <div className="tests-page p-3">
       <div className="page-header">
         <h3 className="page-title">
           <span className="page-title-icon bg-gradient-primary text-white mr-2">

@@ -67,7 +67,7 @@ export default function PortalSubscription() {
   };
 
   return (
-    <div className="portal-subscription">
+    <div className="portal-subscription p-3">
       <div className="page-header">
         <h3 className="page-title">
           <span className="page-title-icon bg-gradient-primary text-white mr-2">

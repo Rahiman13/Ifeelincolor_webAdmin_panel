@@ -298,7 +298,7 @@ export default function Component() {
 
   return (
     <div>
-      <div className="page-header">
+      <div className="page-header p-3">
         <h3 className="page-title">
           <span className="page-title-icon bg-gradient-primary text-white mr-2">
             <i className="mdi mdi-account fs-5"></i>
@@ -309,213 +309,226 @@ export default function Component() {
           Overview <i className="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
         </span>
       </div>
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
-          <Card sx={{ height: '100%' }}>
-            <CardHeader title="Patient Status by Month" />
-            <CardContent>
-              <Chart
-                options={barChartData.options}
-                series={barChartData.series}
-                type="bar"
-                height={350}
-              />
-            </CardContent>
-          </Card>
-        </Grid>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '100vh',
+          px: 3,
+        }}
+      >
+        <Grid container spacing={3} >
+          <Grid item xs={12} md={7}>
+            <Card sx={{ height: '100%' }}>
+              <CardHeader title="Patient Status by Month" />
+              <CardContent>
+                <Chart
+                  options={barChartData.options}
+                  series={barChartData.series}
+                  type="bar"
+                  height={350}
+                  width={600}
+                />
+              </CardContent>
+            </Card>
+          </Grid>
 
-        <Grid item xs={12} md={6}>
-          <Card sx={{ height: '100%' }}>
-            <CardHeader title="Patient Status Distribution" />
-            <CardContent>
-              <Chart
-                options={doughnutChartData.options}
-                series={doughnutChartData.series}
-                type="donut"
-                height={350}
-              />
-            </CardContent>
-          </Card>
-        </Grid>
+          <Grid item xs={12} md={5}>
+            <Card sx={{ height: '100%' }}>
+              <CardHeader title="Patient Status Distribution" />
+              <CardContent>
+                <Chart
+                  options={doughnutChartData.options}
+                  series={doughnutChartData.series}
+                  type="donut"
+                  height={350}
+                  width={480}
+                />
+              </CardContent>
+            </Card>
+          </Grid>
 
-        <Grid item xs={12}>
-          <Card>
-            <CardHeader
-              title="Patient Management Table"
-              action={
-                <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<AddIcon />}
-                  onClick={handleAddUser}
-                >
-                  Add Patient
-                </Button>
-              }
-            />
-            <CardContent>
-              <TableContainer>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Avatar</TableCell>
-                      <TableCell>Name</TableCell>
-                      <TableCell>Age</TableCell>
-                      <TableCell>Status</TableCell>
-                      <TableCell>Subscription Type</TableCell>
-                      <TableCell>Clinician</TableCell>
-                      <TableCell>Actions</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {users
-                      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                      .map((user) => (
-                        <TableRow key={user.id}>
-                          <TableCell>
-                            <Avatar
-                              src={user.avatarSrc}
-                              alt={user.avatarFallback}
-                            />
-                          </TableCell>
-                          <TableCell>{user.name}</TableCell>
-                          <TableCell>{user.age}</TableCell>
-                          <TableCell>
-                            <Typography
-                              style={{ color: user.statusColor }}
-                            >
-                              {user.status}
-                            </Typography>
-                          </TableCell>
-                          <TableCell>{user.subscriptionType}</TableCell>
-                          <TableCell>{user.clinician}</TableCell>
-                          <TableCell>
-                            <IconButton
-                              onClick={(event) => handleClick(event, user)}
-                            >
-                              <MoreVertIcon />
-                            </IconButton>
-                            <Menu
-                              anchorEl={anchorEl}
-                              open={Boolean(anchorEl)}
-                              onClose={handleCloseMenu}
-                            >
-                              <MenuItem onClick={handleUpdateStatus}>
-                                <UpdateIcon /> Edit
-                              </MenuItem>
-                              <MenuItem onClick={handleDeletePatient}>
-                                <DeleteIcon /> Delete
-                              </MenuItem>
-                            </Menu>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                component="div"
-                count={users.length}
-                page={page}
-                onPageChange={handleChangePage}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
+          <Grid item xs={12}>
+            <Card>
+              <CardHeader
+                title="Patient Management Table"
+                action={
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<AddIcon />}
+                    onClick={handleAddUser}
+                  >
+                    Add Patient
+                  </Button>
+                }
               />
-            </CardContent>
-          </Card>
-        </Grid>
+              <CardContent>
+                <TableContainer>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Avatar</TableCell>
+                        <TableCell>Name</TableCell>
+                        <TableCell>Age</TableCell>
+                        <TableCell>Status</TableCell>
+                        <TableCell>Subscription Type</TableCell>
+                        <TableCell>Clinician</TableCell>
+                        <TableCell>Actions</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {users
+                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        .map((user) => (
+                          <TableRow key={user.id}>
+                            <TableCell>
+                              <Avatar
+                                src={user.avatarSrc}
+                                alt={user.avatarFallback}
+                              />
+                            </TableCell>
+                            <TableCell>{user.name}</TableCell>
+                            <TableCell>{user.age}</TableCell>
+                            <TableCell>
+                              <Typography
+                                style={{ color: user.statusColor }}
+                              >
+                                {user.status}
+                              </Typography>
+                            </TableCell>
+                            <TableCell>{user.subscriptionType}</TableCell>
+                            <TableCell>{user.clinician}</TableCell>
+                            <TableCell>
+                              <IconButton
+                                onClick={(event) => handleClick(event, user)}
+                              >
+                                <MoreVertIcon />
+                              </IconButton>
+                              <Menu
+                                anchorEl={anchorEl}
+                                open={Boolean(anchorEl)}
+                                onClose={handleCloseMenu}
+                              >
+                                <MenuItem onClick={handleUpdateStatus}>
+                                  <UpdateIcon /> Edit
+                                </MenuItem>
+                                <MenuItem onClick={handleDeletePatient}>
+                                  <DeleteIcon /> Delete
+                                </MenuItem>
+                              </Menu>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <TablePagination
+                  component="div"
+                  count={users.length}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  rowsPerPage={rowsPerPage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </CardContent>
+            </Card>
+          </Grid>
 
-        <Modal open={isModalOpen} onClose={handleCloseModal}>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: 400,
-              bgcolor: "background.paper",
-              borderRadius: 1,
-              boxShadow: 24,
-              p: 4,
-            }}
-          >
+          <Modal open={isModalOpen} onClose={handleCloseModal}>
             <Box
               sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                mb: 2,
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                width: 400,
+                bgcolor: "background.paper",
+                borderRadius: 1,
+                boxShadow: 24,
+                p: 4,
               }}
             >
-              <Typography variant="h6">
-                {modalMode === "add" ? "Add Patient" : "Edit Patient"}
-              </Typography>
-              <IconButton onClick={handleCloseModal}>
-                <CloseIcon />
-              </IconButton>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  mb: 2,
+                }}
+              >
+                <Typography variant="h6">
+                  {modalMode === "add" ? "Add Patient" : "Edit Patient"}
+                </Typography>
+                <IconButton onClick={handleCloseModal}>
+                  <CloseIcon />
+                </IconButton>
+              </Box>
+              <TextField
+                fullWidth
+                label="Name"
+                value={selectedUser?.name || ""}
+                onChange={(e) =>
+                  setSelectedUser({ ...selectedUser, name: e.target.value })
+                }
+                margin="normal"
+              />
+              <TextField
+                fullWidth
+                label="Age"
+                value={selectedUser?.age || ""}
+                onChange={(e) =>
+                  setSelectedUser({ ...selectedUser, age: e.target.value })
+                }
+                margin="normal"
+              />
+              <TextField
+                fullWidth
+                label="Status"
+                value={selectedUser?.status || ""}
+                onChange={(e) =>
+                  setSelectedUser({ ...selectedUser, status: e.target.value })
+                }
+                margin="normal"
+              />
+              <TextField
+                fullWidth
+                label="Subscription Type"
+                value={selectedUser?.subscriptionType || ""}
+                onChange={(e) =>
+                  setSelectedUser({
+                    ...selectedUser,
+                    subscriptionType: e.target.value,
+                  })
+                }
+                margin="normal"
+              />
+              <TextField
+                fullWidth
+                label="Clinician"
+                value={selectedUser?.clinician || ""}
+                onChange={(e) =>
+                  setSelectedUser({
+                    ...selectedUser,
+                    clinician: e.target.value,
+                  })
+                }
+                margin="normal"
+              />
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+                <Button onClick={handleCloseModal} color="secondary" sx={{ mr: 2 }}>
+                  Cancel
+                </Button>
+                <Button onClick={handleSave} variant="contained" color="primary">
+                  {modalMode === "add" ? "Add" : "Save"}
+                </Button>
+              </Box>
             </Box>
-            <TextField
-              fullWidth
-              label="Name"
-              value={selectedUser?.name || ""}
-              onChange={(e) =>
-                setSelectedUser({ ...selectedUser, name: e.target.value })
-              }
-              margin="normal"
-            />
-            <TextField
-              fullWidth
-              label="Age"
-              value={selectedUser?.age || ""}
-              onChange={(e) =>
-                setSelectedUser({ ...selectedUser, age: e.target.value })
-              }
-              margin="normal"
-            />
-            <TextField
-              fullWidth
-              label="Status"
-              value={selectedUser?.status || ""}
-              onChange={(e) =>
-                setSelectedUser({ ...selectedUser, status: e.target.value })
-              }
-              margin="normal"
-            />
-            <TextField
-              fullWidth
-              label="Subscription Type"
-              value={selectedUser?.subscriptionType || ""}
-              onChange={(e) =>
-                setSelectedUser({
-                  ...selectedUser,
-                  subscriptionType: e.target.value,
-                })
-              }
-              margin="normal"
-            />
-            <TextField
-              fullWidth
-              label="Clinician"
-              value={selectedUser?.clinician || ""}
-              onChange={(e) =>
-                setSelectedUser({
-                  ...selectedUser,
-                  clinician: e.target.value,
-                })
-              }
-              margin="normal"
-            />
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-              <Button onClick={handleCloseModal} color="secondary" sx={{ mr: 2 }}>
-                Cancel
-              </Button>
-              <Button onClick={handleSave} variant="contained" color="primary">
-                {modalMode === "add" ? "Add" : "Save"}
-              </Button>
-            </Box>
-          </Box>
-        </Modal>
-      </Grid>
+          </Modal>
+        </Grid>
+      </Box>
     </div>
   );
 }

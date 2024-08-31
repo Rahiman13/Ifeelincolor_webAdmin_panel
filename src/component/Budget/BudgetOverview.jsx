@@ -87,7 +87,7 @@ const BudgetAnalysis = () => {
   ];
 
   return (
-    <div className="budget-analysis">
+    <div className="budget-analysis p-3">
       <div className="page-header">
         <h3 className="page-title">
           <span className="page-title-icon bg-gradient-primary text-white mr-3">

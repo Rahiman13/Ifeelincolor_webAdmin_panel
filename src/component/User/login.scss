@@ -1,0 +1,101 @@
+body {
+    font-family: 'Ubuntu', sans-serif;
+    background-color: #f4f5f7;
+  }
+  
+  .login {
+    .auth-form-light {
+      background: #ffffff;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  
+      .brand-logo {
+        .logo-img {
+          width: 250px;
+          max-width: 100%;
+          margin-bottom: 20px;
+        }
+      }
+  
+      h4 {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #213516;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+  
+      h6 {
+        font-size: 1rem;
+        font-weight: 300;
+        color: #555;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+  
+      .form-label {
+        color: #213516;
+        font-weight: 500;
+        font-size: 0.9rem;
+      }
+  
+      .form-input {
+        border-radius: 50px;
+        padding: 12px 20px;
+        font-size: 1rem;
+        border: 1px solid #ddd;
+        transition: border-color 0.3s ease;
+        margin-bottom: 15px; // Reduced margin between fields
+      }
+  
+      .form-input:focus {
+        border-color: #48a4e0;
+        box-shadow: none;
+      }
+  
+      .login-btn {
+        font-size: 1rem;
+        font-weight: 600;
+        background: linear-gradient(45deg, #1d9ceb, #48a4e0);
+        border: none;
+        padding: 12px;
+        border-radius: 50px;
+        transition: background 0.3s ease;
+        margin-top: 10px; // Reduced margin to bring button closer
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); // Added shadow for a professional look
+      }
+  
+      .login-btn:hover {
+        background: linear-gradient(45deg, #1483bf, #3c9ad4);
+      }
+  
+      .text-muted {
+        color: #999 !important;
+      }
+  
+      .form-check-label {
+        font-size: 0.9rem;
+      }
+  
+      .form-control::placeholder {
+        color: #bbb;
+        font-weight: 300;
+      }
+  
+      .form-control:focus::placeholder {
+        color: transparent;
+      }
+  
+      .auth-link {
+        font-size: 0.9rem;
+        text-decoration: none;
+        transition: color 0.3s ease;
+  
+        &:hover {
+          color: #48a4e0;
+        }
+      }
+    }
+  }
+  
