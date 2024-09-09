@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Dropdown, Modal, Form } from 'react-bootstrap';
 import { FaEllipsisV, FaPlus, FaEdit, FaTrashAlt, FaEye } from 'react-icons/fa';
-// import axios from 'axios';
-import './TestsPage_r.scss';
-// import CustomBreadcrumb from '../breadcrumb/CustomBreadcrumb';
+import './TestsPage.scss'
 
 const dummyTestData = [
   {
@@ -38,9 +36,7 @@ export default function TestsPage() {
   const [formData, setFormData] = useState({ date: '', category: '', createdBy: '', questions: [] });
   const [imageFiles, setImageFiles] = useState({});
 
-
   useEffect(() => {
-    // Simulate API call to fetch tests
     setTests(dummyTestData);
   }, []);
 
@@ -80,19 +76,15 @@ export default function TestsPage() {
       return;
     }
     try {
-      // Simulate API call
       setTests([...tests, { ...formData, id: tests.length + 1 }]);
       handleCloseCreateModal();
     } catch (error) {
       console.error('Error creating test:', error);
     }
   };
-  
 
   const handleEditTest = async () => {
     try {
-      // Simulate API call to update a test
-      // await axios.put(`/api/tests/${selectedTest.id}`, formData);
       setTests(tests.map(test => (test.id === selectedTest.id ? { ...test, ...formData } : test)));
       handleCloseEditModal();
     } catch (error) {
@@ -102,8 +94,6 @@ export default function TestsPage() {
 
   const handleDeleteTest = async (id) => {
     try {
-      // Simulate API call to delete a test
-      // await axios.delete(`/api/tests/${id}`);
       setTests(tests.filter(test => test.id !== id));
     } catch (error) {
       console.error('Error deleting test:', error);
@@ -124,6 +114,10 @@ export default function TestsPage() {
       newQuestion.correctAnswer = '';
     } else if (type === 'Blank') {
       newQuestion.answer = '';
+    } else if (type === 'Video') {
+      newQuestion.videoLink = '';
+      newQuestion.options = ['', ''];
+      newQuestion.correctAnswer = '';
     }
     setFormData({
       ...formData,
@@ -150,7 +144,6 @@ export default function TestsPage() {
       alert('Please select a valid image file');
     }
   };
-  
 
   const handleOptionChange = (qIndex, optIndex, e) => {
     const updatedQuestions = formData.questions.map((q, i) =>
@@ -182,11 +175,8 @@ export default function TestsPage() {
         </nav>
       </div>
       <Container fluid >
-        {/* <CustomBreadcrumb /> */}
-        {/* <h3>Test Management</h3> */}
         <div className='add-btn'>
           <Button variant="primary" onClick={handleShowCreateModal} className="test-btn mb-4 float-right"><FaPlus /> Create Test</Button>
-
         </div>
         <Row>
           {tests.map(test => (
@@ -338,16 +328,78 @@ export default function TestsPage() {
                       </Form.Group>
                     </>
                   )}
-
-                  {/* <Form.Group className='mt-2'>
-                                        <Form.Label>Upload Image (if any)</Form.Label>
-                                        <Form.Control
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={(e) => handleImageChange(index, e)}
-                                            className="border-gray-300 rounded-md shadow-sm"
-                                        />
-                                    </Form.Group> */}
+                  {q.type === 'Video' && (
+                    <>
+                      <Form.Control
+                        type="text"
+                        placeholder="Video Link"
+                        name="videoLink"
+                        value={q.videoLink}
+                        onChange={(e) => handleQuestionChange(index, e)}
+                        className="mb-2"
+                      />
+                      {q.options.map((option, optIndex) => (
+                        <Form.Control
+                          key={optIndex}
+                          type="text"
+                          placeholder={`Option ${optIndex + 1}`}
+                          value={option}
+                          onChange={(e) => handleOptionChange(index, optIndex, e)}
+                          className="mb-2"
+                        />
+                      ))}
+                      <Button
+                        variant="outline-secondary"
+                        onClick={() =>
+                          setFormData({
+                            ...formData,
+                            questions: formData.questions.map((quest, i) =>
+                              i === index
+                                ? {
+                                  ...quest,
+                                  options: [...quest.options, ''],
+                                }
+                                : quest
+                            ),
+                          })
+                        }
+                        className="mb-2"
+                      >
+                        Add Option
+                      </Button>
+                      <Button
+                        variant="outline-secondary"
+                        onClick={() => setFormData({
+                          ...formData,
+                          questions: formData.questions.map((q, i) =>
+                            i === index ? { ...q, options: q.options.slice(0, -1) } : q
+                          )
+                        })}
+                      >
+                        Remove Option
+                      </Button>
+                      <Form.Control
+                        as="select"
+                        value={q.correctAnswer}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            questions: formData.questions.map((quest, i) =>
+                              i === index ? { ...quest, correctAnswer: e.target.value } : quest
+                            ),
+                          })
+                        }
+                        className="mb-2"
+                      >
+                        <option value="">Select Correct Answer</option>
+                        {q.options.map((option, optIndex) => (
+                          <option key={optIndex} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </Form.Control>
+                    </>
+                  )}
                   <Button
                     variant="outline-danger"
                     onClick={() =>
@@ -365,16 +417,23 @@ export default function TestsPage() {
               <Button
                 variant="outline-primary"
                 onClick={() => handleAddQuestion('MCQ')}
-                className="mb-2"
+                className="mb-2 mr-2"
               >
                 MCQ
               </Button>
               <Button
                 variant="outline-primary"
                 onClick={() => handleAddQuestion('Blank')}
-                className="mb-2"
+                className="mb-2 mr-2"
               >
                 Blank
+              </Button>
+              <Button
+                variant="outline-primary"
+                onClick={() => handleAddQuestion('Video')}
+                className="mb-2"
+              >
+                Video
               </Button>
             </Form.Group>
           </Form>
@@ -417,14 +476,24 @@ export default function TestsPage() {
                   {q.type === 'Blank' && (
                     <p><strong>Answer:</strong> {q.answer}</p>
                   )}
+                  {q.type === 'Video' && (
+                    <>
+                      <p><strong>Video Link:</strong> {q.videoLink}</p>
+                      <ul>
+                        {q.options.map((option, optIndex) => (
+                          <li key={optIndex}>{option}</li>
+                        ))}
+                        <p><strong>Correct Answer:</strong> {q.correctAnswer}</p>
+                      </ul>
+                    </>
+                  )}
                   {q.image && (
                     <img
-                    src={q.image}
-                    alt={`Preview of question ${index} answer`}
-                    style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                    className="mt-2"
-                  />
-                  
+                      src={q.image}
+                      alt={`Preview of question ${index} answer`}
+                      style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                      className="mt-2"
+                    />
                   )}
                 </div>
               ))}
@@ -555,6 +624,78 @@ export default function TestsPage() {
                       className="mb-2"
                     />
                   )}
+                  {q.type === 'Video' && (
+                    <>
+                      <Form.Control
+                        type="text"
+                        placeholder="Video Link"
+                        name="videoLink"
+                        value={q.videoLink}
+                        onChange={(e) => handleQuestionChange(index, e)}
+                        className="mb-2"
+                      />
+                      {q.options.map((option, optIndex) => (
+                        <Form.Control
+                          key={optIndex}
+                          type="text"
+                          placeholder={`Option ${optIndex + 1}`}
+                          value={option}
+                          onChange={(e) => handleOptionChange(index, optIndex, e)}
+                          className="mb-2"
+                        />
+                      ))}
+                      <Button
+                        variant="outline-secondary"
+                        onClick={() =>
+                          setFormData({
+                            ...formData,
+                            questions: formData.questions.map((quest, i) =>
+                              i === index
+                                ? {
+                                  ...quest,
+                                  options: [...quest.options, ''],
+                                }
+                                : quest
+                            ),
+                          })
+                        }
+                        className="mb-2"
+                      >
+                        Add Option
+                      </Button>
+                      <Button
+                        variant="outline-secondary"
+                        onClick={() => setFormData({
+                          ...formData,
+                          questions: formData.questions.map((q, i) =>
+                            i === index ? { ...q, options: q.options.slice(0, -1) } : q
+                          )
+                        })}
+                      >
+                        Remove Option
+                      </Button>
+                      <Form.Control
+                        as="select"
+                        value={q.correctAnswer}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            questions: formData.questions.map((quest, i) =>
+                              i === index ? { ...quest, correctAnswer: e.target.value } : quest
+                            ),
+                          })
+                        }
+                        className="mb-2"
+                      >
+                        <option value="">Select Correct Answer</option>
+                        {q.options.map((option, optIndex) => (
+                          <option key={optIndex} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </Form.Control>
+                    </>
+                  )}
                   <Form.Group className="mb-3">
                     <Form.Label>Image</Form.Label>
                     <Form.Control
@@ -588,16 +729,23 @@ export default function TestsPage() {
               <Button
                 variant="outline-primary"
                 onClick={() => handleAddQuestion('MCQ')}
-                className="mb-2"
+                className="mb-2 mr-2"
               >
                 Add MCQ Question
               </Button>
               <Button
                 variant="outline-primary"
                 onClick={() => handleAddQuestion('Blank')}
-                className="mb-2"
+                className="mb-2 mr-2"
               >
                 Add Blank Question
+              </Button>
+              <Button
+                variant="outline-primary"
+                onClick={() => handleAddQuestion('Video')}
+                className="mb-2"
+              >
+                Add Video Question
               </Button>
             </Form.Group>
           </Form>

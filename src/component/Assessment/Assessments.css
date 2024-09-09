@@ -1,0 +1,209 @@
+.tests-page {
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+  
+      .page-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+  
+        .page-title-icon {
+          width: 36px;
+          height: 36px;
+          border-radius: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 0.5rem;
+        }
+      }
+  
+      .breadcrumb {
+        background: none;
+        padding: 0;
+        margin: 0;
+  
+        .breadcrumb-item {
+          font-size: 0.875rem;
+        }
+      }
+    }
+  
+    .add-btn {
+      margin-bottom: 1rem;
+  
+      .test-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+    }
+  
+    .card {
+      height: 100%;
+      transition: box-shadow 0.3s ease;
+  
+      &:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+  
+      .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+  
+      .card-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+      }
+  
+      .card-subtitle {
+        font-size: 0.875rem;
+        margin-bottom: 0.5rem;
+      }
+  
+      .card-text {
+        font-size: 0.875rem;
+        margin-bottom: 1rem;
+      }
+  
+      .test-dropdown {
+        align-self: flex-end;
+  
+        .test-dropdown-toggle {
+          background: none;
+          border: none;
+          color: #6c757d;
+          padding: 0;
+  
+          &:focus {
+            box-shadow: none;
+          }
+  
+          &::after {
+            display: none;
+          }
+        }
+  
+        .dropdown-menu {
+          min-width: 120px;
+        }
+  
+        .dropdown-item {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: 0.875rem;
+          padding: 0.5rem 1rem;
+  
+          &:hover {
+            background-color: #f8f9fa;
+          }
+        }
+      }
+    }
+  
+    .modal {
+      .modal-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+      }
+  
+      .form-label {
+        font-weight: 500;
+      }
+  
+      .form-control, .form-select {
+        font-size: 0.875rem;
+      }
+  
+      .btn {
+        font-size: 0.875rem;
+      }
+    }
+  
+    .question-container {
+      border: 1px solid #dee2e6;
+      border-radius: 0.25rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+  
+      .question-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+      }
+  
+      .question-type {
+        font-weight: 500;
+        color: #6c757d;
+      }
+  
+      .question-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+  
+      .options-container {
+        margin-top: 0.5rem;
+      }
+  
+      .option-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+  
+      .remove-option {
+        color: #dc3545;
+        cursor: pointer;
+      }
+    }
+  
+    .add-question-btn {
+      margin-right: 0.5rem;
+    }
+  
+    .preview-image {
+      max-width: 100%;
+      height: auto;
+      margin-top: 0.5rem;
+      border-radius: 0.25rem;
+    }
+  
+    .video-container {
+      margin-top: 0.5rem;
+  
+      iframe {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        border: none;
+        border-radius: 0.25rem;
+      }
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .tests-page {
+      .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+  
+        .breadcrumb {
+          margin-top: 0.5rem;
+        }
+      }
+  
+      .card {
+        margin-bottom: 1rem;
+      }
+    }
+  }

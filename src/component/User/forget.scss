@@ -1,31 +1,110 @@
-.forget-password-container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
+// .forgot-password-container {
+//     padding: 30px;
+//     border-radius: 10px;
+//     background-color: #f8f9fa;
+//     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+//     max-width: 500px;
+//     margin: auto;
 
-.btn-gradient {
-    background: linear-gradient(45deg, #ff6b6b, #f06595);
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    font-size: 16px;
-    transition: background 0.3s ease;
-}
+//     @media (max-width: 576px) {
+//         padding: 20px;
+//     }
 
-.btn-gradient:hover {
-    background: linear-gradient(45deg, #f06595, #ff6b6b);
-}
+//     .card-with-icon {
+//         position: relative;
+//         padding: 20px;
+//         background-color: #fff;
+//         border-radius: 10px;
+//         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+//         overflow: hidden;
 
-.modal-body {
-    background-color: white;
-}
+//         .lock-icon {
+//             position: absolute;
+//             top: -40px;
+//             right: -40px;
+//             font-size: 120px;
+//             color: rgba(151, 78, 235, 0.1);
+//         }
 
-.bi-check-circle-fill {
-    margin-left: 10px;
-    font-size: 1.2rem;
-    vertical-align: middle;
-}
+//         h2 {
+//             position: relative;
+//             z-index: 1;
+//             font-size: 24px;
+//             color: #333;
+//         }
+//     }
+
+//     .btn-gradient {
+//         background-image: linear-gradient(to right, #6a11cb, #2575fc);
+//         color: #fff;
+//         border: none;
+//         border-radius: 30px;
+//         padding: 10px 20px;
+//         font-size: 16px;
+//         font-weight: bold;
+//         transition: all 0.3s ease;
+
+//         &:hover {
+//             background-image: linear-gradient(to right, #2575fc, #6a11cb);
+//             color: #fff;
+//             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+//         }
+//     }
+
+//     .form-control {
+//         border-radius: 30px;
+//         padding: 10px 15px;
+//         font-size: 16px;
+
+//         &:focus {
+//             border-color: #6a11cb;
+//             box-shadow: 0 0 5px rgba(106, 17, 203, 0.5);
+//         }
+//     }
+
+//     .modal-content {
+//         border-radius: 10px;
+
+//         .modal-header {
+//             border-bottom: none;
+//             padding-bottom: 0;
+
+//             .close {
+//                 outline: none;
+//             }
+//         }
+
+//         .modal-body {
+//             padding-top: 0;
+//         }
+
+//         .form-control {
+//             border-radius: 5px;
+
+//             &:focus {
+//                 border-color: #6a11cb;
+//                 box-shadow: 0 0 5px rgba(106, 17, 203, 0.5);
+//             }
+//         }
+
+//         .btn-primary {
+//             background-image: linear-gradient(to right, #6a11cb, #2575fc);
+//             border: none;
+//             border-radius: 5px;
+//             font-size: 14px;
+//             font-weight: bold;
+//             padding: 8px 16px;
+
+//             &:hover {
+//                 background-image: linear-gradient(to right, #2575fc, #6a11cb);
+//                 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+//             }
+//         }
+
+//         .btn-secondary {
+//             border-radius: 5px;
+//             font-size: 14px;
+//             font-weight: bold;
+//         }
+//     }
+// }

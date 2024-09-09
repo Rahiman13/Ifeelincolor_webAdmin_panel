@@ -10,11 +10,10 @@ import bg from '../../assets/lockscreen-bg.jpg';
 import './login.scss';
 import BaseUrl from '../../api';
 
-const Login = () => {
+const OrgAdminLogin = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    role: 'organization', // Default role
   });
 
   const [loading, setLoading] = useState(false); // State for loading spinner
@@ -26,12 +25,10 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { email, password, role } = formData;
+    const { email, password } = formData;
 
-    // Determine the API endpoint based on the selected role
-    const loginUrl = role === 'organization'
-      ? `${BaseUrl}/api/organization/login`
-      : `${BaseUrl}/api/${role}/login`;
+    // API endpoint for OrgAdmin login
+    const loginUrl = `${BaseUrl}/api/orgadmin/login`;
 
     setLoading(true); // Show loading spinner
 
@@ -41,29 +38,12 @@ const Login = () => {
       if (response.data.status === 'success') {
         toast.success('Login successful!');
 
-        // Save token and organization ID based on role
-        // sessionStorage.setItem('token', response.data.body.token);
-        // console.log(response.data.body)
-        // console.log(response.data.body._id)
-
-        if (role === 'organization') {
-          console.log(response.data.body.organization.token)
-          // Save the organization ID directly
-          sessionStorage.setItem('token', response.data.body.organization.token);
-          sessionStorage.setItem('OrganizationId', response.data.body.organization.id);
-        } else if (role === 'orgadmin') {
-          // Save the organization ID of the admin or manager
-          // sessionStorage.setItem('organizationId', response.data.body.Organization);
-          sessionStorage.setItem('token', response.data.body.token);
-          sessionStorage.setItem('OrganizationId', response.data.body.orgAdmin.organization);
-        } else {
-          sessionStorage.setItem('token', response.data.body.token);
-
-          sessionStorage.setItem('OrganizationId', response.data.body.manager.organization)
-        }
+        // Save the OrgAdmin ID and token
+        sessionStorage.setItem('token', response.data.body.token);
+        sessionStorage.setItem('OrganizationId', response.data.body.orgAdmin.organization);
 
         setTimeout(() => {
-          navigate('/dist/dashboard'); // Navigate to the dashboard
+          navigate('/dist/dashboard'); // Navigate to the OrgAdmin dashboard
           setLoading(false); // Hide loading spinner
         }, 3000); // 3 seconds delay
       } else {
@@ -72,7 +52,15 @@ const Login = () => {
       }
     } catch (error) {
       setLoading(false); // Hide loading spinner
-      toast.error('Login failed. Please try again.');
+
+      // Check for specific error responses
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.error(`Error: ${error.response.data.message}`);
+      } else if (error.response && error.response.status === 500) {
+        toast.error('Internal server error. Please try again later.');
+      } else {
+        toast.error('Login failed. Please try again.');
+      }
     }
   };
 
@@ -88,31 +76,18 @@ const Login = () => {
     >
       <div className="container">
         <div className="row justify-content-center">
-          <div className="col-lg-5 col-md-6 col-sm-8">
-            <div className="auth-form-light text-left py-5 px-4 px-sm-5 bg-white rounded shadow">
+          <div className="col-lg-4 col-md-6 col-sm-8">
+            {/* <div className="auth-form-light text-left py-5 px-4 px-sm-5 bg-white rounded shadow"> */}
+            <div className="auth-form-light text-left py-4 px-4 px-sm-5 bg-white rounded-md shadow">
+
               <div className="brand-logo text-center mb-2">
                 <img src={Logo} alt="logo" className="logo-img" />
               </div>
-              <h4 className="text-center mb-2">Hello! Let's get started</h4>
+              <h4 className="text-center mb-2">OrgAdmin Login</h4>
               <h6 className="font-weight-light text-center mb-3">
-                Sign in to continue.
+                Sign in to continue as an OrgAdmin.
               </h6>
               <Form onSubmit={handleSubmit} className="pt-3">
-                <Form.Group className="mb-3" controlId="role">
-                  <Form.Label>Select Role</Form.Label>
-                  <Form.Control
-                    as="select"
-                    name="role"
-                    value={formData.role}
-                    onChange={handleChange}
-                    required
-                    className="form-input"
-                  >
-                    <option value="organization">Organization</option>
-                    <option value="orgadmin">Admin</option>
-                    <option value="manager">Manager</option>
-                  </Form.Control>
-                </Form.Group>
                 <Form.Group className="mb-3" controlId="email">
                   <Form.Label>Email</Form.Label>
                   <Form.Control
@@ -126,7 +101,7 @@ const Login = () => {
                     className="form-input"
                   />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="password">
+                <Form.Group className="mb-2" controlId="password">
                   <Form.Label>Password</Form.Label>
                   <Form.Control
                     type="password"
@@ -139,6 +114,9 @@ const Login = () => {
                     className="form-input"
                   />
                 </Form.Group>
+                <div className="my-2 d-flex justify-content-end align-items-center">
+                  <Link to='/dist/orgadmin-forget' className="auth-link underline">Forgot password?</Link>
+                </div>
                 <div className="mt-3 d-flex justify-content-center">
                   <Button
                     type="submit"
@@ -152,13 +130,7 @@ const Login = () => {
                     )}
                   </Button>
                 </div>
-                <div className="my-3 d-flex justify-content-end align-items-center">
-                  <Link to='/dist/forget' className="auth-link underline">Forgot password?</Link>
-                </div>
-                {/* <div className="text-center mt-4 font-weight-light">
-                  Don't have an account?{' '}
-                  <Link to="/dist/" className="text-primary">Create</Link>
-                </div> */}
+                
               </Form>
               <ToastContainer />
             </div>
@@ -169,4 +141,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default OrgAdminLogin;

@@ -18,13 +18,11 @@ import {
 
 } from "@mui/material";
 import './Dashboard.css';
-import { Card } from 'react-bootstrap';
 
 class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // Existing data
             visitSaleData: {
                 options: {
                     chart: {
@@ -58,7 +56,8 @@ class Dashboard extends Component {
                 series: [{
                     name: 'Subscriptions',
                     data: [20, 40, 15, 35, 25, 50, 30, 20]
-                }]
+                }
+                ]
             },
             clinicianStatusData: {
                 options: {
@@ -68,8 +67,10 @@ class Dashboard extends Component {
                         toolbar: {
                             show: true,  // Enable the toolbar with download options
                         },
+                        // width: 1850,
                     },
                     labels: ['Active', 'Inactive'],
+                    // colors: ["#4EE6C9", "#DC526C", "#87EF9D"],
                     colors: ["#4EE6C9", "#DC526C"],
                     dataLabels: {
                         enabled: true,
@@ -95,7 +96,7 @@ class Dashboard extends Component {
                             shade: 'dark',
                             type: "vertical",
                             shadeIntensity: 1,
-                            gradientToColors: ['#36A2EB', '#FF6384'],
+                            gradientToColors: ['#36A2EB', '#FF6384', '#FEEA56'],
                             opacityFrom: 0.7,
                             opacityTo: 0.9,
                         }
@@ -108,13 +109,17 @@ class Dashboard extends Component {
                     },
                 },
                 series: [
-                    // {
-                    //     name: 'Portal Subscriptions',
-                    //     data: [30, 50, 25, 45, 35, 60, 40, 30],
-                    // },
+                    {
+                        name: 'Portal Subscriptions',
+                        data: [30, 50, 25, 45, 35, 60, 40, 30],
+                    },
                     {
                         name: 'Clinician Subscriptions',
                         data: [20, 40, 15, 35, 25, 50, 30, 20],
+                    },
+                    {
+                        name: 'Organization Subscriptions',
+                        data: [10, 30, 5, 25, 15, 40, 20, 10],
                     }
                 ],
             },
@@ -144,13 +149,17 @@ class Dashboard extends Component {
                     },
                 },
                 series: [
-                    // {
-                    //     name: 'Portal Subscriptions Budget',
-                    //     data: [6000, 10000, 5000, 9000, 7000, 12000, 8000, 6000],
-                    // },
+                    {
+                        name: 'Portal Subscriptions Budget',
+                        data: [6000, 10000, 5000, 9000, 7000, 12000, 8000, 6000],
+                    },
                     {
                         name: 'Clinician Subscriptions Budget',
                         data: [6000, 12000, 4500, 10500, 7500, 15000, 9000, 6000],
+                    },
+                    {
+                        name: 'Organization Subscriptions Budget',
+                        data: [7000, 16000, 5000, 10000, 5500, 5000, 2000, 4000],
                     }
                 ],
                 patientDetails: [
@@ -161,69 +170,13 @@ class Dashboard extends Component {
                     { id: 5, name: 'Sersi', issue: 'Paranoia', subscriptionType: 'Portal', startDate: '2023-06-20', endDate: '2024-06-20', assignedDoctor: 'Dr. Taylor', status: 'Critical' },
                 ],
             },
-            // Dummy data for admins and managers
-            admins: [
-                {
-                    organization: "Tech Innovators",
-                    name: "John Doe",
-                    email: "john.doe@techinnovators.com",
-                    avatar: "https://randomuser.me/api/portraits/men/1.jpg" // Sample avatar URL
-                },
-                {
-                    organization: "Creative Solutions",
-                    name: "Jane Smith",
-                    email: "jane.smith@creativesolutions.com",
-                    avatar: "https://randomuser.me/api/portraits/women/2.jpg"
-                },
-                {
-                    organization: "Health Corp",
-                    name: "Robert Johnson",
-                    email: "robert.johnson@healthcorp.com",
-                    avatar: "https://randomuser.me/api/portraits/men/3.jpg"
-                },
-                {
-                    organization: "Health Corp",
-                    name: " Johnson",
-                    email: "johnson@healthcorp.com",
-                    avatar: "https://randomuser.me/api/portraits/men/4.jpg"
-                }
-            ],
-            managers: [
-                {
-                    organization: "Tech Innovators",
-                    name: "Alice Brown",
-                    email: "alice.brown@techinnovators.com",
-                    avatar: "https://randomuser.me/api/portraits/women/5.jpg"
-                },
-                {
-                    organization: "Creative Solutions",
-                    name: "Charlie Green",
-                    email: "charlie.green@creativesolutions.com",
-                    avatar: "https://randomuser.me/api/portraits/men/6.jpg"
-                },
-                {
-                    organization: "Health Corp",
-                    name: "Emily White",
-                    email: "emily.white@healthcorp.com",
-                    avatar: "https://randomuser.me/api/portraits/women/7.jpg"
-                },
-                {
-                    organization: "Health Corp",
-                    name: "Robert Johnson",
-                    email: "robert.johnson@healthcorp.com",
-                    avatar: "https://randomuser.me/api/portraits/men/8.jpg"
-                }
-            ]
-
         };
-        // Refs for charts and table
         this.clinicianStatusChartRef = React.createRef();
         this.subscriptionTrendsChartRef = React.createRef();
         this.subscriptionComparisonChartRef = React.createRef();
         this.budgetAnalysisChartRef = React.createRef();
         this.patientStatusTableRef = React.createRef();
     }
-
     // statusMappings = {
     //   'Healthy': { percentage: 100, color: '#4CAF50' }, // Green
     //   'At Risk': { percentage: 50, color: '#FF9800' }, // Orange
@@ -379,7 +332,7 @@ class Dashboard extends Component {
                 </div>
 
                 <div className="row">
-                    {/* <div className="col-lg-6 grid-margin stretch-card">
+                    <div className="col-lg-6 grid-margin stretch-card">
                         <div className="card">
                             <div className="card-body">
                                 <div className='card-head'>
@@ -403,8 +356,8 @@ class Dashboard extends Component {
                                 </div>
                             </div>
                         </div>
-                    </div> */}
-                    <div className="col-lg-12 grid-margin stretch-card">
+                    </div>
+                    <div className="col-lg-6 grid-margin stretch-card">
                         <div className="card">
                             <div className="card-body">
                                 <div className='card-head'>
@@ -422,7 +375,7 @@ class Dashboard extends Component {
                                         series={this.state.budgetAnalysisData.series}
                                         type="bar"
                                         height={350}
-                                        width={1160}
+                                        width={550}
 
                                     />
                                 </div>
@@ -431,7 +384,7 @@ class Dashboard extends Component {
                     </div>
                 </div>
 
-                {/* <div className="row">
+                <div className="row">
                     <div className="col-12 grid-margin stretch-card">
                         <div className="card">
                             <div className="card-body">
@@ -469,104 +422,7 @@ class Dashboard extends Component {
                             </div>
                         </div>
                     </div>
-                </div> */}
-
-
-                <div className="row">
-                    {/* Admins Card */}
-                    <div className="col-md-6">
-                        <Card style={{
-                            borderRadius: '12px',
-                            boxShadow: '0 8px 15px rgba(0, 0, 0, 0.1)',
-                            overflow: 'hidden',
-                        }}>
-                            <Card.Header style={{
-                                fontSize: '1.5rem',
-                                fontWeight: 'bold',
-                                padding: '15px',
-                                textAlign: 'center',
-                                letterSpacing: '0.5px',
-                            }}>
-                                Admins
-                            </Card.Header>
-                            <Card.Body style={{
-                                padding: '10px',
-                            }}>
-                                <Table striped hover className="text-center" style={{ width: '100%', marginTop: '0px', borderCollapse: 'collapse' }}>
-                                    <thead>
-                                        <tr>
-                                            <th style={{ fontWeight: 'bold', padding: '12px', borderBottom: '2px solid #dee2e6' }}>Avatar</th>
-                                            <th style={{ fontWeight: 'bold', padding: '12px', borderBottom: '2px solid #dee2e6' }}>Name</th>
-                                            {/* <th style={{ fontWeight: 'bold', padding: '12px', borderBottom: '2px solid #dee2e6' }}>Organization</th> */}
-                                            <th style={{ fontWeight: 'bold', padding: '12px', borderBottom: '2px solid #dee2e6' }}>Email</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {this.state.admins.map((admin) => (
-                                            <tr key={admin.id}>
-                                                <td style={{ padding: '12px', borderBottom: '1px solid #dee2e6' }}>
-                                                    <img src={admin.avatar} alt={admin.name} style={{ width: '40px', height: '40px', borderRadius: '50%' }} />
-                                                </td>
-                                                <td style={{ padding: '12px', borderBottom: '1px solid #dee2e6' }}>{admin.name}</td>
-                                                {/* <td style={{ padding: '12px', borderBottom: '1px solid #dee2e6' }}>{admin.organization}</td> */}
-                                                <td style={{ padding: '12px', borderBottom: '1px solid #dee2e6' }}>{admin.email}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </Table>
-                            </Card.Body>
-                        </Card>
-                    </div>
-
-                    {/* Managers Card */}
-                    <div className="col-md-6">
-                        <Card style={{
-                            borderRadius: '12px',
-                            boxShadow: '0 8px 15px rgba(0, 0, 0, 0.1)',
-                            overflow: 'hidden',
-                        }}>
-                            <Card.Header style={{
-                                fontSize: '1.5rem',
-                                fontWeight: 'bold',
-                                padding: '15px',
-                                textAlign: 'center',
-                                letterSpacing: '0.5px',
-                            }}>
-                                Managers
-                            </Card.Header>
-                            <Card.Body style={{
-                                padding: '10px',
-                            }}>
-                                <Table striped hover className="text-center" style={{ width: '100%', marginTop: '0px', borderCollapse: 'collapse' }}>
-                                    <thead>
-                                        <tr>
-                                            <th style={{ fontWeight: 'bold', padding: '12px', borderBottom: '2px solid #dee2e6' }}>Avatar</th>
-                                            <th style={{ fontWeight: 'bold', padding: '12px', borderBottom: '2px solid #dee2e6' }}>Name</th>
-                                            {/* <th style={{ fontWeight: 'bold', padding: '12px', borderBottom: '2px solid #dee2e6' }}>Organization</th> */}
-                                            <th style={{ fontWeight: 'bold', padding: '12px', borderBottom: '2px solid #dee2e6' }}>Email</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {this.state.managers.map((manager) => (
-                                            <tr key={manager.id}>
-                                                <td style={{ padding: '12px', borderBottom: '1px solid #dee2e6' }}>
-                                                    <img src={manager.avatar} alt={manager.name} style={{ width: '40px', height: '40px', borderRadius: '50%' }} />
-                                                </td>
-                                                <td style={{ padding: '12px', borderBottom: '1px solid #dee2e6' }}>{manager.name}</td>
-                                                {/* <td style={{ padding: '12px', borderBottom: '1px solid #dee2e6' }}>{manager.organization}</td> */}
-                                                <td style={{ padding: '12px', borderBottom: '1px solid #dee2e6' }}>{manager.email}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </Table>
-                            </Card.Body>
-                        </Card>
-                    </div>
                 </div>
-
-
-
-
             </div>
         );
     }

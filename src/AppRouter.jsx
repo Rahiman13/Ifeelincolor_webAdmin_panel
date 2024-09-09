@@ -19,14 +19,30 @@ import Settings from './component/Settings/Settings';
 import ProfilePage from './component/Profile/Profile';
 import ProtectedRoute from './component/Protected/ProtectedRoute'
 import ForgetPassword from './component/User/ForgetPassword';
-
+import LandingPage from './component/Landing/LandingPage';
+import Organization_login from './component/User/Organization_login'
+import ForgotPasswordOrganization from './component/User/ForgetPassword_organization';
+import LoginManager from './component/User/LoginManager';
+import ForgotPasswordManager from './component/User/ForgetPassword_manager';
+import LoginOrgAdmin from './component/User/OrgAdminLogin';
+import ForgotPasswordOrgAdmin from './component/User/ForgetPassword_orgadmin';
+import OrganizationRegister from './component/User/OrganizationRegister'
+import Dashboard_superadmin from './component/Dashboard/dashboard_superadmin';
 
 const AppRouter = () => {
   return (
     <div>
       <Suspense fallback={<Spinner />}>
         <Routes>
-          <Route path="/dist/" element={<Login />} />
+          <Route path="/dist/" element={<LandingPage />} />
+          <Route path="/dist/organization-login" element={<Organization_login />} />
+          <Route path="/dist/organization-register" element={<OrganizationRegister />} />
+          <Route path="/dist/organization-forget" element={<ForgotPasswordOrganization />} />
+          <Route path="/dist/manager-login" element={<LoginManager />} />
+          <Route path="/dist/manager-forget" element={<ForgotPasswordManager />} />
+          <Route path="/dist/orgadmin-login" element={<LoginOrgAdmin />} />
+          <Route path="/dist/orgadmin-forget" element={<ForgotPasswordOrgAdmin />} />
+          <Route path="/dist/login" element={<Login />} />
           <Route path="/dist/register" element={<Register />} />
           <Route path="/dist/admin" element={<LoginAdmin />} />
           <Route path="/dist/forget" element={<ForgetPassword />} />
@@ -36,6 +52,9 @@ const AppRouter = () => {
 
           <Route path="/dist/dashboard" element={<ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>} />
+          <Route path="/dist/dashboard/superadmin" element={<ProtectedRoute>
+            <Dashboard_superadmin />
           </ProtectedRoute>} />
           <Route path="/dist/patient-management/view" element={<ProtectedRoute>
             <PatientPage />

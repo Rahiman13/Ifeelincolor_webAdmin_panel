@@ -13,7 +13,7 @@ const dummyUsers = [
   {
     id: 1,
     name: 'Admin',
-    email: 'manager1@example.com',
+    email: 'admin@example.com',
     organization: 'Org 1',
     subscriptionType: 'Portal',
     startDate: '2023-01-01',
@@ -34,7 +34,7 @@ const dummyUsers = [
   {
     id: 2,
     name: 'Manager',
-    email: 'manager2@example.com',
+    email: 'manager@example.com',
     organization: 'Org 1',
     subscriptionType: 'Portal',
     startDate: '2023-01-01',

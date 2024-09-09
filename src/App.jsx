@@ -20,6 +20,14 @@ const App = () => {
 
       const fullPageLayoutRoutes = [
         '/dist/',
+        '/dist/organization-login',
+        '/dist/organization-register',
+        '/dist/organization-forget',
+        '/dist/manager-login',
+        '/dist/manager-forget',
+        '/dist/orgadmin-login',
+        '/dist/orgadmin-forget',
+        '/dist/login',
         '/dist/admin',
         // '/dist/',
         // '/dist/register',

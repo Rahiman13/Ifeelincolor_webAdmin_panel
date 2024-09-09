@@ -56,8 +56,8 @@ const initialUsers = [
     id: 3,
     name: "Romeo D custa",
     age: 40,
-    status: "Pending",
-    statusColor: "orange",
+    status: "Active",
+    statusColor: "green",
     subscriptionType: "Clinician",
     clinician: "Dr. Brown",
     avatarSrc: "/placeholder-user.jpg",
@@ -79,8 +79,8 @@ const initialUsers = [
     id: 5,
     name: "David John",
     age: 29,
-    status: "Active",
-    statusColor: "green",
+    status: "Inactive",
+    statusColor: "red",
     subscriptionType: "Clinician",
     clinician: "Dr. Lee",
     avatarSrc: "/placeholder-user.jpg",
@@ -329,7 +329,7 @@ export default function Component() {
                   series={barChartData.series}
                   type="bar"
                   height={350}
-                  width={600}
+                  width={650}
                 />
               </CardContent>
             </Card>
@@ -354,16 +354,16 @@ export default function Component() {
             <Card>
               <CardHeader
                 title="Patient Management Table"
-                action={
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    startIcon={<AddIcon />}
-                    onClick={handleAddUser}
-                  >
-                    Add Patient
-                  </Button>
-                }
+                // action={
+                //   <Button
+                //     variant="contained"
+                //     color="primary"
+                //     startIcon={<AddIcon />}
+                //     onClick={handleAddUser}
+                //   >
+                //     Add Patient
+                //   </Button>
+                // }
               />
               <CardContent>
                 <TableContainer>

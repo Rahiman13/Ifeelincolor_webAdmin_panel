@@ -1,0 +1,92 @@
+.landing-page {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    padding: 20px;
+  }
+  
+  .fancy-card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+    height: auto; // Adjust height to fit content
+    min-height: 50px; // Minimum height to maintain card integrity
+    position: relative; // For positioning icons
+  }
+  
+  .card-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .card-text {
+    margin-bottom: 20px;
+    color: #555;
+  }
+  
+  .icon-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    opacity: 0.1;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+  }
+  
+  .card-icon {
+    font-size: 3rem;
+  }
+  
+  .btn-gradient {
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .organization-btn {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    border: none;
+  
+    &:hover {
+      background: linear-gradient(45deg, #0056b3, #003d7a);
+      transform: scale(1.05);
+    }
+  }
+  
+  .admin-btn {
+    background: linear-gradient(45deg, #28a745, #1e7e34);
+    border: none;
+  
+    &:hover {
+      background: linear-gradient(45deg, #1e7e34, #155d27);
+      transform: scale(1.05);
+    }
+  }
+  
+  .manager-btn {
+    background: linear-gradient(45deg, #ffc107, #e0a800);
+    border: none;
+  
+    &:hover {
+      background: linear-gradient(45deg, #e0a800, #d39e00);
+      transform: scale(1.05);
+    }
+  }
+  
