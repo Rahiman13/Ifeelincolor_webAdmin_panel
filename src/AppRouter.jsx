@@ -53,9 +53,9 @@ const AppRouter = () => {
           <Route path="/dist/dashboard" element={<ProtectedRoute>
             <Dashboard />
           </ProtectedRoute>} />
-          <Route path="/dist/dashboard/superadmin" element={<ProtectedRoute>
+          {/* <Route path="/dist/dashboard/superadmin" element={<ProtectedRoute>
             <Dashboard_superadmin />
-          </ProtectedRoute>} />
+          </ProtectedRoute>} /> */}
           <Route path="/dist/patient-management/view" element={<ProtectedRoute>
             <PatientPage />
           </ProtectedRoute>} />
