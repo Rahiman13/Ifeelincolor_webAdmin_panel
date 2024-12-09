@@ -3,7 +3,10 @@
   background: $sidebar-light-bg;
   padding: 0;
   width: $sidebar-width-lg;
-  z-index: 11;
+  z-index: 50;
+  left: 0; // Open from the left
+  top: 0;
+  transition: all 0.25s ease-out;
   transition: width $action-transition-duration $action-transition-timing-function, background $action-transition-duration $action-transition-timing-function;
   -webkit-transition: width $action-transition-duration $action-transition-timing-function, background $action-transition-duration $action-transition-timing-function;
   -moz-transition: width $action-transition-duration $action-transition-timing-function, background $action-transition-duration $action-transition-timing-function;
@@ -120,7 +123,9 @@
       }
 
       &:hover{
-        background: $sidebar-light-menu-hover-bg;
+        // background: $sidebar-light-menu-hover-bg;
+        background: rgba(255, 255, 255, 0.1);
+        color: #26d0ce !important;
       }
       &.nav-profile {
         .nav-link {
@@ -170,14 +175,88 @@
           }
         }
       }
+
+      // Updated hover-open styles for collapsed state
+      &.hover-open {
+        position: relative;
+
+        .nav-link {
+          background: transparent;
+          padding: $sidebar-menu-padding-y $sidebar-menu-padding-x;
+          width: 100%;
+          
+          .menu-title {
+            display: inline-block;
+          }
+        }
+
+        .collapse {
+          display: block;
+          position: absolute;
+          left: 100%;
+          top: 0;
+          min-width: $sidebar-width-lg;
+          background: $sidebar-light-bg;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          z-index: 999;
+          padding: 0.5rem 0;
+          border-radius: 0 4px 4px 0;
+
+          .nav-item {
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            
+            .nav-link {
+              @include display-flex;
+              @include align-items(center);
+              padding: 0.75rem $sidebar-menu-padding-x;
+              color: $sidebar-light-menu-color;
+              width: 100%;
+              
+              &:hover {
+                color: #26d0ce !important;
+                // color: #000 !important;
+                transform: translateX(5px);
+                font-weight: 600;
+                background: rgba(255, 255, 255, 0.1);
+              }
+
+              i {
+                font-size: $sidebar-icon-font-size;
+                line-height: 1;
+                margin-right: 0.75rem;
+                margin-left: 0;
+                color: $sidebar-light-menu-icon-color;
+              }
+
+              .menu-title {
+                font-size: $sidebar-menu-font-size;
+                line-height: 1;
+                white-space: nowrap;
+              }
+            }
+
+            &:not(:last-child) {
+              border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+          }
+        }
+      }
     }
 
+    // Nav Item Hover
     &:not(.sub-menu) {
       > .nav-item {
         &:hover {
           &:not(.nav-category):not(.nav-profile) {
             > .nav-link {
-              color: $sidebar-light-menu-hover-color;
+              color: #26d0ce !important;
+
+
+              
+              transform: translateY(-2px);
+              font-weight: 600;
             }
           }
         }
@@ -191,40 +270,24 @@
       .nav-item {
         padding: 0;
         .nav-link {
-          color: $sidebar-light-submenu-color;
-          padding: $sidebar-submenu-item-padding;
-          position: relative;
-          font-size: $sidebar-submenu-font-size;
-          line-height: 1;
-          height: auto;
-          border-top: 0;
-          &:before {
-            content: "\F054";
-            font-family: "Material Design Icons";
-            display: block;
-            position: absolute;
-            left:0px;
-            .rtl & {
-              left: auto;
-              right: 0;
-              content: "\F04D";
-            }
-            top:50%;
-            @include transform(translateY(-50%));
-            color: lighten($sidebar-light-submenu-color, 10%);
-            font-size: .75rem;
-          }
-          &.active {
-            color: $sidebar-light-menu-active-color;
-            background: transparent;
-          }
+          @include display-flex;
+          @include align-items(center);
+          padding: $sidebar-menu-padding-y 0;
+          
           &:hover {
-            color: $sidebar-light-submenu-hover-color;
+            color: #26d0ce !important;
+            transform: translateY(-2px);
+            font-weight: 600;
           }
         }
         &:hover {
           background: transparent;
         }
+      }
+
+      // Ensure sub-menu is hidden by default in collapsed mode
+      .sidebar-icon-only & {
+        display: none;
       }
     }
   }
@@ -239,305 +302,193 @@
     top: $navbar-height;
     bottom: 0;
     overflow: auto;
-    right: -$sidebar-width-lg;
+    left: -$sidebar-width-lg;
     -webkit-transition: all 0.25s ease-out;
     -o-transition: all 0.25s ease-out;
     transition: all 0.25s ease-out;
     &.active {
-      right: 0;
+      left: 0;
     }
   }
 }
 
+// Add styles for collapsed state
+.sidebar-icon-only {
+  .sidebar {
+    width: 70px;  // Reduced width when collapsed
+    
+    .nav {
+      .nav-item {
+        padding: 0;
+        
+        .nav-link {
+          padding: 15px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          
+          i {
+            margin: 0;
+            
+            &.menu-icon {
+              margin: 0;
+              font-size: 1.25rem;
+            }
+            
+            &.menu-arrow {
+              display: none;
+            }
+          }
+          
+          .menu-title {
+            display: none; // Hide text in collapsed state
+          }
+          
+          .badge {
+            display: none;
+          }
+        }
+        
+        &.nav-profile {
+          .nav-link {
+            justify-content: center;
+            padding: 1rem 0;
+            
+            .nav-profile-image {
+              width: 40px;
+              height: 40px;
+            }
+            
+            .nav-profile-text {
+              display: none;
+            }
+            
+            .nav-profile-badge {
+              display: none;
+            }
+          }
+        }
+        
+        // Hover styles for collapsed menu items
+        &.hover-open {
+          position: relative;
+          
+          .nav-link {
+            background: transparent;
+          }
+          
+          .collapse {
+            display: block;
+            position: absolute;
+            left: 70px; // Align with collapsed sidebar width
+            top: 0;
+            min-width: 200px;
+            background: $sidebar-light-bg;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-radius: 0 4px 4px 0;
+            padding: 0.5rem 0;
+            
+            .nav-item {
+              padding: 0;
+              
+              .nav-link {
+                padding: 0.75rem 1.5rem;
+                justify-content: flex-start;
+                
+                i {
+                  margin-right: 0.75rem;
+                }
+                
+                .menu-title {
+                  display: block;
+                }
+              }
+              
+              &:hover {
+                background: rgba(255, 255, 255, 0.1);
+                
+                .nav-link {
+                  color: #26d0ce;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
 
+// Media query for responsive behavior
+@media screen and (max-width: 991px) {
+  .sidebar-icon-only {
+    .sidebar {
+      width: $sidebar-width-lg;
+      
+      .nav {
+        .nav-item {
+          .nav-link {
+            .menu-title {
+              display: inline-block;
+            }
+          }
+        }
+      }
+    }
+  }
+}
 
+// Update the hover-open styles for collapsed state
+.sidebar-icon-only {
+  .sidebar {
+    .nav {
+      .nav-item {
+        &.hover-open {
+          .collapse {
+            background: linear-gradient(135deg, #1a1c1e 0%, #2c3e50 100%);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 0 12px 12px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.5rem;
+            
+            .nav-item {
+              margin: 5px 0;
+              border-radius: 8px;
+              
+              .nav-link {
+                padding: 10px 15px;
+                border-radius: 8px;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                
+                i {
+                  color: rgba(255, 255, 255, 0.85);
+                }
+                
+                .menu-title {
+                  color: rgba(255, 255, 255, 0.85);
+                }
+                
+                &:hover {
+                  background: rgba(255, 255, 255, 0.1);
+                  color: #26d0ce;
+                  transform: translateX(5px);
+                  
+                  i, .menu-title {
+                    color: #26d0ce;
+                  }
+                }
+              }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// .sidebar {
-//   min-height: calc(100vh - #{$navbar-height});
-//   background: linear-gradient(135deg, #3a6186, #89253e, #f79d00, #64f38c); // Extended gradient with more colors
-//   padding: 0;
-//   width: $sidebar-width-lg;
-//   z-index: 11;
-//   transition: width $action-transition-duration $action-transition-timing-function, background $action-transition-duration $action-transition-timing-function;
-//   -webkit-transition: width $action-transition-duration $action-transition-timing-function, background $action-transition-duration $action-transition-timing-function;
-//   -moz-transition: width $action-transition-duration $action-transition-timing-function, background $action-transition-duration $action-transition-timing-function;
-//   -ms-transition: width $action-transition-duration $action-transition-timing-function, background $action-transition-duration $action-transition-timing-function;
-
-//   .nav {
-//     overflow: hidden;
-//     flex-wrap: nowrap;
-//     flex-direction: column;
-//     &:not(.sub-menu) {
-//       padding-bottom: 60px;
-//     }
-
-//     .nav-item {
-//       padding: 0 $sidebar-menu-padding-x;
-//       @include transition-duration(0.25s);
-//       transition-property: background;
-//       -webkit-transition-property: background;
-
-//       .nav-link {
-//         @include display-flex;
-//         @include align-items(center);
-//         white-space: nowrap;
-//         padding: $sidebar-menu-padding-y 0 $sidebar-menu-padding-y 0;
-//         color: #ffffff; // Set text color to white for better visibility
-//         @include transition-duration(0.45s);
-//         transition-property: color;
-//         -webkit-transition-property: color;
-//         cursor: pointer;
-
-//         i {
-//           color: #ffffff; // Set icon color to white for better visibility
-
-//           &.menu-icon {
-//             font-size: $sidebar-icon-font-size;
-//             line-height: 1;
-//             margin-left: auto;
-//             .rtl & {
-//               margin-left: 0;
-//               margin-right: auto;
-//             }
-//             color: #f5f5f5; // Slightly lighter icon color
-//             &:before {
-//               vertical-align: middle;
-//             }
-//           }
-
-//           &.menu-arrow {
-//             font: normal normal normal 24px/1 "Material Design Icons";
-//             line-height: 1;
-//             font-size: $sidebar-icon-font-size;
-//             margin-left: auto;
-//             transition: transform 0.2s ease-in-out;
-//             .rtl & {
-//               margin-left: 0;
-//               margin-right: auto;
-//             }
-//             color: #f5f5f5;
-//             &:before {
-//               content: "\f141";
-//               font-size: inherit;
-//               color: inherit;
-//               .rtl & {
-//                 content: "\f142";
-//               }
-//             }
-//             + .menu-icon {
-//               margin-left: 0.25rem;
-//               margin-bottom: 0.25rem;
-//               .rtl & {
-//                 margin-left: 0;
-//                 margin-right: 0.25rem;
-//               }
-//             }
-//           }
-//         }
-
-//         .menu-title {
-//           color: inherit;
-//           display: inline-block;
-//           font-size: $sidebar-menu-font-size;
-//           line-height: 1;
-//           vertical-align: middle;
-//         }
-
-//         .badge {
-//           margin-right: auto;
-//           margin-left: 1rem;
-//         }
-
-//         &.menu-expanded {
-//           .menu-arrow {
-//             transform: rotate(-90deg);
-//           }
-//         }
-//       }
-
-//       &.active {
-//         .nav-link {
-//           .menu-title {
-//             color: #ffffff; // Ensure active menu title is visible
-//             font-weight: $font-weight-medium;
-//           }
-//           i {
-//             color: #ffffff; // Ensure active icon is visible
-//           }
-//         }
-//       }
-
-//       &:hover {
-//         background: rgba(255, 255, 255, 0.1); // Add a subtle hover effect
-//       }
-//       &.nav-profile {
-//         .nav-link {
-//           height: auto;
-//           line-height: 1;
-//           border-top: 0;
-//           padding: 1.25rem 0;
-//           .nav-profile-image {
-//             width: 44px;
-//             height: 44px;
-//             img {
-//               width: 44px;
-//               height: 44px;
-//               border-radius: 100%;
-//             }
-//           }
-//           .nav-profile-text {
-//             display: flex;
-//             flex-direction: column;
-//             margin-left: 1rem;
-//             .rtl & {
-//               margin-left: auto;
-//               margin-right: 1rem;
-//             }
-//           }
-//           .nav-profile-badge {
-//             font-size: 1.125rem;
-//             margin-left: auto;
-//             .rtl & {
-//               margin-left: 0;
-//               margin-right: auto;
-//             }
-//           }
-//         }
-//       }
-//       &.sidebar-actions {
-//         margin-top: 1rem;
-//         .nav-link {
-//           border-top: 0;
-//           display: block;
-//           height: auto;
-//         }
-//         &:hover {
-//           background: initial;
-//           .nav-link {
-//             color: initial;
-//           }
-//         }
-//       }
-//     }
-
-//     &:not(.sub-menu) {
-//       > .nav-item {
-//         &:hover {
-//           &:not(.nav-category):not(.nav-profile) {
-//             > .nav-link {
-//               color: #f5f5f5; // Adjust hover color
-//             }
-//           }
-//         }
-//       }
-//     }
-//     &.sub-menu {
-//       margin-bottom: 20px;
-//       margin-top: 0;
-//       list-style: none;
-
-//       .nav-item {
-//         padding: 0;
-//         .nav-link {
-//           color: #ffffff; // Submenu text color
-//           padding: $sidebar-submenu-item-padding;
-//           position: relative;
-//           font-size: $sidebar-submenu-font-size;
-//           line-height: 1;
-//           height: auto;
-//           border-top: 0;
-//           &:before {
-//             content: "\F054";
-//             font-family: "Material Design Icons";
-//             display: block;
-//             position: absolute;
-//             left: 0px;
-//             .rtl & {
-//               left: auto;
-//               right: 0;
-//               content: "\F04D";
-//             }
-//             top: 50%;
-//             @include transform(translateY(-50%));
-//             color: lighten(#ffffff, 10%); // Adjust submenu icon color
-//             font-size: 0.75rem;
-//           }
-//           &.active {
-//             color: #ffffff; // Ensure active submenu item is visible
-//             background: transparent;
-//           }
-//           &:hover {
-//             color: #f5f5f5; // Adjust submenu hover color
-//           }
-//         }
-//         &:hover {
-//           background: transparent;
-//         }
-//       }
-//     }
-//   }
-// }
-
-// /* style for off-canvas menu */
-// @media screen and (max-width: 991px) {
-//   .sidebar-offcanvas {
-//     position: fixed;
-//     max-height: calc(100vh - #{$navbar-height});
-//     top: $navbar-height;
-//     bottom: 0;
-//     overflow: auto;
-//     right: -$sidebar-width-lg;
-//     -webkit-transition: all 0.25s ease-out;
-//     -o-transition: all 0.25s ease-out;
-//     transition: all 0.25s ease-out;
-//     &.active {
-//       right: 0;
-//     }
-//   }
-// }
+              &:not(:last-child) {
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

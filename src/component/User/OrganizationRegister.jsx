@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Form, Button, Spinner } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Logo from '../../assets/logo.svg'; // Replace with your logo
-import bg from '../../assets/lockscreen-bg.jpg'; // Replace with your background image
-import { useNavigate } from 'react-router-dom'; // Assuming you're using React Router for navigation
+import Logo from '../../assets/logo.svg';
+import bg from '../../assets/bg-3.png';
 import BaseUrl from '../../api';
 
 const OrganizationRegister = () => {
@@ -52,7 +52,7 @@ const OrganizationRegister = () => {
         setFormData({ name: '', email: '', password: '', confirmPassword: '' });
         // Navigate to login page after a short delay to allow the toast to be seen
         setTimeout(() => {
-          navigate('/dist/organization-login');
+          navigate('/organization-login');
         }, 2000); // Adjust delay as needed
       } else {
         toast.error('Registration failed. Please try again.')
@@ -73,109 +73,136 @@ const OrganizationRegister = () => {
   };
 
   return (
-    <div
-      className="login d-flex align-items-center justify-content-center"
-      style={{
-        backgroundImage: `url(${bg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        minHeight: '100vh',
-        padding: '20px',
-      }}
-    >
-      <div className="container-fluid">
-        <div className="row justify-content-center">
-          <div className="col-xl-4 col-lg-5 col-md-7 col-sm-10">
-            <div className="auth-form-light text-left py-4 px-4 px-sm-5 bg-white rounded-md shadow">
-              <div className="brand-logo text-center mb-2">
-                <img src={Logo} alt="logo" className="logo-img" />
-              </div>
-              <h4 className="text-center mb-2">Register Your Organization</h4>
-              <h6 className="font-weight-light text-center mb-3">
-                Please fill in the details below.
-              </h6>
-              <Form onSubmit={handleSubmit} className="pt-3">
-                <Form.Group className="mb-3" controlId="name">
-                  <Form.Label>Organization Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter organization name"
-                    size="lg"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="form-input"
-                  />
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="email">
-                  <Form.Label>Email Address</Form.Label>
-                  <Form.Control
-                    type="email"
-                    placeholder="Enter email"
-                    size="lg"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="form-input"
-                  />
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="password">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Enter password"
-                    size="lg"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                    className="form-input"
-                  />
-                </Form.Group>
-
-                <Form.Group className="mb-4" controlId="confirmPassword">
-                  <Form.Label>Confirm Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Confirm password"
-                    size="lg"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    required
-                    className="form-input"
-                  />
-                </Form.Group>
-
-                <div className="mt-3 d-flex justify-content-center">
-                  <Button
-                    type="submit"
-                    className="btn btn-block login-btn"
-                    disabled={loading}
-                  >
-                    {loading ? (
-                      <Spinner animation="border" size="sm" />
-                    ) : (
-                      'Register'
-                    )}
-                  </Button>
-                </div>
-              </Form>
-              <ToastContainer autoClose={5000} />
-              <div className="">
-                <p className="text-center mt-3">
-                  Already have an account?{' '}
-                  <a href="/dist/organization-login">Sign In</a>
-                </p>
-              </div>
-            </div>
-          </div>
+    <div className="d-flex vh-100">
+      {/* Left side: IFEELINCOLOR description */}
+      <div className="col-lg-7 p-0 d-none d-lg-block">
+        <div
+          className="h-100 d-flex flex-column justify-content-center p-5"
+          style={{
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${bg})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <h1 className="display-4 text-white mb-4" style={{ fontWeight: 300 }}>Welcome to IFEELINCOLOR</h1>
+          <p className="lead text-white-50 mb-4" style={{ fontSize: '1.1rem', lineHeight: '1.8' }}>
+            Join our innovative platform and harness the power of color psychology for your organization. Create more engaging, effective, and emotionally resonant experiences through the strategic use of color.
+          </p>
+          <p className="lead text-white-50" style={{ fontSize: '1.1rem', lineHeight: '1.8' }}>
+            Register now to transform your approach to branding, marketing, and user experience design with IFEELINCOLOR.
+          </p>
         </div>
       </div>
+      
+      {/* Right side: Registration form */}
+      <div className="col-lg-5 d-flex align-items-center justify-content-center bg-white">
+        <div className="w-75">
+          <div className="text-center mb-5">
+            <img src={Logo} alt="IFEELINCOLOR logo" className="mb-4" style={{ maxWidth: '300px' }} />
+            <h2 style={{ fontWeight: 300, color: '#333', letterSpacing: '1px' }}>Organization Registration</h2>
+            <p className="text-muted" style={{ fontSize: '0.9rem' }}>Create your IFEELINCOLOR account</p>
+          </div>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-4" controlId="name">
+              <Form.Label style={{ fontSize: '0.9rem', color: '#555', fontWeight: 500 }}>Organization Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                className="form-control-lg"
+                style={{ 
+                  fontSize: '1rem', 
+                  padding: '0.75rem 1rem',
+                  border: '1px solid #ced4da',
+                  borderRadius: '0.25rem',
+                  transition: 'border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out'
+                }}
+                disabled={loading}
+              />
+            </Form.Group>
+            <Form.Group className="mb-4" controlId="email">
+              <Form.Label style={{ fontSize: '0.9rem', color: '#555', fontWeight: 500 }}>Email Address</Form.Label>
+              <Form.Control
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="form-control-lg"
+                style={{ 
+                  fontSize: '1rem', 
+                  padding: '0.75rem 1rem',
+                  border: '1px solid #ced4da',
+                  borderRadius: '0.25rem',
+                  transition: 'border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out'
+                }}
+                disabled={loading}
+              />
+            </Form.Group>
+            <Form.Group className="mb-4" controlId="password">
+              <Form.Label style={{ fontSize: '0.9rem', color: '#555', fontWeight: 500 }}>Password</Form.Label>
+              <Form.Control
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                className="form-control-lg"
+                style={{ 
+                  fontSize: '1rem', 
+                  padding: '0.75rem 1rem',
+                  border: '1px solid #ced4da',
+                  borderRadius: '0.25rem',
+                  transition: 'border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out'
+                }}
+                disabled={loading}
+              />
+            </Form.Group>
+            <Form.Group className="mb-4" controlId="confirmPassword">
+              <Form.Label style={{ fontSize: '0.9rem', color: '#555', fontWeight: 500 }}>Confirm Password</Form.Label>
+              <Form.Control
+                type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+                className="form-control-lg"
+                style={{ 
+                  fontSize: '1rem', 
+                  padding: '0.75rem 1rem',
+                  border: '1px solid #ced4da',
+                  borderRadius: '0.25rem',
+                  transition: 'border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out'
+                }}
+                disabled={loading}
+              />
+            </Form.Group>
+            <Button
+              type="submit"
+              className="btn btn-primary btn-lg w-100"
+              style={{ 
+                backgroundColor: '#007bff', 
+                borderColor: '#007bff',
+                fontSize: '1rem',
+                padding: '0.75rem 1rem',
+                fontWeight: 500,
+                letterSpacing: '0.5px',
+                boxShadow: '0 2px 4px rgba(0, 123, 255, 0.3)',
+                transition: 'all 0.2s ease-in-out'
+              }}
+              disabled={loading}
+            >
+              {loading ? <Spinner animation="border" size="sm" /> : 'Register Organization'}
+            </Button>
+          </Form>
+          <p className="text-center mt-4" style={{ fontSize: '0.9rem', color: '#555' }}>
+            Already have an account? <Link to='/organization-login' style={{ color: '#007bff', textDecoration: 'none', fontWeight: 500 }}>Sign In</Link>
+          </p>
+        </div>
+      </div>
+      <ToastContainer />
     </div>
   );
 };

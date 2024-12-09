@@ -1,0 +1,111 @@
+// /* Add the following SCSS or CSS code to make the page responsive */
+
+// /* Custom styles for making the page responsive */
+// .manager-page {
+//     .page-header {
+//       h3 {
+//         font-size: 1.5rem;
+//       }
+//       span {
+//         font-size: 0.875rem;
+//       }
+//     }
+  
+//     .row {
+//       .col-md-4 {
+//         @media (max-width: 576px) {
+//           text-align: center;
+//         }
+//       }
+//     }
+  
+//     /* Ensure cards take full width on small screens */
+//     .card-trendy {
+//       @media (max-width: 576px) {
+//         width: 100%;
+//         margin-bottom: 15px;
+//       }
+  
+//       @media (min-width: 2560px) {
+//         font-size: 1.25rem; /* Scale up fonts for large screens */
+//       }
+//     }
+  
+//     .table {
+//       th, td {
+//         font-size: 0.875rem;
+  
+//         @media (max-width: 576px) {
+//           font-size: 0.75rem;
+//           padding: 0.5rem;
+//         }
+  
+//         @media (min-width: 2560px) {
+//           font-size: 1.25rem;
+//           padding: 1rem;
+//         }
+//       }
+//     }
+  
+//     /* Make the modal responsive */
+//     .MuiModal-root {
+//       @media (max-width: 576px) {
+//         max-width: 90%;
+//       }
+//     }
+//   }
+  
+//   /* Media query for smaller screens like mobile devices */
+//   @media (max-width: 576px) {
+//     .page-header {
+//       text-align: center;
+//       .page-title {
+//         font-size: 1.25rem;
+//       }
+//     }
+  
+//     .manager-page {
+//       .table {
+//         th, td {
+//           white-space: nowrap;
+//           font-size: 0.75rem;
+//         }
+//       }
+  
+//       .modal-dialog {
+//         max-width: 100%;
+//       }
+//     }
+  
+//     /* Align buttons and headers properly */
+//     .d-flex {
+//       display: block;
+//       text-align: center;
+//     }
+//   }
+  
+//   /* Media query for large screens like desktops */
+//   @media (min-width: 1200px) {
+//     .page-header {
+//       .page-title {
+//         font-size: 2rem;
+//       }
+//     }
+  
+//     .manager-page {
+//       .card-trendy {
+//         .card-details {
+//           h4 {
+//             font-size: 1.75rem;
+//           }
+//           h2 {
+//             font-size: 2.5rem;
+//           }
+//           h6 {
+//             font-size: 1.1rem;
+//           }
+//         }
+//       }
+//     }
+//   }
+  

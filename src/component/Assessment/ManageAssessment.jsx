@@ -2,30 +2,43 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Dropdown, Modal, Form } from 'react-bootstrap';
 import { FaEllipsisV, FaPlus, FaEdit, FaTrashAlt, FaEye } from 'react-icons/fa';
 import './TestsPage.scss'
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button as MuiButton, MenuItem, Typography, Checkbox, FormControlLabel } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
-const dummyTestData = [
-  {
-    id: 1,
-    date: '2024-08-01',
-    category: 'Depression',
-    createdBy: 'Admin',
-    testPaper: 'This is the test paper content for test 1.',
-    questions: [
-      { type: 'MCQ', question: 'What is React?', options: ['A Library', 'A Framework'], correctAnswer: 'A Library' }
-    ]
+const dummyImage = 'path/to/dummy/image.png'; // Path to your dummy image
+
+// Styled components for the modal
+const StyledDialog = styled(Dialog)(({ theme }) => ({
+  '& .MuiDialog-paper': {
+    borderRadius: '12px',
+    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
   },
-  {
-    id: 2,
-    date: '2024-08-15',
-    category: 'Stress',
-    createdBy: 'Admin',
-    testPaper: 'This is the test paper content for test 2.',
-    questions: [
-      { type: 'Blank', question: 'What is a component?', answer: 'A piece of UI', image: '' }
-    ]
+}));
+
+const StyledDialogTitle = styled(DialogTitle)(({ theme }) => ({
+  fontWeight: 'bold',
+  fontSize: '1.5rem',
+  color: '#fff',
+  background: 'linear-gradient(135deg, #1a2980 0%, #26d0ce 100%)',
+  borderBottom: '2px solid #e0e0e0',
+}));
+
+const StyledDialogContent = styled(DialogContent)(({ theme }) => ({
+  padding: '20px',
+  backgroundColor: '#f9f9f9',
+}));
+
+const StyledButton = styled(MuiButton)(({ theme }) => ({
+  backgroundColor: '#1976d2',
+  color: '#fff',
+  '&:hover': {
+    backgroundColor: '#1565c0',
   },
-  // Add more dummy data here
-];
+}));
 
 export default function TestsPage() {
   const [tests, setTests] = useState([]);
@@ -33,70 +46,179 @@ export default function TestsPage() {
   const [showViewModal, setShowViewModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedTest, setSelectedTest] = useState(null);
-  const [formData, setFormData] = useState({ date: '', category: '', createdBy: '', questions: [] });
+  const [formData, setFormData] = useState({
+    question: '',
+    answer: '',
+    type: 'mcq', // Default type
+    score: 0,
+    category: '',
+    media: null,
+    mcqOptions: [{ text: '', isCorrect: false }] // Default option
+  });
   const [imageFiles, setImageFiles] = useState({});
 
   useEffect(() => {
-    setTests(dummyTestData);
+    const fetchTests = async () => {
+      const token = sessionStorage.getItem('token');
+      const role = sessionStorage.getItem('role');
+
+      if (role === 'Admin' && token) {
+        try {
+          const response = await axios.get('https://rough-1-gcic.onrender.com/api/test', {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          if (response.data.status === 'success') {
+            setTests(response.data.body);
+          }
+        } catch (error) {
+          console.error('Error fetching tests:', error);
+        }
+      }
+    };
+
+    fetchTests();
   }, []);
 
   const handleShowCreateModal = () => setShowCreateModal(true);
   const handleCloseCreateModal = () => {
-    setFormData({ date: '', category: '', createdBy: '', questions: [] });
+    setFormData({
+      question: '',
+      answer: '',
+      type: 'mcq',
+      score: 0,
+      category: '',
+      media: null,
+      mcqOptions: [{ text: '', isCorrect: false }]
+    });
     setImageFiles({});
     setShowCreateModal(false);
   };
 
-  const handleShowViewModal = (test) => {
-    setSelectedTest(test);
-    setShowViewModal(true);
+  const handleShowViewModal = async (testId) => {
+    const token = sessionStorage.getItem('token');
+    const role = sessionStorage.getItem('role');
+
+    if (role === 'Admin' && token) {
+      try {
+        const response = await axios.get(`https://rough-1-gcic.onrender.com/api/test/${testId}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (response.data.status === 'success') {
+          setSelectedTest(response.data.body);
+          setShowViewModal(true);
+        }
+      } catch (error) {
+        console.error('Error fetching test details:', error);
+      }
+    }
   };
+
   const handleCloseViewModal = () => setShowViewModal(false);
 
-  const handleShowEditModal = (test) => {
-    setSelectedTest(test);
-    setFormData({
-      date: test.date,
-      category: test.category,
-      createdBy: test.createdBy,
-      questions: test.questions
-    });
-    setImageFiles({});
-    setShowEditModal(true);
+  const handleShowEditModal = async (testId) => {
+    const token = sessionStorage.getItem('token');
+    const role = sessionStorage.getItem('role');
+
+    if (role === 'Admin' && token) {
+      try {
+        const response = await axios.get(`https://rough-1-gcic.onrender.com/api/test/${testId}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (response.data.status === 'success') {
+          setFormData(response.data.body); // Set form data for editing
+          setShowEditModal(true);
+        }
+      } catch (error) {
+        console.error('Error fetching test details for editing:', error);
+      }
+    }
   };
+
   const handleCloseEditModal = () => {
-    setFormData({ date: '', category: '', createdBy: '', questions: [] });
+    setFormData({
+      question: '',
+      answer: '',
+      type: 'mcq',
+      score: 0,
+      category: '',
+      media: null,
+      mcqOptions: [{ text: '', isCorrect: false }]
+    });
     setImageFiles({});
     setShowEditModal(false);
   };
 
   const handleCreateTest = async () => {
-    if (!formData.date || !formData.category || !formData.createdBy || !formData.questions.length) {
-      alert('Please fill in all required fields');
-      return;
-    }
-    try {
-      setTests([...tests, { ...formData, id: tests.length + 1 }]);
-      handleCloseCreateModal();
-    } catch (error) {
-      console.error('Error creating test:', error);
+    const token = sessionStorage.getItem('token');
+    const role = sessionStorage.getItem('role');
+
+    if (role === 'Admin' && token) {
+      try {
+        const response = await axios.post('https://rough-1-gcic.onrender.com/api/test/create', formData, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (response.data.status === 'success') {
+          setTests([...tests, response.data.body]); // Add the new test to the state
+          handleCloseCreateModal(); // Close the modal
+          toast.success('Test created successfully!'); // Show success toast
+        }
+      } catch (error) {
+        console.error('Error creating test:', error);
+        toast.error('Error creating test!'); // Show error toast
+      }
     }
   };
 
   const handleEditTest = async () => {
-    try {
-      setTests(tests.map(test => (test.id === selectedTest.id ? { ...test, ...formData } : test)));
-      handleCloseEditModal();
-    } catch (error) {
-      console.error('Error updating test:', error);
+    const token = sessionStorage.getItem('token');
+    const role = sessionStorage.getItem('role');
+
+    if (role === 'Admin' && token) {
+      try {
+        const response = await axios.put(`https://rough-1-gcic.onrender.com/api/test/${formData._id}`, formData, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (response.data.status === 'success') {
+          setTests(tests.map(test => (test._id === formData._id ? formData : test))); // Update the tests state
+          setShowEditModal(false); // Close the modal
+          toast.success('Test updated successfully!'); // Show success toast
+        }
+      } catch (error) {
+        console.error('Error updating test:', error);
+        toast.error('Error updating test!'); // Show error toast
+      }
     }
   };
 
-  const handleDeleteTest = async (id) => {
-    try {
-      setTests(tests.filter(test => test.id !== id));
-    } catch (error) {
-      console.error('Error deleting test:', error);
+  const handleDeleteTest = async (testId) => {
+    const token = sessionStorage.getItem('token');
+    const role = sessionStorage.getItem('role');
+
+    if (role === 'Admin' && token) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            const response = await axios.delete(`https://rough-1-gcic.onrender.com/api/test/${testId}`, {
+              headers: { Authorization: `Bearer ${token}` }
+            });
+            if (response.data.status === 'success') {
+              setTests(tests.filter(test => test._id !== testId)); // Remove the deleted test from the state
+              Swal.fire('Deleted!', 'Your test has been deleted.', 'success'); // Show success alert
+            }
+          } catch (error) {
+            console.error('Error deleting test:', error);
+            toast.error('Error deleting test!'); // Show error toast
+          }
+        }
+      });
     }
   };
 
@@ -109,7 +231,7 @@ export default function TestsPage() {
 
   const handleAddQuestion = (type) => {
     const newQuestion = { type, question: '', image: '' };
-    if (type === 'MCQ') {
+    if (type === 'MCQ') { 
       newQuestion.options = ['', ''];
       newQuestion.correctAnswer = '';
     } else if (type === 'Blank') {
@@ -157,6 +279,19 @@ export default function TestsPage() {
     setFormData({ ...formData, questions: updatedQuestions });
   };
 
+  const fetchNotifications = async () => {
+    try {
+      const response = await axios.get('YOUR_API_ENDPOINT');
+      if (response.status === 200) {
+        // Process the response
+      } else {
+        console.error('Error fetching notifications:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+    }
+  };
+
   return (
     <div className="tests-page p-3">
       <div className="page-header">
@@ -180,24 +315,25 @@ export default function TestsPage() {
         </div>
         <Row>
           {tests.map(test => (
-            <Col md={4} key={test.id} className="mb-3">
-              <Card>
+            <Col md={4} key={test._id} className="mb-3">
+              <Card style={{ height: '100%', position: 'relative' }}> {/* Ensure all cards have the same height */}
+                <Card.Img variant="top" src={test.media || dummyImage} style={{ height: '200px', objectFit: 'cover' }} /> {/* Use dummy image if media is null */}
+                <Dropdown className='test-dropdown' style={{ position: 'absolute', top: '10px', right: '10px', borderRadius: '50px' }}>
+                  <Dropdown.Toggle variant="secondary" className='test-dropdown-toggle' style={{borderRadius: '50%', padding: '10px 10px'}} id="dropdown-basic">
+                    <FaEllipsisV className='fs-7 text-dark'/>
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu className='test-dropdown-menu'>
+                    <Dropdown.Item onClick={() => handleShowViewModal(test._id)}><FaEye /> View</Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleShowEditModal(test._id)}><FaEdit /> Edit</Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleDeleteTest(test._id)}><FaTrashAlt /> Delete</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
                 <Card.Body>
-                  <Card.Title>Test on {test.date}</Card.Title>
-                  <Card.Subtitle className="mb-2 text-muted">{test.category}</Card.Subtitle>
+                  <Card.Title>{test.question}</Card.Title>
+                  <Card.Subtitle className="mb-2 text-muted">{test.categoryModel}</Card.Subtitle>
                   <Card.Text>
-                    Created By: {test.createdBy}
+                    {/* Display additional test information if needed */}
                   </Card.Text>
-                  <Dropdown className='test-dropdown'>
-                    <Dropdown.Toggle variant="secondary" className='test-dropdown-toggle' id="dropdown-basic">
-                      <FaEllipsisV />
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu className='test-dropdown-toggle'>
-                      <Dropdown.Item onClick={() => handleShowViewModal(test)}><FaEye /> View</Dropdown.Item>
-                      <Dropdown.Item onClick={() => handleShowEditModal(test)}><FaEdit /> Edit</Dropdown.Item>
-                      <Dropdown.Item onClick={() => handleDeleteTest(test.id)}><FaTrashAlt /> Delete</Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
                 </Card.Body>
               </Card>
             </Col>
@@ -206,559 +342,238 @@ export default function TestsPage() {
       </Container>
 
       {/* Create Test Modal */}
-      <Modal show={showCreateModal} onHide={handleCloseCreateModal} size='lg'>
-        <Modal.Header closeButton>
-          <Modal.Title>Create Test</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formDate" className='mb-2'>
-              <Form.Label>Date</Form.Label>
-              <Form.Control type="date" value={formData.date} onChange={(e) => setFormData({ ...formData, date: e.target.value })} />
-            </Form.Group>
-            <Form.Group controlId="formcategory" className='mb-2'>
-              <Form.Label>Category</Form.Label>
-              <Form.Control type="text" value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })} />
-            </Form.Group>
-            <Form.Group controlId="formCreatedBy" className='mb-3'>
-              <Form.Label>Created By</Form.Label>
-              <Form.Control type="text" value={formData.createdBy} onChange={(e) => setFormData({ ...formData, createdBy: e.target.value })} />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Question Type: </Form.Label>
-              {formData.questions.map((q, index) => (
-                <div key={index} className="mb-3">
-                  <Form.Control
-                    type="text"
-                    name="question"
-                    placeholder="Question"
-                    value={q.question}
-                    onChange={(e) => handleQuestionChange(index, e)}
-                    className="mb-2"
+      <StyledDialog open={showCreateModal} onClose={handleCloseCreateModal} maxWidth="sm" fullWidth>
+        <StyledDialogTitle>
+          Create Test
+        </StyledDialogTitle>
+        <StyledDialogContent>
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Question"
+            value={formData.question}
+            onChange={(e) => setFormData({ ...formData, question: e.target.value })}
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Answer"
+            value={formData.answer}
+            onChange={(e) => setFormData({ ...formData, answer: e.target.value })}
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            select
+            label="Type"
+            value={formData.type}
+            onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+          >
+            <MenuItem value="mcq">MCQ</MenuItem>
+            <MenuItem value="blanks">Blanks</MenuItem>
+          </TextField>
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Score"
+            type="number"
+            value={formData.score}
+            onChange={(e) => setFormData({ ...formData, score: e.target.value })}
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Category"
+            value={formData.category}
+            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Media URL"
+            value={formData.media}
+            onChange={(e) => setFormData({ ...formData, media: e.target.value })}
+          />
+          {/* MCQ Options */}
+          {formData.type === 'mcq' && formData.mcqOptions.map((option, index) => (
+            <div key={index} className="mb-2">
+              <TextField
+                fullWidth
+                margin="normal"
+                label={`Option ${index + 1}`}
+                value={option.text}
+                onChange={(e) => {
+                  const updatedOptions = [...formData.mcqOptions];
+                  updatedOptions[index].text = e.target.value;
+                  setFormData({ ...formData, mcqOptions: updatedOptions });
+                }}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={option.isCorrect}
+                    onChange={(e) => {
+                      const updatedOptions = [...formData.mcqOptions];
+                      updatedOptions[index].isCorrect = e.target.checked;
+                      setFormData({ ...formData, mcqOptions: updatedOptions });
+                    }}
                   />
-                  {q.type === 'MCQ' && (
-                    <>
-                      {q.options.map((option, optIndex) => (
-                        <Form.Control
-                          key={optIndex}
-                          type="text"
-                          placeholder={`Option ${optIndex + 1}`}
-                          value={option}
-                          onChange={(e) => handleOptionChange(index, optIndex, e)}
-                          className="mb-2"
-                        />
-                      ))}
-                      <Button
-                        variant="outline-secondary"
-                        onClick={() =>
-                          setFormData({
-                            ...formData,
-                            questions: formData.questions.map((quest, i) =>
-                              i === index
-                                ? {
-                                  ...quest,
-                                  options: [...quest.options, ''],
-                                }
-                                : quest
-                            ),
-                          })
-                        }
-                        className="mb-2"
-                      >
-                        Add Option
-                      </Button>
-                      <Button
-                        variant="outline-secondary"
-                        onClick={() => setFormData({
-                          ...formData,
-                          questions: formData.questions.map((q, i) =>
-                            i === index ? { ...q, options: q.options.slice(0, -1) } : q
-                          )
-                        })}
-                      >
-                        Remove Option
-                      </Button>
-                      <Form.Control
-                        as="select"
-                        value={q.correctAnswer}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            questions: formData.questions.map((quest, i) =>
-                              i === index ? { ...quest, correctAnswer: e.target.value } : quest
-                            ),
-                          })
-                        }
-                        className="mb-2"
-                      >
-                        <option value="">Select Correct Answer</option>
-                        {q.options.map((option, optIndex) => (
-                          <option key={optIndex} value={option}>
-                            {option}
-                          </option>
-                        ))}
-                      </Form.Control>
-                    </>
-                  )}
-                  {q.type === 'Blank' && (
-                    <>
-                      <Form.Control
-                        type="text"
-                        placeholder="Answer"
-                        name="answer"
-                        value={q.answer}
-                        onChange={(e) => handleQuestionChange(index, e)}
-                        className="mb-2"
-                      />
-                      <Form.Group className="mb-3">
-                        <Form.Label>Image</Form.Label>
-                        <Form.Control
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => handleImageChange(index, e)}
-                        />
-                        {imageFiles[index] && (
-                          <img
-                            src={imageFiles[index]}
-                            alt={`Question ${index} preview`}
-                            style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                            className="mt-2"
-                          />
-                        )}
-                      </Form.Group>
-                    </>
-                  )}
-                  {q.type === 'Video' && (
-                    <>
-                      <Form.Control
-                        type="text"
-                        placeholder="Video Link"
-                        name="videoLink"
-                        value={q.videoLink}
-                        onChange={(e) => handleQuestionChange(index, e)}
-                        className="mb-2"
-                      />
-                      {q.options.map((option, optIndex) => (
-                        <Form.Control
-                          key={optIndex}
-                          type="text"
-                          placeholder={`Option ${optIndex + 1}`}
-                          value={option}
-                          onChange={(e) => handleOptionChange(index, optIndex, e)}
-                          className="mb-2"
-                        />
-                      ))}
-                      <Button
-                        variant="outline-secondary"
-                        onClick={() =>
-                          setFormData({
-                            ...formData,
-                            questions: formData.questions.map((quest, i) =>
-                              i === index
-                                ? {
-                                  ...quest,
-                                  options: [...quest.options, ''],
-                                }
-                                : quest
-                            ),
-                          })
-                        }
-                        className="mb-2"
-                      >
-                        Add Option
-                      </Button>
-                      <Button
-                        variant="outline-secondary"
-                        onClick={() => setFormData({
-                          ...formData,
-                          questions: formData.questions.map((q, i) =>
-                            i === index ? { ...q, options: q.options.slice(0, -1) } : q
-                          )
-                        })}
-                      >
-                        Remove Option
-                      </Button>
-                      <Form.Control
-                        as="select"
-                        value={q.correctAnswer}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            questions: formData.questions.map((quest, i) =>
-                              i === index ? { ...quest, correctAnswer: e.target.value } : quest
-                            ),
-                          })
-                        }
-                        className="mb-2"
-                      >
-                        <option value="">Select Correct Answer</option>
-                        {q.options.map((option, optIndex) => (
-                          <option key={optIndex} value={option}>
-                            {option}
-                          </option>
-                        ))}
-                      </Form.Control>
-                    </>
-                  )}
-                  <Button
-                    variant="outline-danger"
-                    onClick={() =>
-                      setFormData({
-                        ...formData,
-                        questions: formData.questions.filter((_, i) => i !== index),
-                      })
-                    }
-                    className="mb-2"
-                  >
-                    Remove Question
-                  </Button>
-                </div>
-              ))}
-              <Button
-                variant="outline-primary"
-                onClick={() => handleAddQuestion('MCQ')}
-                className="mb-2 mr-2"
-              >
-                MCQ
-              </Button>
-              <Button
-                variant="outline-primary"
-                onClick={() => handleAddQuestion('Blank')}
-                className="mb-2 mr-2"
-              >
-                Blank
-              </Button>
-              <Button
-                variant="outline-primary"
-                onClick={() => handleAddQuestion('Video')}
-                className="mb-2"
-              >
-                Video
-              </Button>
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="danger" onClick={handleCloseCreateModal}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleCreateTest}>
+                }
+                label="Correct Answer"
+              />
+            </div>
+          ))}
+          {formData.type === 'mcq' && (
+            <MuiButton
+              variant="outlined"
+              onClick={() => setFormData({
+                ...formData,
+                mcqOptions: [...formData.mcqOptions, { text: '', isCorrect: false }]
+              })}
+            >
+              Add Option
+            </MuiButton>
+          )}
+        </StyledDialogContent>
+        <DialogActions>
+          <MuiButton onClick={handleCloseCreateModal}>Cancel</MuiButton>
+          <StyledButton onClick={handleCreateTest} variant="contained">
             Save Test
-          </Button>
-        </Modal.Footer>
-      </Modal>
+          </StyledButton>
+        </DialogActions>
+      </StyledDialog>
 
       {/* View Test Modal */}
-      <Modal show={showViewModal} onHide={handleCloseViewModal} size='lg'>
-        <Modal.Header closeButton>
-          <Modal.Title>View Test</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
+      <StyledDialog open={showViewModal} onClose={handleCloseViewModal} maxWidth="sm" fullWidth>
+        <StyledDialogTitle>
+          View Test
+        </StyledDialogTitle>
+        <StyledDialogContent>
           {selectedTest && (
             <div>
-              <h5>Date: {selectedTest.date}</h5>
-              <h6>Category: {selectedTest.category}</h6>
-              <p>Created By: {selectedTest.createdBy}</p>
-              <h6>Test Paper:</h6>
-              <p>{selectedTest.testPaper}</p>
-              <h6>Questions:</h6>
-              {selectedTest.questions.map((q, index) => (
-                <div key={index} className="mb-3">
-                  <p><strong>Question:</strong> {q.question}</p>
-                  {q.type === 'MCQ' && (
-                    <ul>
-                      {q.options.map((option, optIndex) => (
-                        <li key={optIndex}>{option}</li>
-                      ))}
-                      <p><strong>Correct Answer:</strong> {q.correctAnswer}</p>
-                    </ul>
-                  )}
-                  {q.type === 'Blank' && (
-                    <p><strong>Answer:</strong> {q.answer}</p>
-                  )}
-                  {q.type === 'Video' && (
-                    <>
-                      <p><strong>Video Link:</strong> {q.videoLink}</p>
-                      <ul>
-                        {q.options.map((option, optIndex) => (
-                          <li key={optIndex}>{option}</li>
-                        ))}
-                        <p><strong>Correct Answer:</strong> {q.correctAnswer}</p>
-                      </ul>
-                    </>
-                  )}
-                  {q.image && (
-                    <img
-                      src={q.image}
-                      alt={`Preview of question ${index} answer`}
-                      style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                      className="mt-2"
-                    />
-                  )}
-                </div>
-              ))}
+              <Typography variant="h6">Question: {selectedTest.question}</Typography>
+              <Typography variant="subtitle1">Answer: {selectedTest.answer}</Typography>
+              <Typography variant="subtitle1">Type: {selectedTest.type}</Typography>
+              <Typography variant="subtitle1">Score: {selectedTest.score}</Typography>
+              <Typography variant="subtitle1">Category: {selectedTest.categoryModel}</Typography>
+              {selectedTest.media && (
+                <img
+                  src={selectedTest.media}
+                  alt="Test Media"
+                  style={{ width: '100%', height: 'auto', objectFit: 'cover', marginTop: '10px' }}
+                />
+              )}
             </div>
           )}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="danger" onClick={handleCloseViewModal}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        </StyledDialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseViewModal}>Close</Button>
+        </DialogActions>
+      </StyledDialog>
 
       {/* Edit Test Modal */}
-      <Modal show={showEditModal} onHide={handleCloseEditModal} size='lg'>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Test</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formDate">
-              <Form.Label>Date</Form.Label>
-              <Form.Control
-                type="date"
-                value={formData.date}
-                onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+      <StyledDialog open={showEditModal} onClose={handleCloseEditModal} maxWidth="sm" fullWidth>
+        <StyledDialogTitle>
+          Edit Test
+        </StyledDialogTitle>
+        <StyledDialogContent>
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Question"
+            value={formData.question}
+            onChange={(e) => setFormData({ ...formData, question: e.target.value })}
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Answer"
+            value={formData.answer}
+            onChange={(e) => setFormData({ ...formData, answer: e.target.value })}
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            select
+            label="Type"
+            value={formData.type}
+            onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+          >
+            <MenuItem value="mcq">MCQ</MenuItem>
+            <MenuItem value="blanks">Blanks</MenuItem>
+          </TextField>
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Score"
+            type="number"
+            value={formData.score}
+            onChange={(e) => setFormData({ ...formData, score: e.target.value })}
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Category"
+            value={formData.category}
+            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Media URL"
+            value={formData.media}
+            onChange={(e) => setFormData({ ...formData, media: e.target.value })}
+          />
+          {/* MCQ Options */}
+          {formData.type === 'mcq' && formData.mcqOptions.map((option, index) => (
+            <div key={index} className="mb-2">
+              <TextField
+                fullWidth
+                margin="normal"
+                label={`Option ${index + 1}`}
+                value={option.text}
+                onChange={(e) => {
+                  const updatedOptions = [...formData.mcqOptions];
+                  updatedOptions[index].text = e.target.value;
+                  setFormData({ ...formData, mcqOptions: updatedOptions });
+                }}
               />
-            </Form.Group>
-            <Form.Group controlId="formcategory">
-              <Form.Label>Category</Form.Label>
-              <Form.Control
-                type="text"
-                value={formData.category}
-                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-              />
-            </Form.Group>
-            <Form.Group controlId="formCreatedBy">
-              <Form.Label>Created By</Form.Label>
-              <Form.Control
-                type="text"
-                value={formData.createdBy}
-                onChange={(e) => setFormData({ ...formData, createdBy: e.target.value })}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Questions</Form.Label>
-              {formData.questions.map((q, index) => (
-                <div key={index} className="mb-3">
-                  <Form.Control
-                    type="text"
-                    name="question"
-                    placeholder="Question"
-                    value={q.question}
-                    onChange={(e) => handleQuestionChange(index, e)}
-                    className="mb-2"
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={option.isCorrect}
+                    onChange={(e) => {
+                      const updatedOptions = [...formData.mcqOptions];
+                      updatedOptions[index].isCorrect = e.target.checked;
+                      setFormData({ ...formData, mcqOptions: updatedOptions });
+                    }}
                   />
-                  {q.type === 'MCQ' && (
-                    <>
-                      {q.options.map((option, optIndex) => (
-                        <Form.Control
-                          key={optIndex}
-                          type="text"
-                          placeholder={`Option ${optIndex + 1}`}
-                          value={option}
-                          onChange={(e) => handleOptionChange(index, optIndex, e)}
-                          className="mb-2"
-                        />
-                      ))}
-                      <Button
-                        variant="outline-secondary"
-                        onClick={() =>
-                          setFormData({
-                            ...formData,
-                            questions: formData.questions.map((quest, i) =>
-                              i === index
-                                ? {
-                                  ...quest,
-                                  options: [...quest.options, ''],
-                                }
-                                : quest
-                            ),
-                          })
-                        }
-                        className="mb-2"
-                      >
-                        Add Option
-                      </Button>
-                      <Button
-                        variant="outline-secondary"
-                        onClick={() => setFormData({
-                          ...formData,
-                          questions: formData.questions.map((q, i) =>
-                            i === index ? { ...q, options: q.options.slice(0, -1) } : q
-                          )
-                        })}
-                      >
-                        Remove Option
-                      </Button>
-                      <Form.Control
-                        as="select"
-                        value={q.correctAnswer}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            questions: formData.questions.map((quest, i) =>
-                              i === index ? { ...quest, correctAnswer: e.target.value } : quest
-                            ),
-                          })
-                        }
-                        className="mb-2"
-                      >
-                        <option value="">Select Correct Answer</option>
-                        {q.options.map((option, optIndex) => (
-                          <option key={optIndex} value={option}>
-                            {option}
-                          </option>
-                        ))}
-                      </Form.Control>
-                    </>
-                  )}
-                  {q.type === 'Blank' && (
-                    <Form.Control
-                      type="text"
-                      placeholder="Answer"
-                      name="answer"
-                      value={q.answer}
-                      onChange={(e) => handleQuestionChange(index, e)}
-                      className="mb-2"
-                    />
-                  )}
-                  {q.type === 'Video' && (
-                    <>
-                      <Form.Control
-                        type="text"
-                        placeholder="Video Link"
-                        name="videoLink"
-                        value={q.videoLink}
-                        onChange={(e) => handleQuestionChange(index, e)}
-                        className="mb-2"
-                      />
-                      {q.options.map((option, optIndex) => (
-                        <Form.Control
-                          key={optIndex}
-                          type="text"
-                          placeholder={`Option ${optIndex + 1}`}
-                          value={option}
-                          onChange={(e) => handleOptionChange(index, optIndex, e)}
-                          className="mb-2"
-                        />
-                      ))}
-                      <Button
-                        variant="outline-secondary"
-                        onClick={() =>
-                          setFormData({
-                            ...formData,
-                            questions: formData.questions.map((quest, i) =>
-                              i === index
-                                ? {
-                                  ...quest,
-                                  options: [...quest.options, ''],
-                                }
-                                : quest
-                            ),
-                          })
-                        }
-                        className="mb-2"
-                      >
-                        Add Option
-                      </Button>
-                      <Button
-                        variant="outline-secondary"
-                        onClick={() => setFormData({
-                          ...formData,
-                          questions: formData.questions.map((q, i) =>
-                            i === index ? { ...q, options: q.options.slice(0, -1) } : q
-                          )
-                        })}
-                      >
-                        Remove Option
-                      </Button>
-                      <Form.Control
-                        as="select"
-                        value={q.correctAnswer}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            questions: formData.questions.map((quest, i) =>
-                              i === index ? { ...quest, correctAnswer: e.target.value } : quest
-                            ),
-                          })
-                        }
-                        className="mb-2"
-                      >
-                        <option value="">Select Correct Answer</option>
-                        {q.options.map((option, optIndex) => (
-                          <option key={optIndex} value={option}>
-                            {option}
-                          </option>
-                        ))}
-                      </Form.Control>
-                    </>
-                  )}
-                  <Form.Group className="mb-3">
-                    <Form.Label>Image</Form.Label>
-                    <Form.Control
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => handleImageChange(index, e)}
-                    />
-                    {imageFiles[index] && (
-                      <img
-                        src={imageFiles[index]}
-                        alt={`Question ${index} preview`}
-                        style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                        className="mt-2"
-                      />
-                    )}
-                  </Form.Group>
-                  <Button
-                    variant="outline-danger"
-                    onClick={() =>
-                      setFormData({
-                        ...formData,
-                        questions: formData.questions.filter((_, i) => i !== index),
-                      })
-                    }
-                    className="mb-2"
-                  >
-                    Remove Question
-                  </Button>
-                </div>
-              ))}
-              <Button
-                variant="outline-primary"
-                onClick={() => handleAddQuestion('MCQ')}
-                className="mb-2 mr-2"
-              >
-                Add MCQ Question
-              </Button>
-              <Button
-                variant="outline-primary"
-                onClick={() => handleAddQuestion('Blank')}
-                className="mb-2 mr-2"
-              >
-                Add Blank Question
-              </Button>
-              <Button
-                variant="outline-primary"
-                onClick={() => handleAddQuestion('Video')}
-                className="mb-2"
-              >
-                Add Video Question
-              </Button>
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="danger" onClick={handleCloseEditModal}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleEditTest}>
+                }
+                label="Correct Answer"
+              />
+            </div>
+          ))}
+          {formData.type === 'mcq' && (
+            <MuiButton
+              variant="outlined"
+              onClick={() => setFormData({
+                ...formData,
+                mcqOptions: [...formData.mcqOptions, { text: '', isCorrect: false }]
+              })}
+            >
+              Add Option
+            </MuiButton>
+          )}
+        </StyledDialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseEditModal}>Cancel</Button>
+          <StyledButton onClick={handleEditTest} variant="contained">
             Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
+          </StyledButton>
+        </DialogActions>
+      </StyledDialog>
+
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 }

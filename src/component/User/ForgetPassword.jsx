@@ -91,7 +91,7 @@ const ForgotPassword = () => {
                     text: 'Password reset successfully!',
                 }).then(() => {
                     // Redirect to login page after successful reset
-                    window.location.href = '/dist/';
+                    window.location.href = '/';
                 });
                 setShowModal(false);
             }

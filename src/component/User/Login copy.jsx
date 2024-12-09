@@ -113,7 +113,7 @@ const Login = () => {
                 </div>
                 <div className="text-center mt-4 font-weight-light">
                   Don't have an account?{' '}
-                  <Link to="/dist/" className="text-primary">Create</Link>
+                  <Link to="/" className="text-primary">Create</Link>
                 </div>
               </Form>
               <ToastContainer />

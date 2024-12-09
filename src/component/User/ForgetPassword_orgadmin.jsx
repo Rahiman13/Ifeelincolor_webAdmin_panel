@@ -103,7 +103,7 @@ const ForgotPassword = () => {
                     title: 'Success!',
                     text: 'Password reset successfully!',
                 }).then(() => {
-                    window.location.href = '/dist/orgadmin-login';
+                    window.location.href = '/orgadmin-login';
                 });
                 setShowModal(false);
                 setEmail('');

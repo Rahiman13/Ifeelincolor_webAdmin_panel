@@ -237,33 +237,62 @@
     display: flex;
     justify-content: flex-end;
     margin-bottom: 20px;
-  
+
     .test-btn {
-      border-radius: 20px;
-      background-color: #007bff;
-      color: white;
-      padding: 10px 20px;
-      font-weight: 600;
-      font-size: 1rem;
-      transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-      box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
-  
-      &:hover {
-        background-color: #0056b3;
-        box-shadow: 0 6px 15px rgba(0, 91, 187, 0.4);
-        transform: translateY(-2px);
-      }
-  
-      &:active {
-        background-color: #004085;
-        box-shadow: 0 4px 8px rgba(0, 64, 133, 0.3);
-        transform: translateY(0);
-      }
-  
-      &:focus {
-        outline: none;
-        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
-      }
+        border-radius: 20px;
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+
+        &:hover {
+            background-color: #0056b3;
+            box-shadow: 0 6px 15px rgba(0, 91, 187, 0.4);
+            transform: translateY(-2px);
+        }
+
+        &:active {
+            background-color: #004085;
+            box-shadow: 0 4px 8px rgba(0, 64, 133, 0.3);
+            transform: translateY(0);
+        }
+
+        &:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+        }
     }
-  }
-  
+}
+
+
+.test-dropdown-toggle {
+    background-color: #007bff; // Bootstrap primary color
+    color: white;
+    border: none;
+    border-radius: 50%; // Make it circular
+    width: 40px; // Set width
+    height: 40px; // Set height
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s, transform 0.3s;
+
+    &:hover {
+        background-color: #0056b3; // Darker shade on hover
+        transform: scale(1.1); // Slightly enlarge on hover
+    }
+}
+
+.test-dropdown-menu {
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.test-dropdown-item {
+    &:hover {
+        background-color: #f8f9fa; // Light background on hover
+    }
+}

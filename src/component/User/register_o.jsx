@@ -52,7 +52,7 @@ export class Register extends Component {
                     </div>
                   </div>
                   <div className="mt-3">
-                    <Link className="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" to="/dist/login">SIGN UP</Link>
+                    <Link className="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" to="/login">SIGN UP</Link>
                   </div>
                   <div className="text-center mt-4 font-weight-light">
                     Already have an account? <Link to="/login" className="text-primary">Login</Link>

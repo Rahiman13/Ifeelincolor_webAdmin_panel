@@ -127,3 +127,101 @@ tr {
     /* background-color: #FFF !important; */
     
 }
+
+.card-img-absolute{
+    background-repeat: no-repeat !important;
+    background-position: center;
+}
+
+.card-img-holder{
+    background-size: cover !important;
+    overflow: hidden;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.dashboard-container {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.chart-container {
+    width: 100%;
+    height: 350px;
+}
+
+.card {
+    height: 100%;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title {
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    
+
+    .card-title {
+        font-size: 1.2rem;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .chart-container {
+        height: 300px;
+    }
+}
+
+@media (max-width: 576px) {
+    .card-title {
+        font-size: 1rem;
+    }
+
+    .chart-container {
+        height: 250px;
+    }
+}
+
+.dashboard-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.chart-container {
+    width: 100%;
+    height: 350px;
+}
+
+@media (max-width: 768px) {
+    .chart-container {
+        height: 300px;
+    }
+}
+
+@media (max-width: 576px) {
+    .chart-container {
+        height: 250px;
+    }
+}

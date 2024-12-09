@@ -1,0 +1,193 @@
+.dashboard-container {
+    padding: 1rem;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+
+
+.page-title {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.page-title-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.breadcrumb {
+    font-size: clamp(0.8rem, 1.5vw, 1rem);
+    padding: 0;
+    margin: 0;
+    background: none;
+}
+
+.card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 20px 1px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.08);
+    border: none;
+    margin-bottom: 1.5rem;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+    padding: 1.25rem;
+}
+
+.card-title {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    margin-bottom: 1rem;
+}
+
+.card-text {
+    font-size: clamp(0.8rem, 1.5vw, 1rem);
+}
+
+.chart-container {
+    width: 100%;
+    height: 100%;
+    min-height: 250px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.grid-margin {
+    margin-bottom: 1.5rem;
+}
+
+.stretch-card {
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+}
+
+.card-img-holder {
+    position: relative;
+}
+
+.card-img-absolute {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    opacity: 0.3;
+}
+
+.icon-hover {
+    transition: all 0.3s ease;
+}
+
+.icon-hover:hover {
+    transform: scale(1.1);
+}
+
+.bg-gradient-success { background: linear-gradient(to right, #84d9d2, #07cdae); }
+.bg-gradient-dark { background: linear-gradient(to right, #90caf9, #047edf 99%); }
+.bg-gradient-info { background: linear-gradient(to right, #90caf9, #047edf 99%); }
+.bg-gradient-danger { background: linear-gradient(to right, #ffbf96, #fe7096); }
+
+/* Ensure charts fit within cards */
+.card .flex-grow-1 {
+    display: flex;
+    flex-direction: column;
+}
+
+.card .flex-grow-1 > div {
+    flex-grow: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .row {
+        margin-left: -0.75rem;
+        margin-right: -0.75rem;
+    }
+    
+    .col-lg-3, .col-lg-5, .col-lg-6, .col-lg-7 {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .card {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    .table-responsive {
+        font-size: 0.8rem;
+    }
+
+    .table th,
+    .table td {
+        padding: 0.5rem 0.25rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .dashboard-container {
+        padding: 0.5rem;
+    }
+
+    .card h2 {
+        font-size: clamp(1.5rem, 4vw, 2rem);
+    }
+
+    .card h4 {
+        font-size: clamp(1rem, 3vw, 1.5rem);
+    }
+
+    .card h6 {
+        font-size: clamp(0.8rem, 2.5vw, 1rem);
+    }
+
+    .table-responsive {
+        font-size: 0.7rem;
+    }
+
+    .table th,
+    .table td {
+        padding: 0.25rem;
+    }
+}
+
+@media (min-width: 2000px) {
+    .dashboard-container {
+        max-width: 1800px;
+        margin: 0 auto;
+    }
+}
+
+@media (min-width: 2560px) {
+    .dashboard-container {
+        max-width: 2200px;
+    }
+}

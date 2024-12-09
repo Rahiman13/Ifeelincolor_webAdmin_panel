@@ -1,0 +1,290 @@
+.clinician-page {
+  .gradient-card {
+    color: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    height: 100%;
+
+    &.gradient-pink {
+      background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+    }
+
+    &.gradient-purple {
+      background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+    }
+
+    &.gradient-blue {
+      background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+    }
+  }
+
+  .nav-tabs {
+    border-bottom: none;
+
+    .nav-link {
+      color: #555;
+      font-weight: bold;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      transition: background-color 0.3s, color 0.3s;
+
+      &.active {
+        background-color: #48a4e0;
+        color: #fff;
+      }
+
+      &:hover {
+        background-color: rgba(72, 164, 224, 0.15);
+      }
+    }
+  }
+
+  .table {
+    thead {
+      background-color: #48a4e0;
+      color: white;
+
+      th {
+        font-weight: 600;
+        border: none;
+      }
+    }
+
+    tbody {
+      tr {
+        transition: background-color 0.2s;
+
+        &:hover {
+          background-color: rgba(72, 164, 224, 0.05);
+        }
+
+        td {
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+
+  .btn-primary,
+  .btn-warning,
+  .btn-danger {
+    border-radius: 50px;
+    padding: 0.5rem 1.5rem;
+    font-weight: bold;
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+.custom-font {
+  font-family: 'Arial', sans-serif;
+}
+
+.card-trendy {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%; // Ensure the card takes full height of its container
+  width: 100%;
+}
+
+.card-trendy:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+.card-details {
+  position: relative;
+  z-index: 1;
+}
+
+.trendy-card-img-absolute {
+  position: absolute;
+  right: 0;
+  top: 0;
+  opacity: 0.8;
+  // width: 100%;
+  height: 100%;
+  object-fit: fill;
+  object-position: right top;
+  // max-width: 250px;
+  // max-height: 255px;
+}
+
+.nav-tabs .nav-link {
+  font-weight: 500;
+}
+
+.avatar-img {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
+
+.table-container {
+  background-color: #ffffff;
+}
+
+.table th,
+.table td {
+  border: 1px solid #dee2e6;
+  padding: 8px;
+}
+
+.table td {
+  position: relative;
+  padding: 0;
+}
+
+.table td .dropdown-toggle::after {
+  display: none;
+}
+
+// Responsive styles
+@media (max-width: 1200px) {
+  .clinician-page {
+    .gradient-card {
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  .clinician-page {
+    
+
+    .nav-tabs {
+      .nav-link {
+        padding: 0.5rem 1rem;
+      }
+    }
+
+    .table {
+      font-size: 0.9rem;
+
+      th, td {
+        padding: 0.5rem;
+      }
+    }
+  }
+
+  
+}
+
+@media (max-width: 767px) {
+  .clinician-page {
+    .gradient-card {
+      margin-bottom: 1rem;
+    }
+
+    .nav-tabs {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      
+      .nav-link {
+        white-space: nowrap;
+      }
+    }
+
+    .table {
+      font-size: 0.8rem;
+
+      th, td {
+        padding: 0.3rem;
+      }
+    }
+
+    .btn-primary,
+    .btn-warning,
+    .btn-danger {
+      padding: 0.4rem 1rem;
+      font-size: 0.9rem;
+    }
+  }
+
+  
+  .card-details h4 {
+    font-size: 1.2rem;
+  }
+
+  .card-details h2 {
+    font-size: 1.8rem;
+  }
+
+  .card-details h6 {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 575px) {
+  .clinician-page {
+    .page-title {
+      font-size: 1.5rem;
+    }
+
+    .table {
+      font-size: 0.7rem;
+
+      th, td {
+        padding: 0.2rem;
+      }
+    }
+
+    .avatar-img {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  
+  .card-details h4 {
+    font-size: 1rem;
+  }
+
+  .card-details h2 {
+    font-size: 1.5rem;
+  }
+
+  .card-details h6 {
+    font-size: 0.8rem;
+  }
+}
+
+// Ensure table is scrollable on small screens
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+// Make modal responsive
+@media (max-width: 576px) {
+  .modal-dialog {
+    margin: 0.5rem;
+  }
+
+  .modal-content {
+    width: 100%;
+  }
+}
+
+// Adjust pagination for small screens
+@media (max-width: 576px) {
+  .MuiTablePagination-toolbar {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .MuiTablePagination-selectLabel,
+  .MuiTablePagination-select,
+  .MuiTablePagination-selectIcon,
+  .MuiTablePagination-input {
+    margin-right: 0.5rem;
+  }
+}
+
+

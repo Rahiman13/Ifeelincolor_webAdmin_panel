@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Form, Button, Spinner } from 'react-bootstrap';
+import { Form, Button, Spinner, Modal } from 'react-bootstrap';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Logo from '../../assets/logo.svg';
-import bg from '../../assets/lockscreen-bg.jpg';
-// import './login.scss';
+import bg from '../../assets/bg-3.png';
 import BaseUrl from '../../api';
 
 const OrganizationLogin = () => {
@@ -16,122 +15,264 @@ const OrganizationLogin = () => {
     password: '',
   });
 
-  const [loading, setLoading] = useState(false); // State for loading spinner
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
+  const [privacyPolicy, setPrivacyPolicy] = useState(null);
+  const [acceptPolicy, setAcceptPolicy] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const { email, password } = formData;
-
-    // API endpoint for organization login
-    const loginUrl = `${BaseUrl}/api/organization/login`;
-
-    setLoading(true); // Show loading spinner
-
+  const fetchPrivacyPolicy = async () => {
     try {
-      const response = await axios.post(loginUrl, { email, password });
-
-      if (response.data.status === 'success') {
-        toast.success('Login successful!');
-
-        // Save the organization ID directly
-        sessionStorage.setItem('token', response.data.body.organization.token);
-        sessionStorage.setItem('OrganizationId', response.data.body.organization.id);
-
-        setTimeout(() => {
-          navigate('/dist/dashboard'); // Navigate to the dashboard
-          setLoading(false); // Hide loading spinner
-        }, 3000); // 3 seconds delay
-      } else {
-        setLoading(false); // Hide loading spinner
-        toast.error('Invalid credentials');
-      }
+      const response = await axios.get(`${BaseUrl}/api/privacy/latest`);
+      setPrivacyPolicy(response.data.body);
     } catch (error) {
-      setLoading(false); // Hide loading spinner
-      toast.error('Login failed. Please try again.');
+      console.error('Error fetching privacy policy:', error);
     }
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { email, password } = formData;
+    const loginUrl = `${BaseUrl}/api/organization/login`;
+
+    setLoading(true);
+    try {
+      const response = await axios.post(loginUrl, { email, password });
+      sessionStorage.setItem('token', response.data.body.organization.token);
+      sessionStorage.setItem('OrganizationId', response.data.body.organization.id);
+      sessionStorage.setItem('role', "organization");
+
+      toast.success('Login successful!', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+
+      await fetchPrivacyPolicy();
+      setShowPrivacyModal(true);
+    } catch (error) {
+      toast.error('Login failed. Please try again.', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePrivacySubmit = () => {
+    setShowPrivacyModal(false);
+    navigate('/dashboard');
+  };
+
   return (
-    <div
-      className="login d-flex align-items-center justify-content-center"
-      style={{
-        backgroundImage: `url(${bg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        minHeight: '100vh',
-      }}
-    >
-      <div className="container">
-        <div className="row justify-content-center">
-          <div className="col-lg-4 col-md-6 col-sm-8">
-            <div className="auth-form-light text-left py-4 px-4 px-sm-5 bg-white rounded-md shadow">
-              <div className="brand-logo text-center mb-2">
-                <img src={Logo} alt="logo" className="logo-img" />
-              </div>
-              <h4 className="text-center mb-2">Hello! Let's get started</h4>
-              <h6 className="font-weight-light text-center mb-3">
-                Sign in to continue.
-              </h6>
-              <Form onSubmit={handleSubmit} className="pt-3">
-                <Form.Group className="mb-3" controlId="email">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control
-                    type="email"
-                    placeholder="Email"
-                    size="lg"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="form-input"
-                  />
-                </Form.Group>
-                <Form.Group className="mb-2" controlId="password">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Password"
-                    size="lg"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                    className="form-input"
-                  />
-                </Form.Group>
-                <div className="my-2 d-flex justify-content-end align-items-center">
-                  <Link to='/dist/organization-forget' className="auth-link underline">Forgot password?</Link>
-                </div>
-                <div className="mt-3 d-flex justify-content-center">
-                  <Button
-                    type="submit"
-                    className="btn btn-block login-btn"
-                    disabled={loading} // Disable button while loading
-                  >
-                    {loading ? (
-                      <Spinner animation="border" size="sm" />
-                    ) : (
-                      'SIGN IN'
-                    )}
-                  </Button>
-                </div>
-                
-              </Form>
-              <ToastContainer />
-              <div className="">
-                <p className="text-center mt-3">Don't have an account? <Link to='/dist/organization-register'>Create</Link></p>
-              </div>
-            </div>
-          </div>
+    <div className="d-flex vh-100">
+      {/* Left side: IFEELINCOLOR description */}
+      <div className="col-lg-7 p-0 d-none d-lg-block">
+        <div
+          className="h-100 d-flex flex-column justify-content-center p-5"
+          style={{
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${bg})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <h1 className="display-4 text-white mb-4" style={{ fontWeight: 300 }}>Welcome to IFEELINCOLOR</h1>
+          <p className="lead text-white-50 mb-4" style={{ fontSize: '1.1rem', lineHeight: '1.8' }}>
+            Unlock the power of color psychology for your organization. Our innovative platform helps businesses create more engaging, effective, and emotionally resonant experiences through the strategic use of color.
+          </p>
+          <p className="lead text-white-50" style={{ fontSize: '1.1rem', lineHeight: '1.8' }}>
+            Discover how IFEELINCOLOR can transform your approach to branding, marketing, and user experience design.
+          </p>
         </div>
       </div>
+
+      {/* Right side: Login form */}
+      <div className="col-lg-5 d-flex align-items-center justify-content-center bg-white">
+        <div className="w-75">
+          <div className="text-center mb-5">
+            <img src={Logo} alt="IFEELINCOLOR logo" className="mb-4" style={{ maxWidth: '300px' }} />
+            <h2 style={{ fontWeight: 300, color: '#333', letterSpacing: '1px' }}>Organization Sign In</h2>
+            <p className="text-muted" style={{ fontSize: '0.9rem' }}>Access your IFEELINCOLOR dashboard</p>
+          </div>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-4" controlId="email">
+              <Form.Label style={{ fontSize: '0.9rem', color: '#555', fontWeight: 500 }}>Organization Email</Form.Label>
+              <Form.Control
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                placeholder="Email"
+                className="form-control-lg"
+                style={{
+                  fontSize: '1rem',
+                  padding: '0.75rem 1rem',
+                  border: '1px solid #ced4da',
+                  borderRadius: '0.25rem',
+                  transition: 'border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out'
+                }}
+                disabled={loading}
+              />
+            </Form.Group>
+            <Form.Group className="mb-4" controlId="password">
+              <Form.Label style={{ fontSize: '0.9rem', color: '#555', fontWeight: 500 }}>Password</Form.Label>
+              <Form.Control
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                className="form-control-lg"
+                style={{
+                  fontSize: '1rem',
+                  padding: '0.75rem 1rem',
+                  border: '1px solid #ced4da',
+                  borderRadius: '0.25rem',
+                  transition: 'border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out'
+                }}
+                disabled={loading}
+              />
+            </Form.Group>
+            <div className="d-flex justify-content-end align-items-center mb-4">
+              {/* <Form.Check 
+                type="checkbox" 
+                label="Remember me" 
+                style={{ fontSize: '0.9rem', color: '#555' }}
+              /> */}
+              <Link to='/organization-forget' style={{ fontSize: '0.9rem', color: '#007bff', textDecoration: 'none', fontWeight: 500 }}>Forgot password?</Link>
+            </div>
+            <Button
+              type="submit"
+              className="btn btn-primary btn-lg w-100"
+              style={{
+                backgroundColor: '#007bff',
+                borderColor: '#007bff',
+                fontSize: '1rem',
+                padding: '0.75rem 1rem',
+                fontWeight: 500,
+                letterSpacing: '0.5px',
+                boxShadow: '0 2px 4px rgba(0, 123, 255, 0.3)',
+                transition: 'all 0.2s ease-in-out'
+              }}
+              disabled={loading}
+            >
+              {loading ? <Spinner animation="border" size="sm" /> : 'Sign In to Dashboard'}
+            </Button>
+          </Form>
+          {/* <p className="text-center mt-4" style={{ fontSize: '0.9rem', color: '#555' }}>
+            New to IFEELINCOLOR? <Link to='/organization-register' style={{ color: '#007bff', textDecoration: 'none', fontWeight: 500 }}>Register your organization</Link>
+          </p> */}
+        </div>
+      </div>
+
+      {/* Add Privacy Policy Modal */}
+      <Modal
+        show={showPrivacyModal}
+        backdrop="static"
+        keyboard={false}
+        centered
+      >
+        <Modal.Header>
+          <Modal.Title>{privacyPolicy?.title}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>{privacyPolicy?.content}</p>
+          <p>Last Updated: {privacyPolicy?.updatedAt}</p>
+          {/* <Form.Check
+            type="checkbox"
+            id="privacy-checkbox"
+            label="I have read and agree to the Privacy Policy"
+            checked={acceptPolicy}
+            onChange={(e) => setAcceptPolicy(e.target.checked)}
+            className="mt-3 d-flex align-items-center gap-0"
+            style={{
+              cursor: 'pointer',
+              fontSize: '1rem',
+              paddingLeft: '10px',
+              marginLeft: '10px',
+              // backgroundColor: '#f8f9fa',
+              borderRadius: '4px'
+            }}
+          />
+          */}
+
+          <Form.Check
+            type="checkbox"
+            id="privacy-checkbox"
+            label="I have read and agree to the Privacy Policy"
+            checked={acceptPolicy}
+            onChange={(e) => setAcceptPolicy(e.target.checked)}
+            className="mt-3 d-flex align-items-center gap-0"
+            style={{
+              cursor: 'pointer',
+              fontSize: '1rem',
+              paddingLeft: '20px',
+              marginLeft: '1px',
+              // backgroundColor: '#f8f9fa',
+              borderRadius: '4px'
+            }}
+          />
+          <style>
+            {`
+    #privacy-checkbox {
+      width: 20px !important;
+      height: 20px !important;
+      border: 2px solid #007bff !important;
+    }
+    #privacy-checkbox:checked {
+      background-color: #007bff !important;
+      border-color: #007bff !important;
+    }
+    #privacy-checkbox:focus {
+      border-color: #007bff !important;
+      box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25) !important;
+    }
+    .form-check-input {
+      margin-right: 10px !important;
+    }
+  `}
+          </style>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="primary"
+            onClick={handlePrivacySubmit}
+            disabled={!acceptPolicy}
+          >
+            Submit
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+
     </div>
   );
 };
 
 export default OrganizationLogin;
+

@@ -32,7 +32,7 @@ export class Login extends Component {
                     <Form.Control type="password" placeholder="Password" size="lg" className="h-auto" />
                   </Form.Group>
                   <div className="mt-3">
-                    <Link className="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" to="/dist/dashboard">SIGN IN</Link>
+                    <Link className="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" to="/dashboard">SIGN IN</Link>
                   </div>
                   <div className="my-2 d-flex justify-content-between align-items-center">
                     <div className="form-check">

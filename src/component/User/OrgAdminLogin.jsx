@@ -16,7 +16,7 @@ const OrgAdminLogin = () => {
     password: '',
   });
 
-  const [loading, setLoading] = useState(false); // State for loading spinner
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -27,10 +27,9 @@ const OrgAdminLogin = () => {
     e.preventDefault();
     const { email, password } = formData;
 
-    // API endpoint for OrgAdmin login
     const loginUrl = `${BaseUrl}/api/orgadmin/login`;
 
-    setLoading(true); // Show loading spinner
+    setLoading(true);
 
     try {
       const response = await axios.post(loginUrl, { email, password });
@@ -38,22 +37,21 @@ const OrgAdminLogin = () => {
       if (response.data.status === 'success') {
         toast.success('Login successful!');
 
-        // Save the OrgAdmin ID and token
         sessionStorage.setItem('token', response.data.body.token);
         sessionStorage.setItem('OrganizationId', response.data.body.orgAdmin.organization);
+        sessionStorage.setItem('role', "orgadmin");
 
         setTimeout(() => {
-          navigate('/dist/dashboard'); // Navigate to the OrgAdmin dashboard
-          setLoading(false); // Hide loading spinner
-        }, 3000); // 3 seconds delay
+          navigate('/dashboard');
+          setLoading(false);
+        }, 3000);
       } else {
-        setLoading(false); // Hide loading spinner
+        setLoading(false);
         toast.error('Invalid credentials');
       }
     } catch (error) {
-      setLoading(false); // Hide loading spinner
+      setLoading(false);
 
-      // Check for specific error responses
       if (error.response && error.response.data && error.response.data.message) {
         toast.error(`Error: ${error.response.data.message}`);
       } else if (error.response && error.response.status === 500) {
@@ -77,9 +75,7 @@ const OrgAdminLogin = () => {
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-lg-4 col-md-6 col-sm-8">
-            {/* <div className="auth-form-light text-left py-5 px-4 px-sm-5 bg-white rounded shadow"> */}
             <div className="auth-form-light text-left py-4 px-4 px-sm-5 bg-white rounded-md shadow">
-
               <div className="brand-logo text-center mb-2">
                 <img src={Logo} alt="logo" className="logo-img" />
               </div>
@@ -99,6 +95,7 @@ const OrgAdminLogin = () => {
                     onChange={handleChange}
                     required
                     className="form-input"
+                    disabled={loading}
                   />
                 </Form.Group>
                 <Form.Group className="mb-2" controlId="password">
@@ -112,16 +109,17 @@ const OrgAdminLogin = () => {
                     onChange={handleChange}
                     required
                     className="form-input"
+                    disabled={loading}
                   />
                 </Form.Group>
                 <div className="my-2 d-flex justify-content-end align-items-center">
-                  <Link to='/dist/orgadmin-forget' className="auth-link underline">Forgot password?</Link>
+                  <Link to='/orgadmin-forget' className="auth-link underline">Forgot password?</Link>
                 </div>
                 <div className="mt-3 d-flex justify-content-center">
                   <Button
                     type="submit"
                     className="btn btn-block login-btn"
-                    disabled={loading} // Disable button while loading
+                    disabled={loading}
                   >
                     {loading ? (
                       <Spinner animation="border" size="sm" />
@@ -130,7 +128,6 @@ const OrgAdminLogin = () => {
                     )}
                   </Button>
                 </div>
-                
               </Form>
               <ToastContainer />
             </div>

@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import AppRoutes from './AppRouter'; // Ensure AppRoutes is correctly imported
+import AppRoutes from './AppRouter';
 import Sidebar from './component/Shared/Sidebar';
+import SidebarOrganization from './component/Shared/Sidebar_Organization';
 import Footer from './component/Shared/Footer';
 import Navbar from './component/Shared/Navbar';
-import './App.scss';
+import Navbar_superadmin from './component/Shared/Navbar_superadmin';
 
 const App = () => {
   const [isFullPageLayout, setIsFullPageLayout] = useState(false);
+  const [userRole, setUserRole] = useState(null);
+  const [isAdminPortal, setIsAdminPortal] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -19,27 +22,30 @@ const App = () => {
       window.scrollTo(0, 0);
 
       const fullPageLayoutRoutes = [
-        '/dist/',
-        '/dist/organization-login',
-        '/dist/organization-register',
-        '/dist/organization-forget',
-        '/dist/manager-login',
-        '/dist/manager-forget',
-        '/dist/orgadmin-login',
-        '/dist/orgadmin-forget',
-        '/dist/login',
-        '/dist/admin',
-        // '/dist/',
-        // '/dist/register',
-        '/dist/forget',
-        '/dist/user-pages/lockscreen',
-        '/dist/error-pages/error-404',
-        '/dist/error-pages/error-500',
-        '/dist/general-pages/landing-page',
+        '/',
+        '/landingpage',
+        '/landingpage_Ifeelincolor',
+        '/organization-login',
+        '/organization-register',
+        '/organization-forget',
+        '/manager-login',
+        '/manager-forget',
+        '/orgadmin-login',
+        '/orgadmin-forget',
+        '/assistant-login',
+        '/assistant-forget',
+        '/login',
+        '/admin',
+        '/forget',
+        '/user-pages/lockscreen',
+        '/error-pages/error-404',
+        '/error-pages/error-500',
+        '/general-pages/landing-page',
+        '/error-pages/error-404',
+        '/error-pages/error-500',
       ];
 
       const isFullPage = fullPageLayoutRoutes.includes(location.pathname);
-
       setIsFullPageLayout(isFullPage);
 
       if (pageBodyWrapper) {
@@ -54,15 +60,31 @@ const App = () => {
     onRouteChanged();
   }, [location.pathname]);
 
+  useEffect(() => {
+    const token = sessionStorage.getItem('token');
+    const adminPortal = sessionStorage.getItem('adminPortal');
+
+    if (token) {
+      const parsedToken = JSON.parse(atob(token.split('.')[1]));
+      setUserRole(parsedToken.role);
+    }
+    setIsAdminPortal(adminPortal === 'true');
+  }, []);
+
   return (
-    <div className="container-scroller p-0">
-      {!isFullPageLayout && <Navbar />}
+    <div className="container-scroller entire-body ">
+      {!isFullPageLayout && (
+        isAdminPortal ? <Navbar_superadmin /> : <Navbar />
+      )}
       <div className="container-fluid page-body-wrapper d-flex">
-        {!isFullPageLayout && <Sidebar />}
+        {!isFullPageLayout && (
+          isAdminPortal ? <Sidebar /> : <SidebarOrganization />
+        )}
         <div className="main-panel">
           <div className="container-scroller">
             <AppRoutes />
           </div>
+          {/* <Footer /> */}
           {!isFullPageLayout && <Footer />}
         </div>
       </div>

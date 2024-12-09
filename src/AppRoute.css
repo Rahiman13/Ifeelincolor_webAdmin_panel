@@ -1,0 +1,6 @@
+@media (max-width: 991px) and (min-width: 320px) {
+    .responsive-margin {
+        margin-top: 70px;
+        /* Adjust the margin value as needed */
+    }
+}
