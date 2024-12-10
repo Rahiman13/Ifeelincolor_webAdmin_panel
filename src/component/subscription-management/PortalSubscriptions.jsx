@@ -6,7 +6,7 @@ import { Toast, ToastContainer } from 'react-bootstrap';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TablePagination, CircularProgress, Backdrop, Box, Typography, Avatar, Chip, Tooltip } from '@mui/material';
 import { styled, alpha, ThemeProvider, createTheme } from '@mui/material/styles';
 import './PortalSubscription.scss';
-import Card_circle from '../../assets/circle.svg';
+import Card_circle from '../../assets/circle.png';
 import { mdiMonitor, mdiAlertCircleOutline, mdiMagnify } from '@mdi/js';
 import Icon from '@mdi/react';
 import axios from 'axios';
@@ -17,6 +17,8 @@ import EventBusyIcon from '@mui/icons-material/EventBusy';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CloseIcon from '@mui/icons-material/Close';
+import BaseUrl from '../../api';
+
 
 // Create a theme with the necessary color palette
 const theme = createTheme({
@@ -353,10 +355,10 @@ export default function PortalSubscription() {
       if (adminPortal === 'true' && token) {
         try {
           const [subscriptionsResponse, countsResponse] = await Promise.all([
-            axios.get(`https://rough-1-gcic.onrender.com/api/${baseUrl}/subscriptions`, {
+            axios.get(`${BaseUrl}/api/${baseUrl}/subscriptions`, {
               headers: { Authorization: `Bearer ${token}` }
             }),
-            axios.get(`https://rough-1-gcic.onrender.com/api/${baseUrl}/total-subscription-counts`, {
+            axios.get(`${BaseUrl}/api/${baseUrl}/total-subscription-counts`, {
               headers: { Authorization: `Bearer ${token}` }
             })
           ]);

@@ -51,6 +51,8 @@ import InputBase from '@mui/material/InputBase';
 import Swal from 'sweetalert2';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import BaseUrl from '../../api';
+
 
 
 // Add these new styled components at the top after existing styled components
@@ -596,8 +598,8 @@ export default function Component() {
     try {
       const token = sessionStorage.getItem('token');
       const baseUrl = getApiBaseUrl();
-      // const response = await fetch(`https://rough-1-gcic.onrender.com/api/${baseUrl}/subscription-counts`, {
-      const response = await fetch(`https://rough-1-gcic.onrender.com/api/patients/join-stats`, {
+      // const response = await fetch(`${BaseUrl}/api/${baseUrl}/subscription-counts`, {
+      const response = await fetch(`${BaseUrl}/api/patients/join-stats`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -700,7 +702,7 @@ export default function Component() {
       const role = sessionStorage.getItem('role');
       const baseUrl = role === 'assistant' ? 'assistant' : 'admin';
 
-      const response = await fetch(`https://rough-1-gcic.onrender.com/api/${baseUrl}/get-patients`, {
+      const response = await fetch(`${BaseUrl}/api/${baseUrl}/get-patients`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -746,7 +748,7 @@ export default function Component() {
     try {
       const token = sessionStorage.getItem('token');
       const baseUrl = getApiBaseUrl();
-      const response = await fetch(`https://rough-1-gcic.onrender.com/api/${baseUrl}/subscriptions`, {
+      const response = await fetch(`${BaseUrl}/api/${baseUrl}/subscriptions`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -790,7 +792,7 @@ export default function Component() {
     try {
       const token = sessionStorage.getItem('token');
       const baseUrl = getApiBaseUrl();
-      const response = await fetch(`https://rough-1-gcic.onrender.com/api/${baseUrl}/doctor-plan-subscriptions-with-details`, {
+      const response = await fetch(`${BaseUrl}/api/${baseUrl}/doctor-plan-subscriptions-with-details`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -912,7 +914,7 @@ export default function Component() {
     setIsSubmitting(true);
     try {
       const token = sessionStorage.getItem('token');
-      const response = await fetch('https://rough-1-gcic.onrender.com/api/auth/patient-register', {
+      const response = await fetch(`${BaseUrl}/api/auth/patient-register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1016,7 +1018,7 @@ export default function Component() {
     try {
       const token = sessionStorage.getItem('token');
 
-      const response = await fetch(`https://rough-1-gcic.onrender.com/api/patients/update-patient-by-admin/${editingPatient.id}`, {
+      const response = await fetch(`${BaseUrl}/api/patients/update-patient-by-admin/${editingPatient.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -1095,7 +1097,7 @@ export default function Component() {
   //   try {
   //     const token = sessionStorage.getItem('token');
 
-  //     const response = await fetch(`https://rough-1-gcic.onrender.com/api/patients/delete-patient-by-admin/${patientId}`, {
+  //     const response = await fetch(`${BaseUrl}/api/patients/delete-patient-by-admin/${patientId}`, {
   //       method: 'DELETE',
   //       headers: {
   //         'Authorization': `Bearer ${token}`
@@ -1153,7 +1155,7 @@ export default function Component() {
     if (result.isConfirmed) {
       try {
         const token = sessionStorage.getItem('token');
-        const response = await fetch(`https://rough-1-gcic.onrender.com/api/patients/delete-patient-by-admin/${patientId}`, {
+        const response = await fetch(`${BaseUrl}/api/patients/delete-patient-by-admin/${patientId}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`

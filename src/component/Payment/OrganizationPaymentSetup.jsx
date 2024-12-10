@@ -14,6 +14,8 @@ import {
   Backdrop, Tooltip
 } from "@mui/material";
 import { styled } from '@mui/material/styles';
+import BaseUrl from '../../api';
+
 
 
 // Initialize Stripe with your publishable key
@@ -165,7 +167,7 @@ const PaymentView = ({ searchParams, loading, setLoading }) => {
     try {
       setLoading(true);
 
-      const response = await axios.post('https://rough-1-gcic.onrender.com/api/payment/create-payment-intent', {
+      const response = await axios.post(`${BaseUrl}/api/payment/create-payment-intent`, {
         amount: searchParams.get('amount'),
         email: searchParams.get('email'),
         orderId: searchParams.get('orderId'),
@@ -518,7 +520,7 @@ const OrganizationPayment = () => {
       // console.log('Token:', token);
 
       if (adminPortal === 'true' && token) {
-        const response = await axios.get('https://rough-1-gcic.onrender.com/api/admin/organizations', {
+        const response = await axios.get(`${BaseUrl}/api/admin/organizations`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
